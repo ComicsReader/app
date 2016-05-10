@@ -1,14 +1,13 @@
 var React = require('react');
-var CssEvent = require('material-ui').Utils.CssEvent;
-var Dom = require('material-ui').Utils.Dom;
-var KeyLine = require('material-ui').Utils.KeyLine;
+var Dom = require('material-ui/utils/dom');
+// var KeyLine = require('material-ui').Utils.KeyLine;
 // var Classable = require('material-ui').Mixins.Classable;
-var StylePropable = require('material-ui').Mixins.StylePropable;
-var Transitions = require('material-ui').Styles.Transitions;
-var ClickAwayable = require('material-ui').Mixins.ClickAwayable;
+// var StylePropable = require('material-ui').Mixins.StylePropable;
+var Transitions = require('material-ui/styles/transitions');
+// var ClickAwayable = require('material-ui').Mixins.ClickAwayable;
 var Paper = require('material-ui').Paper;
 var MenuItem = require('./menu-item.jsx');
-var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
+var PureRenderMixin = require('react-addons-pure-render-mixin');
 // var LinkMenuItem = require('./link-menu-item');
 // var SubheaderMenuItem = require('./subheader-menu-item');
 
@@ -17,7 +16,7 @@ var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 ***********************/
 var NestedMenuItem = React.createClass({
 
-  mixins: [PureRenderMixin,StylePropable, ClickAwayable],
+  mixins: [PureRenderMixin],
 
   contextTypes: {
     muiTheme: React.PropTypes.object
@@ -33,7 +32,7 @@ var NestedMenuItem = React.createClass({
     onItemTap: React.PropTypes.func,
     menuItemStyle: React.PropTypes.object
   },
-  
+
   getDefaultProps: function() {
     return {
       disabled: false
@@ -61,7 +60,7 @@ var NestedMenuItem = React.createClass({
   },
 
   render: function() {
-    var styles = this.mergeAndPrefix({
+    var styles = Object.assign({}, {
       position: 'relative'
     }, this.props.style);
 
@@ -78,12 +77,12 @@ var NestedMenuItem = React.createClass({
 
     return (
       <div ref="root" style={styles} onMouseEnter={this._openNestedMenu} onMouseLeave={this._closeNestedMenu}>
-        <MenuItem 
+        <MenuItem
           index={index}
           style={menuItemStyle}
-          disabled={this.props.disabled} 
-          iconRightStyle={iconCustomArrowDropRight} 
-          iconRightClassName="muidocs-icon-custom-arrow-drop-right" 
+          disabled={this.props.disabled}
+          iconRightStyle={iconCustomArrowDropRight}
+          iconRightClassName="muidocs-icon-custom-arrow-drop-right"
           onClick={this._onParentItemClick}>
             {this.props.text}
         </MenuItem>
@@ -105,15 +104,15 @@ var NestedMenuItem = React.createClass({
 
     nestedMenu.style.left = el.offsetWidth + 'px';
   },
-  
+
   _openNestedMenu: function() {
     if (!this.props.disabled) this.setState({ open: true });
   },
-  
+
   _closeNestedMenu: function() {
     this.setState({ open: false });
   },
-  
+
   _toggleNestedMenu: function() {
     if (!this.props.disabled) this.setState({ open: !this.state.open });
   },
@@ -126,7 +125,7 @@ var NestedMenuItem = React.createClass({
     if (this.props.onItemClick) this.props.onItemClick(e, index, menuItem);
     this._closeNestedMenu();
   },
-  
+
   _onMenuItemTap: function(e, index, menuItem) {
     if (this.props.onItemTap) this.props.onItemTap(e, index, menuItem);
     this._closeNestedMenu();
@@ -139,7 +138,7 @@ var NestedMenuItem = React.createClass({
 ****************/
 var Menu = React.createClass({
 
-  mixins: [PureRenderMixin,StylePropable],
+  mixins: [PureRenderMixin],
 
   contextTypes: {
     muiTheme: React.PropTypes.object
@@ -183,7 +182,9 @@ var Menu = React.createClass({
     this._setKeyWidth(el);
 
     //Save the initial menu height for later
-    this._initialMenuHeight = el.offsetHeight + KeyLine.Desktop.GUTTER_LESS;
+    // todo: keyline removal
+    // this._initialMenuHeight = el.offsetHeight + KeyLine.Desktop.GUTTER_LESS;
+    this._initialMenuHeight = el.offsetHeight;
 
     //Show or Hide the menu according to visibility
     this._renderVisibility();
@@ -228,10 +229,10 @@ var Menu = React.createClass({
   render: function() {
     var styles = this.getStyles();
     return (
-      <Paper 
-        ref="paperContainer" 
-        zDepth={this.props.zDepth} 
-        style={this.mergeAndPrefix(
+      <Paper
+        ref="paperContainer"
+        zDepth={this.props.zDepth}
+        style={Object.assign({},
           styles.root,
           this.props.hideable && styles.hideable,
           this.props.style)}>
@@ -271,7 +272,7 @@ var Menu = React.createClass({
 
         // case MenuItem.Types.LINK:
         //   itemComponent = (
-        //     <LinkMenuItem 
+        //     <LinkMenuItem
         //       key={i}
         //       index={i}
         //       payload={menuItem.payload}
@@ -283,7 +284,7 @@ var Menu = React.createClass({
 
         // case MenuItem.Types.SUBHEADER:
         //   itemComponent = (
-        //     <SubheaderMenuItem 
+        //     <SubheaderMenuItem
         //       key={i}
         //       index={i}
         //       text={menuItem.text} />
@@ -336,9 +337,12 @@ var Menu = React.createClass({
   },
 
   _setKeyWidth: function(el) {
-    var menuWidth = this.props.autoWidth ?
-      KeyLine.getIncrementalDim(el.offsetWidth) + 'px' :
-      '100%';
+    // Todo: removal of KeyLine
+    // var menuWidth = this.props.autoWidth ?
+    //   KeyLine.getIncrementalDim(el.offsetWidth) + 'px' :
+    //   '100%';
+
+    var menuWidth = '100%';
 
     //Update the menu width
     Dom.withoutTransition(el, function() {
@@ -352,7 +356,7 @@ var Menu = React.createClass({
     if (this.props.hideable) {
       el = React.findDOMNode(this);
       var container = React.findDOMNode(this.refs.paperContainer);
-      
+
       if (this.props.visible) {
 
         //Open the menu
@@ -361,11 +365,13 @@ var Menu = React.createClass({
 
         //Set the overflow to visible after the animation is done so
         //that other nested menus can be shown
-        CssEvent.onTransitionEnd(el, function() {
-          //Make sure the menu is open before setting the overflow.
-          //This is to accout for fast clicks
-          if (this.props.visible) container.style.overflow = 'visible';
-        }.bind(this));
+
+        // TODO: reimplement this because of removal of cssevent
+        // CssEvent.onTransitionEnd(el, function() {
+        //   //Make sure the menu is open before setting the overflow.
+        //   //This is to accout for fast clicks
+        //   if (this.props.visible) container.style.overflow = 'visible';
+        // }.bind(this));
 
       } else {
 

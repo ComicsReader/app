@@ -1,6 +1,7 @@
 var Path=require('path');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var webpack=require('webpack');
+
 module.exports={
 	entry:{
 		app_min:'./src/app/app.jsx',
@@ -19,7 +20,7 @@ module.exports={
 			test:/\.jsx?$/,
 			loader: 'babel-loader',
 			exclude: /node_modules/,
-			query: {stage:1,compact: false,blacklist: ["useStrict"],optional:["runtime"]}
+			query: { compact: false }
 		},{
 			test:/\.less$/,
 			loader: ExtractTextPlugin.extract('style-loader','css-loader!less-loader')
@@ -27,14 +28,15 @@ module.exports={
 			test:/\.css$/,
 			loader: ExtractTextPlugin.extract('style-loader','css-loader')
 		},{
-			test: /\.(png|jpg|gif)$/, 
+			test: /\.(png|jpg|gif)$/,
 			loader: 'url-loader?limit=8192'
-		},{ test: /\.(ttf|eot|svg)$/, 
+		},{ test: /\.(ttf|eot|svg)$/,
 			loader: 'url-loader?limit=100000' }
 		]
 	},
 	plugins: [
-        new ExtractTextPlugin('css/[name].css'),
-    ],
-    devtool:"#inline-source-map"
+    new ExtractTextPlugin('css/[name].css'),
+    new webpack.IgnorePlugin(/ReactContext|react\/addons/)
+  ],
+  devtool:"#inline-source-map"
 }

@@ -1,23 +1,21 @@
 var React = require('react'),
-  KeyCode = require('material-ui').Utils.KeyCode,
-  StylePropable = require('material-ui').Mixins.StylePropable,
-  AutoPrefix = require('material-ui').Styles.AutoPrefix,
-  Transitions = require('material-ui').Styles.Transitions,
-  WindowListenable = require('material-ui').Mixins.WindowListenable,
-  Overlay = require('../../../node_modules/material-ui/lib/overlay.js'),
+  // AutoPrefix = require('material-ui').Styles.AutoPrefix,
+  Transitions = require('material-ui/styles/transitions'),
+  Overlay = require('material-ui').Overlay,
   Paper = require('material-ui').Paper,
   Menu = require('./menu.jsx');
-var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
+
+var PureRenderMixin = require('react-addons-pure-render-mixin');
+
+var keycode = require('keycode');
+
 var LeftNav = React.createClass({
-
-  mixins: [StylePropable,WindowListenable],
-
   contextTypes: {
     muiTheme: React.PropTypes.object
   },
 
   propTypes: {
-    className: React.PropTypes.string,    
+    className: React.PropTypes.string,
     docked: React.PropTypes.bool,
     header: React.PropTypes.element,
     onChange: React.PropTypes.func,
@@ -42,7 +40,7 @@ var LeftNav = React.createClass({
     return {
       open: this.props.docked,
       maybeSwiping: false,
-      swiping: false      
+      swiping: false
     };
   },
 
@@ -114,12 +112,12 @@ var LeftNav = React.createClass({
         right: '0'
       }
     };
-    styles.menuItemLink = this.mergeAndPrefix(styles.menuItem, {
+    styles.menuItemLink = Object.assign({}, styles.menuItem, {
       display: 'block',
       textDecoration: 'none',
       color: this.getThemePalette().textColor
     });
-    styles.menuItemSubheader = this.mergeAndPrefix(styles.menuItem, {
+    styles.menuItemSubheader = Object.assign({}, styles.menuItem, {
       overflow: 'hidden'
     });
 
@@ -146,26 +144,26 @@ var LeftNav = React.createClass({
           zDepth={2}
           transitionEnabled={!this.state.swiping}
           rounded={false}
-          style={this.mergeAndPrefix(
-            styles.root, 
+          style={Object.assign({},
+            styles.root,
             this.props.openRight && styles.rootWhenOpenRight,
             this.props.style)}>
           {this.props.header}
-          <Menu 
+          <Menu
             ref="menuItems"
-            style={this.mergeAndPrefix(styles.menu)}
+            style={Object.assign({}, styles.menu)}
             zDepth={0}
             menuItems={this.props.menuItems}
-            menuItemStyle={this.mergeAndPrefix(styles.menuItem)} 
-            menuItemStyleLink={this.mergeAndPrefix(styles.menuItemLink)}
-            menuItemStyleSubheader={this.mergeAndPrefix(styles.menuItemSubheader)}
+            menuItemStyle={Object.assign({}, styles.menuItem)}
+            menuItemStyleLink={Object.assign({}, styles.menuItemLink)}
+            menuItemStyleSubheader={Object.assign({}, styles.menuItemSubheader)}
             selectedIndex={selectedIndex}
             onItemClick={this._onMenuItemClick} />
         </Paper>
       </div>
-    );   
-    
-    
+    );
+
+
   },
 
   _updateMenuHeight: function() {
@@ -189,7 +187,7 @@ var LeftNav = React.createClass({
   },
 
   _onWindowKeyUp: function(e) {
-    if (e.keyCode == KeyCode.ESC &&
+    if (e.keyCode == keycode('ESC') &&
         !this.props.docked &&
         this.state.open) {
       this.close();
@@ -249,8 +247,8 @@ var LeftNav = React.createClass({
                        );
 
       var leftNav = React.findDOMNode(this.refs.clickAwayableElement);
-      leftNav.style[AutoPrefix.single('transform')] =
-        'translate3d(' + (this._getTranslateMultiplier() * translateX) + 'px, 0, 0)';
+      // commented temporily because of removal of autoprefix
+      // leftNav.style[AutoPrefix.single('transform')] = 'translate3d(' + (this._getTranslateMultiplier() * translateX) + 'px, 0, 0)';
       this.refs.overlay.setOpacity(1 - translateX / this._getMaxTranslateX());
     } else if (this.state.maybeSwiping) {
       var dXAbs = Math.abs(currentX - this.state.touchStartX);

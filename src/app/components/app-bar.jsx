@@ -1,15 +1,14 @@
 var React = require('react');
-var StylePropable = require('material-ui').Mixins.StylePropable;
-var Typography = require('material-ui').Styles.Typography;
+var Typography = require('material-ui/styles/typography');
 var IconButton = require('material-ui').IconButton;
-var NavigationMenu = require('material-ui').Icons.NavigationMenu;
+var NavigationMenu = require('material-ui/svg-icons/navigation/menu');
 var Paper = require('material-ui').Paper;
-var Colors=require('material-ui').Styles.Colors;
-var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
+var Colors=require('material-ui/styles/colors');
+var PureRenderMixin = require('react-addons-pure-render-mixin');
 
 var AppBar = React.createClass({
 
-  mixins: [PureRenderMixin,StylePropable],
+  mixins: [PureRenderMixin],
 
   contextTypes: {
     muiTheme: React.PropTypes.object
@@ -17,7 +16,7 @@ var AppBar = React.createClass({
 
   propTypes: {
     onLeftIconButtonTouchTap: React.PropTypes.func,
-    onRightIconButtonTouchTap: React.PropTypes.func,    
+    onRightIconButtonTouchTap: React.PropTypes.func,
     showMenuIconButton: React.PropTypes.bool,
     iconClassNameLeft: React.PropTypes.string,
     iconClassNameRight: React.PropTypes.string,
@@ -37,7 +36,7 @@ var AppBar = React.createClass({
   },
 
   componentDidMount: function() {
-    if (process.env.NODE_ENV !== 'production' && 
+    if (process.env.NODE_ENV !== 'production' &&
        (this.props.iconElementLeft && this.props.iconClassNameLeft)) {
         var warning = 'Properties iconClassNameLeft and iconElementLeft cannot be simultaneously ' +
                       'defined. Please use one or the other.';
@@ -96,7 +95,7 @@ var AppBar = React.createClass({
     } = this.props;
 
     var title, menuElementLeft, menuElementRight;
-    var iconRightStyle = this.mergeAndPrefix(styles.iconButton.style, {
+    var iconRightStyle = Object.assign({}, styles.iconButton.style, {
       float: 'right',
       marginRight: -16,
       marginLeft: 8
@@ -106,23 +105,23 @@ var AppBar = React.createClass({
       // If the title is a string, wrap in an h1 tag.
       // If not, just use it as a node.
       title = Object.prototype.toString.call(this.props.title) === '[object String]' ?
-        <h1 style={this.mergeAndPrefix(styles.title)}>{this.props.title}</h1> :
+        <h1 style={Object.assign({}, styles.title)}>{this.props.title}</h1> :
         this.props.title;
     }
 
     if (this.props.showMenuIconButton) {
       if (this.props.iconElementLeft) {
         menuElementLeft = (
-          <div style={styles.iconButton.style}> 
-            {this.props.iconElementLeft} 
+          <div style={styles.iconButton.style}>
+            {this.props.iconElementLeft}
           </div>
         );
       } else {
-        var child = (this.props.iconClassNameLeft) ? '' : <NavigationMenu style={this.mergeAndPrefix(styles.iconButton.iconStyle)}/>;
+        var child = (this.props.iconClassNameLeft) ? '' : <NavigationMenu style={Object.assign({}, styles.iconButton.iconStyle)}/>;
         menuElementLeft = (
           <IconButton
-            style={this.mergeAndPrefix(styles.iconButton.style)}
-            iconStyle={this.mergeAndPrefix(styles.iconButton.iconStyle)}
+            style={Object.assign({}, styles.iconButton.style)}
+            iconStyle={Object.assign({}, styles.iconButton.iconStyle)}
             iconClassName={this.props.iconClassNameLeft}
             onTouchTap={this._onLeftIconButtonTouchTap}>
               {child}
@@ -137,7 +136,7 @@ var AppBar = React.createClass({
       <Paper
         rounded={false}
         className={this.props.className}
-        style={this.mergeAndPrefix(styles.root, this.props.style)}
+        style={Object.assign({}, styles.root, this.props.style)}
         zDepth={this.props.zDepth}>
           {menuElementLeft}
           {title}

@@ -1,14 +1,13 @@
 var React = require('react');
-var StylePropable = require('material-ui').Mixins.StylePropable;
-var Transitions = require('material-ui').Styles.Transitions;
+var Transitions = require('material-ui/styles/transitions');
 var EnhancedButton = require('material-ui').EnhancedButton;
 var FontIcon = require('material-ui').FontIcon;
 var Tooltip = require('material-ui').Tooltip;
-var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
+var PureRenderMixin = require('react-addons-pure-render-mixin');
 
 var IconButton = React.createClass({
 
-  mixins: [StylePropable,PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   contextTypes: {
     muiTheme: React.PropTypes.object
@@ -119,7 +118,7 @@ var IconButton = React.createClass({
           label={tooltip}
           show={this.state.tooltipShown}
           touch={touch}
-          style={this.mergeStyles(styles.tooltip)}/>
+          style={Object.assign({}, styles.tooltip)}/>
       );
     }
 
@@ -129,7 +128,7 @@ var IconButton = React.createClass({
         <FontIcon
           className={this.props.iconClassName}
           hoverColor={iconHoverColor}
-          style={this.mergeStyles(
+          style={Object.assign({},
             styles.icon,
             this.props.disabled && styles.iconWhenDisabled,
             iconStyle
@@ -150,12 +149,12 @@ var IconButton = React.createClass({
       <EnhancedButton {...other}
         ref="button"
         centerRipple={true}
-        style={this.mergeStyles(styles.root, this.props.style)}
+        style={Object.assign({}, styles.root, this.props.style)}
         onBlur={this._handleBlur}
         onFocus={this._handleFocus}
         onMouseOut={this._handleMouseOut}
         onMouseOver={this._handleMouseOver}
-        onKeyboardFocus={this._handleKeyboardFocus}>        
+        onKeyboardFocus={this._handleKeyboardFocus}>
 
         {tooltipElement}
         {fonticon}

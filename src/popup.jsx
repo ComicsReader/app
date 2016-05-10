@@ -71,7 +71,7 @@ var Card=React.createClass({
 			    letterSpacing: 0,
 			    padding: 0,
 			    marginTop: 0,
-			    marginBottom: 5,			   
+			    marginBottom: 5,
 			    color:'black'
 			},
 			cardTitle:{
@@ -106,49 +106,49 @@ var Card=React.createClass({
 		}
 		return(
 			<Paper style={styles.materialCard} key={this.props.index} zDepth={2}>
-				<img src={this.props.iconUrl} 
-					style={this.mergeAndPrefix(
+				<img src={this.props.iconUrl}
+					style={Object.assign({},
 						// styles.materialCard,
 						styles.img
-					)}/> 
-				<div style={this.mergeAndPrefix(
+					)}/>
+				<div style={Object.assign({},
 						// styles.materialCard,
 						styles.materialCardInfor
 					)}>
-					<div onMouseOver={this._handleTitleMouseOver} 
-						onMouseOut={this._handleTitleMouseOut} 
+					<div onMouseOver={this._handleTitleMouseOver}
+						onMouseOut={this._handleTitleMouseOut}
 						onClick={this._openIndex}
-						style={this.mergeAndPrefix(
+						style={Object.assign({},
 							// styles.materialCard,
 							// styles.materialCardInfor,
 							styles.cardTitle,
-							this.state.titleHovered && styles.hovered	
+							this.state.titleHovered && styles.hovered
 						)}>
-						
-					{this.props.title} 
-					</div>	
-					<div onMouseOver={this._handleSiteMouseOver} 
-						onMouseOut={this._handleSiteMouseOut} 					
+
+					{this.props.title}
+					</div>
+					<div onMouseOver={this._handleSiteMouseOver}
+						onMouseOut={this._handleSiteMouseOut}
 						onClick={this._openSite}
-						style={this.mergeAndPrefix(
+						style={Object.assign({},
 							// styles.materialCard,
 							// styles.materialCardInfor,
 							styles.cardLink,
-							this.state.siteHovered && styles.hovered	
+							this.state.siteHovered && styles.hovered
 						)}>
 					{this.props.site}
 					</div>
-					<div onMouseOver={this._handleReadedMouseOver} 
-						onMouseOut={this._handleReadedMouseOut} 
+					<div onMouseOver={this._handleReadedMouseOver}
+						onMouseOut={this._handleReadedMouseOut}
 						onClick={this._openPage}
-						style={this.mergeAndPrefix(
+						style={Object.assign({},
 							// styles.materialCard,
 							// styles.materialCardInfor,
 							styles.cardLink,
-							this.state.readedHovered && styles.hovered	
+							this.state.readedHovered && styles.hovered
 						)}>
 					{this.props.str+' '+this.props.lastReaded.text}
-					</div>				
+					</div>
 				</div>
 				<div className={'trash'}  onClick={this._removeElemet} >
 					<span className={'lid'} />
@@ -186,16 +186,16 @@ var Card=React.createClass({
 	_removeElemet:function(e){
 		this.props.removeElemet(e,this.props.index);
 	},
-	
+
 	_openSite:function(){
 		console.log('site click',this.siteurl);
 		chrome.tabs.create({url:this.siteurl});
 	},
-	
+
 	_openPage:function(){
 		chrome.tabs.create({url:this.props.lastReaded.payload});
 	},
-	
+
 	_openIndex:function(){
 		// console.log('this.props.indexURL',this.props.indexURL);
 		chrome.tabs.create({url:this.props.indexURL});
@@ -212,7 +212,7 @@ var Cards=React.createClass({
 	    return {
 	      muiTheme: ThemeManager.getCurrentTheme()
 	    };
-	},	
+	},
 	getInitialState:function(){
 		return {collectedItems:[],historyItems:[],updateItems:[]};
 	},
@@ -238,39 +238,39 @@ var Cards=React.createClass({
 		return (
 			<AppCanvas>
 				<Tabs>
-					 <Tab label="Update" > 
-					   <div > 
-					    {this._getUpdateChildren()}   
-					   </div> 
+					 <Tab label="Update" >
+					   <div >
+					    {this._getUpdateChildren()}
+					   </div>
 					 </Tab>
-					 <Tab label="Subscribed" > 
-					   <div > 
-					    {this._getCollectedChildren()}   
-					   </div> 
+					 <Tab label="Subscribed" >
+					   <div >
+					    {this._getCollectedChildren()}
+					   </div>
 					 </Tab>
-					 <Tab label="History" > 
-					   <div > 
-					    {this._getHistoryChildren()}   
-					   </div> 
+					 <Tab label="History" >
+					   <div >
+					    {this._getHistoryChildren()}
+					   </div>
 					 </Tab>
 				</Tabs>
-			</AppCanvas> 
-		);	
-		
+			</AppCanvas>
+		);
+
 	},
 	_getCollectedChildren:function(){
 		var children=[];
 		// console.log(this.state.collectedItems);
 		for(var i =this.state.collectedItems.length-1;i>=0;--i){
 			var item=this.state.collectedItems[i];
-			var CardItem=(<Card key={i} 
+			var CardItem=(<Card key={i}
 				str={'上次看到'}
-				index={i} 
-				title={item.title} 
-				iconUrl={item.iconUrl} 
-				lastReaded={item.lastReaded} 
+				index={i}
+				title={item.title}
+				iconUrl={item.iconUrl}
+				lastReaded={item.lastReaded}
 				removeElemet={this._removeCollected}
-				site={item.site} 
+				site={item.site}
 				indexURL={item.url}/>);
 			children.push(CardItem);
 		}
@@ -281,36 +281,36 @@ var Cards=React.createClass({
 		// console.log(this.props.historyItems);
 		for(var i =this.state.historyItems.length-1;i>=0;--i){
 			var item=this.state.historyItems[i];
-			var CardItem=(<Card key={i} 
+			var CardItem=(<Card key={i}
 				str={'上次看到'}
-				index={i} 
-				title={item.title} 
-				iconUrl={item.iconUrl} 
-				lastReaded={item.lastReaded} 
-				removeElemet={this._removeHistory} 
+				index={i}
+				title={item.title}
+				iconUrl={item.iconUrl}
+				lastReaded={item.lastReaded}
+				removeElemet={this._removeHistory}
 				site={item.site}
 				indexURL={item.url}/>);
 			children.push(CardItem);
 		}
-		return children;	
+		return children;
 	},
 	_getUpdateChildren:function(){
 		var children=[];
 		// console.log(this.props.historyItems);
 		for(var i =this.state.updateItems.length-1;i>=0;--i){
 			var item=this.state.updateItems[i];
-			var CardItem=(<Card key={i} 
+			var CardItem=(<Card key={i}
 				str={'更新至'}
-				index={i} 
-				title={item.title} 
-				iconUrl={item.iconUrl} 
-				lastReaded={item.lastReaded} 
-				removeElemet={this._removeUpdate} 
+				index={i}
+				title={item.title}
+				iconUrl={item.iconUrl}
+				lastReaded={item.lastReaded}
+				removeElemet={this._removeUpdate}
 				site={item.site}
 				indexURL={item.url}/>);
 			children.push(CardItem);
 		}
-		return children;	
+		return children;
 	},
 	_removeCollected:function(e,index){
 		var array=[];
@@ -344,7 +344,7 @@ var Cards=React.createClass({
 		var badgeText=(array.length===0)?"":array.length.toString();
       	chrome.browserAction.setBadgeText({text:badgeText});
 	}
- 
+
 });
 
 React.render(<Cards />, document.body);

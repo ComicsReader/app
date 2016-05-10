@@ -1,7 +1,7 @@
 var React = require('react');
 var Transitions = require('material-ui').Styles.Transitions;
 var StylePropable = require('material-ui').Mixins.StylePropable;
-var Colors = require('material-ui').Styles.Coloes;
+var Colors = require('material-ui').Styles.Colors;
 var InkBar = React.createClass({
 
   contextTypes: {
@@ -11,7 +11,7 @@ var InkBar = React.createClass({
   propTypes: {
     position: React.PropTypes.string
   },
-  
+
   mixins: [StylePropable],
 
   getTheme: function() {
@@ -20,7 +20,7 @@ var InkBar = React.createClass({
 
   render: function() {
 
-    var styles = this.mergeAndPrefix({
+    var styles = this.mergeStyles({
       left: this.props.left,
       width: this.props.width,
       bottom: '0',

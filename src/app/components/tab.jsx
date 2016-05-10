@@ -21,7 +21,7 @@ var Tab = React.createClass({
   },
 
   render: function(){
-    var styles = this.mergeAndPrefix({
+    var styles = Object.assign({
       display: 'table-cell',
       cursor: 'pointer',
       textAlign: 'center',

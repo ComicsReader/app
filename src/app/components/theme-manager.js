@@ -1,7 +1,10 @@
-var Colors = require('material-ui').Styles.Colors;
-var Spacing = require('material-ui').Styles.Spacing;
-var ColorManipulator = require('material-ui').Utils.ColorManipulator;
-var Extend = require('material-ui').Utils.Extend;
+var Colors = require('material-ui/styles/colors');
+var Spacing = require('material-ui/styles/spacing');
+var ColorManipulator = require('material-ui/utils/colorManipulator');
+
+// https://github.com/callemall/material-ui/pull/2933/files
+// official api has changed
+import merge from 'lodash.merge';
 
 var Types = {
   LIGHT: require('./light-theme'),
@@ -30,12 +33,12 @@ var ThemeManager = function() {
     },
 
     setPalette: function(newPalette) {
-      this.palette = Extend(this.palette, newPalette);
-      this.component = Extend(this.component, this.template.getComponentThemes(this.palette));
+      this.palette = merge({}, this.palette, newPalette);
+      this.component = merge({}, this.component, this.template.getComponentThemes(this.palette));
     },
 
     setComponentThemes: function(overrides) {
-      this.component = Extend(this.component, overrides);
+      this.component = merge({}, this.component, overrides);
     }
   };
 };

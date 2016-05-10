@@ -1,8 +1,9 @@
 var React = require('react');
-var StylePropable = require('material-ui').Mixins.StylePropable;
+// var StylePropable = require('material-ui').Mixins.StylePropable;
 var FontIcon = require('material-ui').FontIcon;
 var Toggle = require('material-ui').Toggle;
-var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
+var PureRenderMixin = require('react-addons-pure-render-mixin');
+
 var Types = {
   LINK: 'LINK',
   SUBHEADER: 'SUBHEADER',
@@ -11,7 +12,7 @@ var Types = {
 
 var MenuItem = React.createClass({
 
-  mixins: [PureRenderMixin,StylePropable],
+  mixins: [PureRenderMixin],
 
   contextTypes: {
     muiTheme: React.PropTypes.object
@@ -34,7 +35,7 @@ var MenuItem = React.createClass({
     onToggle: React.PropTypes.func,
     selected: React.PropTypes.bool
   },
-  
+
   statics: {
     Types: Types
   },
@@ -132,12 +133,12 @@ var MenuItem = React.createClass({
 
     var styles = this.getStyles();
     // console.log('data',styles.data);
-    if (this.props.iconClassName) icon = <FontIcon style={this.mergeAndPrefix(styles.icon, this.props.iconStyle)} className={this.props.iconClassName} />;
-    if (this.props.iconRightClassName) iconRight = <FontIcon style={this.mergeAndPrefix(styles.iconRight, this.props.iconRightStyle)} className={this.props.iconRightClassName} />;
-    if (this.props.data) data = <span style={this.mergeAndPrefix(styles.data)}>{this.props.data}</span>;
-    if (this.props.number !== undefined) number = <span style={this.mergeAndPrefix(styles.number)}>{this.props.number}</span>;
-    if (this.props.attribute !== undefined) attribute = <span style={this.mergeAndPrefix(styles.style)}>{this.props.attribute}</span>;
-    
+    if (this.props.iconClassName) icon = <FontIcon style={Object.assign({}, styles.icon, this.props.iconStyle)} className={this.props.iconClassName} />;
+    if (this.props.iconRightClassName) iconRight = <FontIcon style={Object.assign({}, styles.iconRight, this.props.iconRightStyle)} className={this.props.iconRightClassName} />;
+    if (this.props.data) data = <span style={Object.assign({}, styles.data)}>{this.props.data}</span>;
+    if (this.props.number !== undefined) number = <span style={Object.assign({}, styles.number)}>{this.props.number}</span>;
+    if (this.props.attribute !== undefined) attribute = <span style={Object.assign({}, styles.style)}>{this.props.attribute}</span>;
+
     if (this.props.toggle) {
       var {
         toggle,
@@ -155,19 +156,19 @@ var MenuItem = React.createClass({
     return (
       <div
         key={this.props.index}
-        className={this.props.className} 
+        className={this.props.className}
         onTouchTap={this._handleTouchTap}
         onClick={this._handleOnClick}
         onMouseOver={this._handleMouseOver}
         onMouseOut={this._handleMouseOut}
-        style={this.mergeAndPrefix(
+        style={Object.assign({},
           styles.root,
-          this.props.isMarked && styles.rootWhenMarked, 
+          this.props.isMarked && styles.rootWhenMarked,
           this.props.selected && styles.rootWhenSelected,
           (this.state.hovered && !this.props.disabled) && styles.rootWhenHovered,
           this.props.style,
           this.props.disabled && styles.rootWhenDisabled)}>
-        
+
         {icon}
         {this.props.children}
         {data}
@@ -175,7 +176,7 @@ var MenuItem = React.createClass({
         {number}
         {toggleElement}
         {iconRight}
-        
+
       </div>
     );
   },

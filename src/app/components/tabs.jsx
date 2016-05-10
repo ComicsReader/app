@@ -108,8 +108,8 @@ var Tabs = React.createClass({
     }, this);
 
     return (
-      <div style={this.mergeAndPrefix(styles.root, this.props.style)}>
-        <div style={this.mergeAndPrefix(styles.tabItemContainer, this.props.tabItemContainerStyle)}>
+      <div style={Object.assign({}, styles.root, this.props.style)}>
+        <div style={Object.assign({}, styles.tabItemContainer, this.props.tabItemContainerStyle)}>
           {tabs}
         </div>
         <InkBar left={left} width={width}/>
