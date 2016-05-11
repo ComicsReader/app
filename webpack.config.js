@@ -1,9 +1,10 @@
-var Path=require('path');
+var Path = require('path');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var webpack=require('webpack');
+var webpack = require('webpack');
+var LiveReloadPlugin = require('webpack-livereload-plugin');
 
 module.exports={
-	entry:{
+	entry: {
 		app_min:'./src/app.js',
 		background:'./src/background.js',
 		popup_min:'./src/popup.jsx'
@@ -36,7 +37,8 @@ module.exports={
 	},
 	plugins: [
     new ExtractTextPlugin('css/[name].css'),
-    new webpack.IgnorePlugin(/ReactContext|react\/addons/)
+    new webpack.IgnorePlugin(/ReactContext|react\/addons/),
+    new LiveReloadPlugin({appendScriptTag: true})
   ],
   devtool:"#inline-source-map"
 }

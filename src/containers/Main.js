@@ -12,17 +12,38 @@ export default class Main extends Component {
     super(props);
     this.state = {
       drawerOpen: false,
-      appBarTitle: "Title"
+      chapterTitle: null,
+      comicName: null,
+      appBarTitle: "Loading...",
+      chapters: []
     };
   }
 
-  componentDidMount() {
-    window.dm5 = new DM5('m251123');
-    window.dm5.getChapters();
+  async componentDidMount() {
+    this.dm5 = new DM5('m251123');
+    var chapters = await (this.dm5.getChapters());
+
+    this.setState({
+      chapters,
+      appBarTitle: this.dm5.comicName,
+      comicName: this.dm5.comicName
+    });
   }
 
-  handleToggle() {
+  handleToggle = () => {
     this.setState({drawerOpen: !this.state.drawerOpen});
+  }
+
+  handleChapterClick = (chapterItem) => {
+    return () => {
+      this.setState({
+        chapterTitle: chapterItem.title,
+        appBarTitle: `${this.state.comicName} - ${chapterItem.title}`,
+        drawerOpen: !this.state.drawerOpen
+      });
+
+      this.dm5.getChapterImages(chapterItem.cid).then(images => console.log(images));
+    }
   }
 
   render() {
@@ -32,15 +53,18 @@ export default class Main extends Component {
           title={this.state.appBarTitle}
           style={{backgroundColor: grey800}}
           iconClassNameRight="muidocs-icon-navigation-expand-more"
-          onLeftIconButtonTouchTap={this.handleToggle.bind(this)}
+          onLeftIconButtonTouchTap={this.handleToggle}
         />
         <Drawer
           open={this.state.drawerOpen}
           docked={false}
           onRequestChange={(drawerOpen) => this.setState({drawerOpen})}
         >
-          <MenuItem>Menu Item</MenuItem>
-          <MenuItem>Menu Item 2</MenuItem>
+          {
+            this.state.chapters.map((i, chapterItem) => {
+              return(<MenuItem key={i} onClick={this.handleChapterClick(chapterItem)}>{chapterItem.title}</MenuItem>)
+            })
+          }
         </Drawer>
       </div>
     );
