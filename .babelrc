@@ -4,6 +4,7 @@
   "syntax-async-functions",
   "transform-regenerator",
   "transform-react-jsx",
-  "transform-object-rest-spread"
+  "transform-object-rest-spread",
+  "transform-es2015-arrow-functions"
   ]
 }

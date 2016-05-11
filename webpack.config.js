@@ -4,7 +4,7 @@ var webpack=require('webpack');
 
 module.exports={
 	entry:{
-		app_min:'./src/app/app.jsx',
+		app_min:'./src/app.js',
 		background:'./src/background.js',
 		popup_min:'./src/popup.jsx'
 	},
