@@ -62,17 +62,18 @@ export default class DM5 extends Base {
     return(`${this.baseURL}/m${cid}`);
   }
 
-  async getChapterImages(cid) {
+  async getChapterImages(cid, callback=null) {
     var images = [];
     var imagesCount = await this.fetchImagesCount(cid);
 
     // images comes in pairs, we only concat them in odd
     // [12] 23 [34] 45 [56] 67 [78] 89 [9]
     // [12] 23 [34] 45 [56] 67 [78] 89 [910] 10
-    // TODO: done in parallel, it's too slow
+    // add sequtial callback handling
     for (var i = 1; i <= imagesCount; i++) {
       if (i % 2 == 1) {
         images = images.concat(await this.fetchImages(i, cid));
+        if (callback) callback(images);
       }
     }
 

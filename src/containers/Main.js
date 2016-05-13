@@ -5,6 +5,7 @@ import { AppBar, Drawer, MenuItem } from 'material-ui';
 import { grey800 } from 'material-ui/styles/colors';
 
 import DM5 from '../comics/dm5';
+import ComicImage from '../components/ComicImage';
 
 export default class Main extends Component {
 
@@ -41,11 +42,12 @@ export default class Main extends Component {
       this.setState({
         chapterTitle: chapterItem.title,
         appBarTitle: `${this.state.comicName} - ${chapterItem.title}`,
-        drawerOpen: !this.state.drawerOpen
+        drawerOpen: !this.state.drawerOpen,
+        images: []
       });
 
-      this.dm5.getChapterImages(chapterItem.cid).then(images => {
-        this.setState({images})
+      this.dm5.getChapterImages(chapterItem.cid, images => {
+        this.setState({images});
       });
     }
   }
@@ -73,7 +75,9 @@ export default class Main extends Component {
         <div style={{paddingTop: 80}}>
           {
             this.state.images.map((image) => {
-              return(<img src={image} style={{display: 'block', margin: '0 auto 16px'}}/>)
+              return(
+                <ComicImage image={image} />
+              );
             })
           }
         </div>
