@@ -15,7 +15,8 @@ export default class Main extends Component {
       chapterTitle: null,
       comicName: null,
       appBarTitle: "Loading...",
-      chapters: []
+      chapters: [],
+      images: []
     };
   }
 
@@ -42,7 +43,9 @@ export default class Main extends Component {
         drawerOpen: !this.state.drawerOpen
       });
 
-      this.dm5.getChapterImages(chapterItem.cid).then(images => console.log(images));
+      this.dm5.getChapterImages(chapterItem.cid).then(images => {
+        this.setState({images})
+      });
     }
   }
 
@@ -51,7 +54,7 @@ export default class Main extends Component {
       <div>
         <AppBar
           title={this.state.appBarTitle}
-          style={{backgroundColor: grey800}}
+          style={{backgroundColor: grey800, position: 'fixed'}}
           iconClassNameRight="muidocs-icon-navigation-expand-more"
           onLeftIconButtonTouchTap={this.handleToggle}
         />
@@ -66,6 +69,13 @@ export default class Main extends Component {
             })
           }
         </Drawer>
+        <div>
+          {
+            this.state.images.map((image) => {
+              return(<img src={image} />)
+            })
+          }
+        </div>
       </div>
     );
   }
