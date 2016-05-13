@@ -21,7 +21,8 @@ export default class Main extends Component {
   }
 
   async componentDidMount() {
-    this.dm5 = new DM5('m251123');
+    // m251123, m144591
+    this.dm5 = new DM5('m144591');
     var chapters = await (this.dm5.getChapters());
 
     this.setState({
@@ -69,10 +70,10 @@ export default class Main extends Component {
             })
           }
         </Drawer>
-        <div>
+        <div style={{paddingTop: 80}}>
           {
             this.state.images.map((image) => {
-              return(<img src={image} />)
+              return(<img src={image} style={{display: 'block', margin: '0 auto 16px'}}/>)
             })
           }
         </div>

@@ -33,7 +33,12 @@ export default class DM5 extends Base {
 
         this.comicURL = `${this.baseURL}${urls[urls.length-2]}`;
 
-        fetch(this.comicURL).then(r => r.text()).then(response => {
+        fetch(this.comicURL,
+          {
+            credentials: 'include',
+            headers: {'cookie': 'isAdult=1'}
+          }
+        ).then(r => r.text()).then(response => {
           var comicIndex = $(response);
           var chapterInfos = comicIndex.find('.nr6.lan2>li>.tg').map((_, a) => {
             var _rawID = $(a).attr('href')
