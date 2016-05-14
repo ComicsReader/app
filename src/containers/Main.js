@@ -22,8 +22,8 @@ export default class Main extends Component {
   }
 
   async componentDidMount() {
-    // m251123, m144591
-    this.dm5 = new DM5('m144591');
+    // m251123, m144591, m4866
+    this.dm5 = new DM5('m4866');
     var chapters = await (this.dm5.getChapters());
 
     this.setState({
@@ -46,9 +46,15 @@ export default class Main extends Component {
         images: []
       });
 
-      this.dm5.getChapterImages(chapterItem.cid, images => {
-        this.setState({images});
-      });
+      this.dm5.fetchImagesCount(chapterItem.cid).then(count => {
+        this.setState({images: new Array(count).fill("")});
+
+        this.dm5.getChapterImages(chapterItem.cid, images => {
+          var notLoadedCount = count - images.length
+          var empty = new Array(notLoadedCount).fill("")
+          this.setState({images: [...images, ...empty]});
+        });
+      })
     }
   }
 

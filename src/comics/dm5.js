@@ -72,11 +72,14 @@ export default class DM5 extends Base {
     // add sequtial callback handling
     for (var i = 1; i <= imagesCount; i++) {
       if (i % 2 == 1) {
-        images = images.concat(await this.fetchImages(i, cid));
-        if (callback) callback(images);
+        images = [...images, ...(await this.fetchImages(i, cid))];
       }
+
+      // batch load
+      if (i % 3 == 0) { if (callback) callback(images); }
     }
 
+    if (callback) callback(images);
     return new Promise((resolve, reject) => {
       resolve(images);
     });
