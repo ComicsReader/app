@@ -5,41 +5,35 @@ export default class ComicImage extends Component {
     super(props);
     this.state = {
       style: {
-        opacity: 0,
-        display: 'none'
+        opacity: 0
       },
-      placeHolderStyle: {
-        display: 'block'
+      containerStyle: {
+        width: 700,
+        height: 1000,
+        borderWidth: 1,
+        borderColor: 'white',
+        borderStyle: 'solid',
       },
-      imageSrc: null,
       width: 700,
       height: 1000
     }
   }
 
   onImageLoad = () => {
-    this.setState({
-      style: {
-        opacity: 1,
-        display: 'block'
-      },
-      placeHolderStyle: {
-        display: 'none'
-      },
-    })
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-    // http://blog.teamtreehouse.com/learn-asynchronous-image-loading-javascript
-    const { image } = nextProps;
-    this.imageObj = new Image();
-    this.imageObj.onload = () => {
+    if (this.refs.image.src !== "") {
       this.setState({
-        imageSrc: this.imageObj.src
-      });
+        style: {
+          opacity: 1,
+          height: 'auto',
+          width: 'auto'
+        },
+        containerStyle: {
+          width: '100%',
+          height: 'auto',
+          borderWidth: 0
+        }
+      })
     }
-    // start loading
-    this.imageObj.src = image;
   }
 
   render() {
@@ -47,23 +41,12 @@ export default class ComicImage extends Component {
 
     return(
       <div style={{
-        width: '100%'
+        background: 'url(http://i.imgur.com/ybQEnOQ.gif) 50% no-repeat',
+        margin: '0 auto 16px',
+        ...this.state.containerStyle
       }}>
-        <div
-          style={{
-            background: 'url(http://i.imgur.com/ybQEnOQ.gif) 50% no-repeat',
-            width: this.state.width,
-            height: this.state.height,
-            borderWidth: 1,
-            borderColor: 'white',
-            borderStyle: 'solid',
-            margin: '0 auto 16px',
-            ...this.state.placeHolderStyle
-          }}
-        >
-        </div>
         <img
-          src={this.state.imageSrc}
+          src={image}
           ref='image'
           style={{
             display: 'block',
