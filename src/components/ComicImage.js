@@ -1,43 +1,72 @@
 import { Component } from 'react';
 
+const styles = {
+  imageStyle: {
+    inactive: {
+      opacity: 0
+    },
+    active: {
+      opacity: 1,
+      height: 'auto',
+      width: 'auto'
+    }
+  },
+  containerStyle: {
+    inactive: {
+      width: 700,
+      height: 1000,
+      borderWidth: 1,
+      borderColor: 'white',
+      borderStyle: 'solid',
+    },
+    active: {
+      width: '100%',
+      height: 'auto',
+      borderWidth: 0
+    }
+  }
+}
+
 export default class ComicImage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      style: {
-        opacity: 0
-      },
-      containerStyle: {
-        width: 700,
-        height: 1000,
-        borderWidth: 1,
-        borderColor: 'white',
-        borderStyle: 'solid',
-      },
+      style: styles.imageStyle.inactive,
+      containerStyle: styles.containerStyle.inactive,
       width: 700,
       height: 1000
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { src } = nextProps;
+    if (this.props.src !== src) {
+      this.inactivate();
+    }
+  }
+
+  activate = () => {
+    this.setState({
+      style: styles.imageStyle.active,
+      containerStyle: styles.containerStyle.active
+    })
+  }
+
+  inactivate = () => {
+    this.setState({
+      style: styles.imageStyle.inactive,
+      containerStyle: styles.containerStyle.inactive
+    })
+  }
+
   onImageLoad = () => {
-    if (this.refs.image.src !== "") {
-      this.setState({
-        style: {
-          opacity: 1,
-          height: 'auto',
-          width: 'auto'
-        },
-        containerStyle: {
-          width: '100%',
-          height: 'auto',
-          borderWidth: 0
-        }
-      })
+    if (this.refs.image.src && this.refs.image.src !== "") {
+      this.activate();
     }
   }
 
   render() {
-    const { image, style } = this.props;
+    const { src, style } = this.props;
 
     return(
       <div style={{
@@ -46,7 +75,7 @@ export default class ComicImage extends Component {
         ...this.state.containerStyle
       }}>
         <img
-          src={image}
+          src={src}
           ref='image'
           style={{
             display: 'block',
@@ -62,5 +91,4 @@ export default class ComicImage extends Component {
       </div>
     )
   }
-
 }

@@ -29,8 +29,8 @@ export default class DM5 extends Base {
     return new Promise((resolve, reject) => {
       fetch(this.fullURL()).then(r => r.text()).then(response => {
         var chapterIndex = $(response);
-        var navigationItem = $(chapterIndex.find('.view_logo2.bai_lj')[0]);
-        var urls = navigationItem.children('a').map((_, a) => $(a).attr('href'));
+        var navigationItem = $(chapterIndex.find('.view_logo2.bai_lj').toArray()[0]);
+        var urls = navigationItem.children('a').toArray().map((a) => $(a).attr('href'));
 
         this.comicID = urls[urls.length-2].replace(/\//gi, '');
         this.comicURL = `${this.baseURL}/${this.comicID}/`;
@@ -42,7 +42,7 @@ export default class DM5 extends Base {
           }
         ).then(r => r.text()).then(response => {
           var comicIndex = $(response);
-          var chapterInfos = comicIndex.find('.nr6.lan2>li>.tg').map((_, a) => {
+          var chapterInfos = comicIndex.find('.nr6.lan2>li>.tg').toArray().map((a) => {
             var _rawID = $(a).attr('href')
             return({
               title: $(a).attr('title'),
