@@ -11,8 +11,9 @@ export default class DM5 extends Base {
     this.baseURL = "http://www.dm5.com";
 
     this.chapterID = chapterID; // eg: m251123, with "m"
-    this.cid = /^m(\d+)/.exec(chapterID)[1]; // 251123, without "m"
+    this.cid = this.getCID(chapterID); // 251123, without "m"
     this.comicURL = null;
+    this.comicID = null;
 
     this.comicName = null;
 
@@ -31,7 +32,8 @@ export default class DM5 extends Base {
         var navigationItem = $(chapterIndex.find('.view_logo2.bai_lj')[0]);
         var urls = navigationItem.children('a').map((_, a) => $(a).attr('href'));
 
-        this.comicURL = `${this.baseURL}${urls[urls.length-2]}`;
+        this.comicID = urls[urls.length-2].replace(/\//gi, '');
+        this.comicURL = `${this.baseURL}/${this.comicID}/`;
 
         fetch(this.comicURL,
           {
@@ -63,23 +65,22 @@ export default class DM5 extends Base {
   }
 
   async getChapterImages(cid, callback=null) {
-    var images = [];
-    var imagesCount = await this.fetchImagesCount(cid);
-
     // images comes in pairs, we only concat them in odd
     // [12] 23 [34] 45 [56] 67 [78] 89 [9]
     // [12] 23 [34] 45 [56] 67 [78] 89 [910] 10
-    // add sequtial callback handling
-    for (var i = 1; i <= imagesCount; i++) {
-      if (i % 2 == 1) {
-        images = [...images, ...(await this.fetchImages(i, cid))];
-      }
 
-      // batch load
-      if (i % 3 == 0) { if (callback) callback(images); }
-    }
+    // 8 => 1 3 5 7 => (8+1) / 2
+    // 9 => 1 3 5 7 9 => (9+1) / 2
+    var imagesCount = await this.fetchImagesCount(cid);
+    var images =
+      await (
+        Promise.all(
+          [...Array(parseInt((imagesCount+1)/2)).keys()]
+            .map(i => this.fetchImages(i*2 + 1, cid))
+        )
+      )
+    images = images.reduce((prev, cur) => [...prev, ...cur], []);
 
-    if (callback) callback(images);
     return new Promise((resolve, reject) => {
       resolve(images);
     });
@@ -117,6 +118,10 @@ export default class DM5 extends Base {
   joinBaseUrl(url) {
     // bad workaround :p
     return(`${this.baseURL}${url}`);
+  }
+
+  getCID(chapterID) {
+    return /^m(\d+)/.exec(chapterID)[1];
   }
 
 }
