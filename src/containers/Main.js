@@ -50,7 +50,7 @@ export default class Main extends Component {
         <ComicListView
           comicManager={this.state.comicManager}
           onChaptersLoaded={(chapters) => { this.setState({chapters}) }}
-          onViewingChapterTitleChanged={title => { this.setState({appBarTitle: title}) }}
+          onViewingChapterChanged={(title, cid) => { this.setState({appBarTitle: title, viewingCID: cid}) }}
           viewingCID={this.state.viewingCID}
         />
       )

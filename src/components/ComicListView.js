@@ -37,51 +37,24 @@ import LoadIndicator from './LoadIndicator';
 
 export default class ChapterListView extends Component {
   static propTypes = {
-    comicManager: PropTypes.object,
+    comicManager: PropTypes.object.isRequired,
     viewingCID: PropTypes.string,
     onChaptersLoaded: PropTypes.func,
-    onViewingChapterTitleChanged: PropTypes.func
+    onViewingChapterChanged: PropTypes.func
   }
 
   constructor(props) {
     super(props);
     this.state = {
       chapters: {},
+      viewingCID: null,
       viewingChapters: [], // visible chapters
       comicImages: {} // TODO: load from storage
     }
   }
 
-  async componentDidMount() {
-    const {
-      comicManager,
-      onChaptersLoaded, // parent build up menu items
-      onViewingChapterTitleChanged, // parent change chapter name & highlight another menu item
-      viewingCID
-    } = this.props;
-
-    var chapters = await (comicManager.getChapters());
-    if (onChaptersLoaded) { onChaptersLoaded(chapters) }
-
-    var chapterObject = {};
-    chapterObject[comicManager.comicID] = chapters;
-
-    var viewingChapters = (typeof viewingCID !== 'undefined' && viewingCID) ? [this.filterChapter(chapters, viewingCID)] : [chapters[0]];
-    var cid = viewingChapters[0].cid;
-    if (onViewingChapterTitleChanged) {
-      onViewingChapterTitleChanged(`${comicManager.comicName} - ${viewingChapters[0].title}`)
-    }
-
-    comicManager.getChapterImages(cid).then(images => {
-      var comicImages = {...this.state.comicImages};
-      if (typeof comicImages[cid] === "undefined") { comicImages[cid] = {} };
-      comicImages[cid]["images"] = images;
-      this.setState({
-        viewingChapters: viewingChapters,
-        chapters: chapterObject,
-        comicImages: comicImages
-      })
-    });
+  componentDidMount() {
+    this.initialize();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -91,26 +64,26 @@ export default class ChapterListView extends Component {
     // * handle chapter name changed
     const {
       viewingCID,
-      comicManager,
-      onViewingChapterTitleChanged
+      comicManager
     } = nextProps;
 
-    if (typeof viewingCID !== 'undefined' && viewingCID !== this.props.viewingCID) {
-      var viewingChapters = [this.filterChapter(this.state.chapters[comicManager.comicID], viewingCID)];
-      var cid = viewingChapters[0].cid;
-
-      if (typeof onViewingChapterTitleChanged !== 'undefined') {
-        onViewingChapterTitleChanged(`${comicManager.comicName} - ${viewingChapters[0].title}`)
-      }
-
-      var comicImages = {...this.state.comicImages};
+    // viewing chapters changes
+    if (typeof viewingCID !== 'undefined'
+        && this.state.viewingCID
+        && viewingCID !== this.state.viewingCID
+        ) {
+      var viewingChapters = [
+          this.filterChapter(this.state.chapters[comicManager.comicID], viewingCID)
+        ];
       this.setState({
         viewingChapters: viewingChapters
       })
+      this.onViewingChapterChanged(viewingChapters[0])
 
+      var comicImages = {...this.state.comicImages};
+      var cid = viewingChapters[0].cid;
       comicManager.getChapterImages(cid).then(images => {
-        if (typeof comicImages[cid] === "undefined") { comicImages[cid] = {} };
-        comicImages[cid]["images"] = images;
+        comicImages[cid] = {...comicImages[cid], images: images}
         this.setState({
           comicImages: comicImages
         })
@@ -118,8 +91,48 @@ export default class ChapterListView extends Component {
     }
   }
 
+  initialize = async () => {
+    const { comicManager, viewingCID } = this.props;
+
+    var chapters = await (comicManager.getChapters());
+    var chapterObject = {[comicManager.comicID]: chapters};
+    var viewingChapters = (typeof viewingCID !== 'undefined' && viewingCID) ? [this.filterChapter(chapters, viewingCID)] : [chapters[0]];
+    var cid = viewingChapters[0].cid;
+
+    this.onChaptersLoaded(chapters);
+    this.onViewingChapterChanged(viewingChapters[0]);
+
+    comicManager.getChapterImages(cid).then(images => {
+      var comicImages = {...this.state.comicImages};
+      comicImages[cid] = {...comicImages[cid], images: images};
+      this.setState({
+        viewingChapters: viewingChapters,
+        chapters: chapterObject,
+        comicImages: comicImages
+      })
+    });
+  }
+
   filterChapter(chapters, cid) {
+    if (typeof chapters === 'undefined') { console.log("heyyyyy") }
     return chapters.find(c => c.cid === cid)
+  }
+
+  onChaptersLoaded = (chapters) => {
+    const { onChaptersLoaded } = this.props;
+    if (typeof onChaptersLoaded !== 'undefined' && onChaptersLoaded) {
+      onChaptersLoaded(chapters)
+    }
+  }
+
+  onViewingChapterChanged = (chapter) => {
+    const { comicManager, onViewingChapterChanged } = this.props;
+    if (typeof onViewingChapterChanged !== 'undefined') {
+      onViewingChapterChanged(`${comicManager.comicName} - ${chapter.title}`, chapter.cid)
+    }
+    this.setState({
+      viewingCID: chapter.cid
+    })
   }
 
   onPreviousWaypointEnter = () => {
