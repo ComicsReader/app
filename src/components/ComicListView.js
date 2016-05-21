@@ -61,11 +61,13 @@ export default class ChapterListView extends Component {
 
   componentDidMount() {
     this.initialize();
-    window.addEventListener("scroll", _.debounce(this.onScroll, 250));
+    window.addEventListener("scroll", this.checkLoadNewChapter);
+    window.addEventListener("scroll", _.debounce(this.checkViewingChapter, 100));
   }
 
   componentWillUnmount() {
-    window.removeEventListener("scroll", _.debounce(this.onScroll, 250));
+    window.removeEventListener("scroll", this.checkLoadNewChapter);
+    window.removeEventListener("scroll", _.debounce(this.checkViewingChapter, 100));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -196,7 +198,7 @@ export default class ChapterListView extends Component {
 
   }
 
-  onScroll = (e) => {
+  checkLoadNewChapter = () => {
     if (!this.state.isLoading) {
       var lastImage = ReactDOM.findDOMNode(this.lastImage())
 
@@ -211,7 +213,9 @@ export default class ChapterListView extends Component {
         }
       }
     }
+  }
 
+  checkViewingChapter = () => {
     // check scrolling region, 有點太狂了
     for(let chapter of this.state.viewingChapters) {
       var firstImage = ReactDOM.findDOMNode(this.firstImageByCID(chapter.cid))
