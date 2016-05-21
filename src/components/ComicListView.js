@@ -3,6 +3,8 @@ import {
   PropTypes
 } from 'react';
 
+import ReactDOM from 'react-dom';
+
 import Waypoint from 'react-waypoint';
 import ComicImage from './ComicImage';
 import LoadIndicator from './LoadIndicator';
@@ -49,12 +51,19 @@ export default class ChapterListView extends Component {
       chapters: {},
       viewingCID: null,
       viewingChapters: [], // visible chapters
+      isLoading: false,
       comicImages: {} // TODO: load from storage
     }
   }
 
   componentDidMount() {
     this.initialize();
+
+    window.addEventListener("scroll", this.onScroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.onScroll);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -95,7 +104,7 @@ export default class ChapterListView extends Component {
     const { comicManager, viewingCID } = this.props;
 
     var chapters = await (comicManager.getChapters());
-    var chapterObject = {[comicManager.comicID]: chapters};
+    var chapterObject = {...this.state.chapters, [comicManager.comicID]: chapters};
     var viewingChapters = (typeof viewingCID !== 'undefined' && viewingCID) ? [this.filterChapter(chapters, viewingCID)] : [chapters[0]];
     var cid = viewingChapters[0].cid;
 
@@ -103,8 +112,8 @@ export default class ChapterListView extends Component {
     this.onViewingChapterChanged(viewingChapters[0]);
 
     comicManager.getChapterImages(cid).then(images => {
-      var comicImages = {...this.state.comicImages};
-      comicImages[cid] = {...comicImages[cid], images: images};
+      var comicImages = {...this.state.comicImages, [cid]: {images: images}};
+      // comicImages[cid] = {...comicImages[cid], images: images};
       this.setState({
         viewingChapters: viewingChapters,
         chapters: chapterObject,
@@ -123,6 +132,74 @@ export default class ChapterListView extends Component {
     if (typeof onChaptersLoaded !== 'undefined' && onChaptersLoaded) {
       onChaptersLoaded(chapters)
     }
+  }
+
+  firstImage = () => {
+    var firstChapter = this.state.viewingChapters.slice(0)[0];
+    var cid = firstChapter.cid;
+    return this.refs[this.comicRef(cid, 0)];
+  }
+
+  lastImage = () => {
+    var lastChapter = this.state.viewingChapters.slice(-1)[0];
+    var cid = lastChapter.cid;
+    return this.refs[this.comicRef(cid, this.state.comicImages[cid].images.length-1)];
+  }
+
+  comicRef(cid, index) {
+    return `comic_${cid}_${index}`;
+  }
+
+  loadNextChapter = (callback) => {
+    const { comicManager } = this.props;
+    const { viewingChapters } = this.state;
+
+    var curIndex = this.availableChapters().findIndex(c => {
+      return c.cid === viewingChapters.slice(-1)[0].cid;
+    })
+
+    let targetChapter = null;
+    if (curIndex > 0) {
+      targetChapter = this.availableChapters()[curIndex-1];
+    }
+
+    if (targetChapter) {
+      if (!viewingChapters.includes(targetChapter)) { // hasn't loaded yet
+        let cid = targetChapter.cid;
+        comicManager.getChapterImages(cid).then(images => {
+
+          this.setState({
+            comicImages: {...this.state.comicImages, [cid]: {images: images}},
+            viewingChapters: [...viewingChapters, targetChapter]
+          })
+
+          if (typeof callback !== 'undefined' && callback) { callback() }
+        })
+      } else {
+        if (typeof callback !== 'undefined' && callback) { callback() }
+      }
+    } else {
+      if (typeof callback !== 'undefined' && callback) { callback() }
+    }
+
+  }
+
+  onScroll = (e) => {
+    if (!this.state.isLoading) {
+      var lastImage = ReactDOM.findDOMNode(this.lastImage())
+
+      if ( typeof lastImage !== 'undefined' && lastImage) {
+        if (lastImage.getBoundingClientRect().top < 4000) { // threshold
+
+          this.setState({isLoading: true});
+
+          this.loadNextChapter(() => {
+            this.setState({isLoading: false});
+          })
+        }
+      }
+    }
+    // firstImage = ReactDOM.findDOMNode(this.firstImage())
   }
 
   onViewingChapterChanged = (chapter) => {
@@ -147,40 +224,36 @@ export default class ChapterListView extends Component {
   }
 
   onNextWaypointEnter = () => {
-    console.log("way point enter!!!!")
+    console.log("on next waypoint enter")
+
   }
 
   onNextWaypointLeave = () => {
-
+    console.log("on next waypoint leave")
   }
 
   availableChapters = () => {
     const { comicManager } = this.props;
-    return this.chapters[comicManager.comicID];
+    return this.state.chapters[comicManager.comicID];
   }
 
   renderChapterComics = (chapter) => {
+    /*<Waypoint
+      onEnter={this.onPreviousWaypointEnter}
+      onLeave={() => { console.log("way point leave!!!!") }}
+      threshold={2.6}
+    />*/
     return(
       <div>
-        <Waypoint
-          onEnter={this.onPreviousWaypointEnter}
-          onLeave={() => { console.log("way point leave!!!!") }}
-          threshold={2.6}
-        />
         {
           this.state.comicImages[chapter.cid] ?
-            this.state.comicImages[chapter.cid].images.map(image => {
+            this.state.comicImages[chapter.cid].images.map((image, index) => {
               return(
-                <ComicImage key={image} src={image}/>
+                <ComicImage key={image} src={image} ref={this.comicRef(chapter.cid, index)}/>
               )
             })
             : <LoadIndicator />
         }
-        <Waypoint
-          onEnter={this.onNextWaypointEnter}
-          onLeave={() => { console.log("way point leave!!!!") }}
-          threshold={2.6}
-        />
       </div>
     );
   }
