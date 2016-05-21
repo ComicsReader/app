@@ -9,6 +9,8 @@ import Waypoint from 'react-waypoint';
 import ComicImage from './ComicImage';
 import LoadIndicator from './LoadIndicator';
 
+import * as _ from 'lodash';
+
 // var comicImages = {
 //   "12345": { // cid
 //     count: 20,
@@ -42,7 +44,8 @@ export default class ChapterListView extends Component {
     comicManager: PropTypes.object.isRequired,
     viewingCID: PropTypes.string,
     onChaptersLoaded: PropTypes.func,
-    onViewingChapterChanged: PropTypes.func
+    onViewingChapterChanged: PropTypes.func,
+    refresh: PropTypes.boolean,
   }
 
   constructor(props) {
@@ -58,12 +61,11 @@ export default class ChapterListView extends Component {
 
   componentDidMount() {
     this.initialize();
-
-    window.addEventListener("scroll", this.onScroll);
+    window.addEventListener("scroll", _.debounce(this.onScroll, 250));
   }
 
   componentWillUnmount() {
-    window.removeEventListener("scroll", this.onScroll);
+    window.removeEventListener("scroll", _.debounce(this.onScroll, 250));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -73,11 +75,13 @@ export default class ChapterListView extends Component {
     // * handle chapter name changed
     const {
       viewingCID,
-      comicManager
+      comicManager,
+      refresh
     } = nextProps;
 
     // viewing chapters changes
     if (typeof viewingCID !== 'undefined'
+        && refresh
         && this.state.viewingCID
         && viewingCID !== this.state.viewingCID
         ) {
@@ -146,6 +150,14 @@ export default class ChapterListView extends Component {
     return this.refs[this.comicRef(cid, this.state.comicImages[cid].images.length-1)];
   }
 
+  firstImageByCID = (cid) => {
+    return this.refs[this.comicRef(cid, 0)];
+  }
+
+  lastImageByCID = (cid) => {
+    return this.refs[this.comicRef(cid, this.state.comicImages[cid].images.length-1)];
+  }
+
   comicRef(cid, index) {
     return `comic_${cid}_${index}`;
   }
@@ -189,7 +201,7 @@ export default class ChapterListView extends Component {
       var lastImage = ReactDOM.findDOMNode(this.lastImage())
 
       if ( typeof lastImage !== 'undefined' && lastImage) {
-        if (lastImage.getBoundingClientRect().top < 4000) { // threshold
+        if (lastImage.getBoundingClientRect().top < 20000) { // threshold
 
           this.setState({isLoading: true});
 
@@ -199,7 +211,18 @@ export default class ChapterListView extends Component {
         }
       }
     }
-    // firstImage = ReactDOM.findDOMNode(this.firstImage())
+
+    // check scrolling region, 有點太狂了
+    for(let chapter of this.state.viewingChapters) {
+      var firstImage = ReactDOM.findDOMNode(this.firstImageByCID(chapter.cid))
+      var lastImage = ReactDOM.findDOMNode(this.lastImageByCID(chapter.cid))
+
+      var scrollTop = document.body.scrollTop;
+      if ( scrollTop > firstImage.offsetTop && scrollTop < (lastImage.offsetTop + lastImage.firstChild.height) ) {
+        this.onViewingChapterChanged(chapter);
+        break;
+      }
+    }
   }
 
   onViewingChapterChanged = (chapter) => {
@@ -212,37 +235,12 @@ export default class ChapterListView extends Component {
     })
   }
 
-  onPreviousWaypointEnter = () => {
-    // * fetch previous chapter if any
-    // * handle chapter name changed
-    // * keep current scrolling position (calculating new added images?)
-    console.log("way point enter!!!!")
-  }
-
-  onPreviousWaypointLeave = () => {
-    // * handle chapter name changed
-  }
-
-  onNextWaypointEnter = () => {
-    console.log("on next waypoint enter")
-
-  }
-
-  onNextWaypointLeave = () => {
-    console.log("on next waypoint leave")
-  }
-
   availableChapters = () => {
     const { comicManager } = this.props;
     return this.state.chapters[comicManager.comicID];
   }
 
   renderChapterComics = (chapter) => {
-    /*<Waypoint
-      onEnter={this.onPreviousWaypointEnter}
-      onLeave={() => { console.log("way point leave!!!!") }}
-      threshold={2.6}
-    />*/
     return(
       <div>
         {

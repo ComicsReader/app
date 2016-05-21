@@ -20,6 +20,7 @@ export default class Main extends Component {
       isLoading: false,
       comicManager: null,
       viewingCID: null,
+      refresh: false
     };
   }
 
@@ -39,7 +40,8 @@ export default class Main extends Component {
     return () => {
       this.setState({
         viewingCID: chapterItem.cid,
-        drawerOpen: !this.state.drawerOpen
+        drawerOpen: !this.state.drawerOpen,
+        refresh: true
       })
     }
   }
@@ -50,8 +52,9 @@ export default class Main extends Component {
         <ComicListView
           comicManager={this.state.comicManager}
           onChaptersLoaded={(chapters) => { this.setState({chapters}) }}
-          onViewingChapterChanged={(title, cid) => { this.setState({appBarTitle: title, viewingCID: cid}) }}
+          onViewingChapterChanged={(title, cid) => { this.setState({appBarTitle: title, viewingCID: cid, refresh: false}) }}
           viewingCID={this.state.viewingCID}
+          refresh={this.state.refresh}
         />
       )
     }
