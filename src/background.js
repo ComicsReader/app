@@ -149,10 +149,7 @@ chrome.webNavigation.onCommitted.addListener(function(details) {
 			chapter = Comics_dm5.regex.exec(details.url)[1];
 		}
 		chrome.tabs.update(details.tabId, {
-			url: chrome.extension.getURL("index.html") + "?" + queryString.stringify({
-				site: 'dm5',
-				chapter: chapter.replace(/\//g, '')
-			})
+			url: chrome.extension.getURL("index.html") + `#/reader/dm5/${chapter.replace(/\//g, '')}`
 		});
 
 		ga('send', 'event', "dm5 view");
