@@ -1,9 +1,14 @@
 import React, {
 	Component
 } from 'react';
+
 import { AppBar, Drawer, MenuItem } from 'material-ui';
 import { grey800 } from 'material-ui/styles/colors';
+import IconButton from 'material-ui/IconButton';
+import FlatButton from 'material-ui/FlatButton';
+
 import Waypoint from 'react-waypoint';
+import queryString from 'query-string'
 
 import DM5 from '../comics/dm5';
 import ComicImage from '../components/ComicImage';
@@ -26,7 +31,8 @@ export default class Main extends Component {
 
 	async componentDidMount() {
 		// m251123, m144591, m4866
-		var dm5 = new DM5('m144591');
+		const { site, chapter } = queryString.parse(window.location.search)
+		var dm5 = new DM5(chapter);
 		this.setState({
 			comicManager: dm5
 		})
@@ -67,7 +73,11 @@ export default class Main extends Component {
 				<AppBar
 					title={this.state.appBarTitle}
 					style={{backgroundColor: grey800, position: 'fixed'}}
-					iconClassNameRight="muidocs-icon-navigation-expand-more"
+					// iconElementRight={
+				 //    <FlatButton label="Save" />
+					// }
+					// iconClassNameRight="muidocs-icon-navigation-expand-more"
+					iconElementRight={ <i className="material-icons md-36">face</i> }
 					onLeftIconButtonTouchTap={this.handleToggle}
 				/>
 				<Drawer
@@ -78,7 +88,7 @@ export default class Main extends Component {
 					<MenuItem
 						style={{backgroundColor: '#424242', color: 'white', height: 64, fontSize: 24, paddingTop: '.5rem'}}
 					>
-						{ this.state.appBarTitle }
+						章節
 					</MenuItem>
 					{
 						this.state.chapters.map((chapterItem) => {

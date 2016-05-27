@@ -44,7 +44,7 @@ export default class ChapterListView extends Component {
 		viewingCID: PropTypes.string,
 		onChaptersLoaded: PropTypes.func,
 		onViewingChapterChanged: PropTypes.func,
-		refresh: PropTypes.boolean,
+		refresh: PropTypes.bool,
 	}
 
 	constructor(props) {

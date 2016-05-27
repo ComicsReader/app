@@ -5,7 +5,7 @@ var LiveReloadPlugin = require('webpack-livereload-plugin');
 
 module.exports={
 	entry: {
-		app_min:'./src/app.js',
+		app_min:'./src/App.js',
 		background:'./src/background.js',
 		popup_min:'./src/popup.jsx'
 	},
