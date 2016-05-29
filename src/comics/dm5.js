@@ -84,7 +84,8 @@ export default class DM5 extends Base {
 					return({
 						cover_img: $(div).find('.ssnr_yt img').first().attr('src'),
 						comicName: $(div).find('.ssnr_bt a').text().split('//////')[0],
-						comicID: $(div).find('.ssnr_bt a').attr('href').replace(/\//g, '')
+						comicID: $(div).find('.ssnr_bt a').attr('href').replace(/\//g, ''),
+						latest_chapter: $(div).find('.ssnr_yt .ff.mato10.sr_dlj.matoa a').first().attr('href').replace(/\//g, '')
 					});
 				});
 
