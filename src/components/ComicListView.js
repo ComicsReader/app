@@ -60,13 +60,15 @@ export default class ChapterListView extends Component {
 
 	componentDidMount() {
 		this.initialize();
-		document.addEventListener("scroll", this.checkLoadNewChapter);
-		document.addEventListener("scroll", _.debounce(this.checkViewingChapter, 100));
+		this.scrollContainer = ReactDOM.findDOMNode(this.props.scrollContainerRef)
+
+		this.scrollContainer.addEventListener("scroll", this.checkLoadNewChapter);
+		this.scrollContainer.addEventListener("scroll", _.debounce(this.checkViewingChapter, 100));
 	}
 
 	componentWillUnmount() {
-		document.removeEventListener("scroll", this.checkLoadNewChapter);
-		document.removeEventListener("scroll", _.debounce(this.checkViewingChapter, 100));
+		this.scrollContainer.removeEventListener("scroll", this.checkLoadNewChapter);
+		this.scrollContainer.removeEventListener("scroll", _.debounce(this.checkViewingChapter, 100));
 	}
 
 	componentWillReceiveProps(nextProps) {

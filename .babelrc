@@ -9,6 +9,7 @@
     ["transform-runtime", {
       "polyfill": true,
       "regenerator": true
-    }]
+    }],
+    "babel-plugin-transform-decorators-legacy"
   ]
 }
