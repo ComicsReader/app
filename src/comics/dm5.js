@@ -66,6 +66,40 @@ export default class DM5 extends Base {
 		return(`${this.baseURL}/m${cid}`);
 	}
 
+	static quickSearch(keyword) {
+		return new Promise((resolve, reject) => {
+			fetch(`http://www.dm5.com/search.ashx?t=${encodeURI(keyword)}`).then(r => r.text()).then(response => {
+				var array = $(response).toArray().filter(r => $(r).hasClass('searchliclass')).map(li => {
+					return {
+						comicID: eval(/[^,]+?,[^,]+?[^,]+?,[^,]+?,([^,]+?),/g.exec($(li).attr('onmouseover'))[1]).replace(/\//g, ''),
+						title: $(li).attr('title')
+					}
+				})
+				resolve(array);
+			})
+		});
+	}
+
+	static search(keyword) {
+		return new Promise((resolve, reject) => {
+			fetch(`http://www.dm5.com/search?title=${encodeURI(keyword)}&language=1`).then(r => r.text()).then(response => {
+
+				var $html = $(response);
+				var results = $html.find('.ssnrk').toArray().map(div => {
+					$(div).find('.ssnr_bt a font').replaceWith('//////');
+
+					return({
+						cover_img: $(div).find('.ssnr_yt img').first().attr('src'),
+						comicName: $(div).find('.ssnr_bt a').text().split('//////')[0],
+						comicID: $(div).find('.ssnr_bt a').attr('href').replace(/\//g, '')
+					});
+				});
+
+				resolve(results);
+			})
+		});
+	}
+
 	async getChapterImages(cid, callback=null) {
 		// images comes in pairs, we only concat them in odd
 		// [12] 23 [34] 45 [56] 67 [78] 89 [9]

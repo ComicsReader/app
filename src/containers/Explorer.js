@@ -7,7 +7,17 @@ import TextField from 'material-ui/TextField';
 import { grey800, grey50 } from 'material-ui/styles/colors';
 import { AppBar, Drawer, MenuItem } from 'material-ui';
 
+import DM5 from '../comics/dm5';
+import SearchBar from '../components/SearchBar';
+
 export default class Explorer extends Component {
+
+	componentDidMount() {
+		DM5.search("哈").then((r) => {
+			console.log(r)
+		})
+	}
+
 	render() {
 		return(
 			<div>
@@ -18,9 +28,7 @@ export default class Explorer extends Component {
 					// iconElementRight={ <i className="material-icons md-36">face</i> }
 					// onLeftIconButtonTouchTap={this.handleToggle}
 				>
-				<TextField
-		      hintText="Hint Text"
-		    />
+				<SearchBar onSubmit={(value) => console.log(value)}/>
 				</AppBar>
 			</div>
 		);
