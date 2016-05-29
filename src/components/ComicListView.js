@@ -40,11 +40,12 @@ import LoadIndicator from './LoadIndicator';
 
 export default class ChapterListView extends Component {
 	static propTypes = {
-		comicManager: PropTypes.object.isRequired,
+		comicManager: PropTypes.func.isRequired,
 		viewingCID: PropTypes.string,
 		onChaptersLoaded: PropTypes.func,
 		onViewingChapterChanged: PropTypes.func,
 		refresh: PropTypes.bool,
+		comicID: PropTypes.string
 	}
 
 	constructor(props) {
@@ -79,7 +80,8 @@ export default class ChapterListView extends Component {
 		const {
 			viewingCID,
 			comicManager,
-			refresh
+			refresh,
+			comicID
 		} = nextProps;
 
 		// viewing chapters changes
@@ -87,10 +89,11 @@ export default class ChapterListView extends Component {
 				&& refresh
 				&& this.state.viewingCID
 				&& viewingCID !== this.state.viewingCID
+				&& comicID !== 'undefined'
 				) {
 			var viewingChapters = [
-					this.filterChapter(this.state.chapters[comicManager.comicID], viewingCID)
-				];
+				this.filterChapter(this.state.chapters[comicID], viewingCID)
+			];
 			this.setState({
 				viewingChapters: viewingChapters
 			})
@@ -111,10 +114,12 @@ export default class ChapterListView extends Component {
 	}
 
 	initialize = async () => {
-		const { comicManager, viewingCID } = this.props;
+		const { comicManager, viewingCID, comicID } = this.props;
 
-		var chapters = await (comicManager.getChapters());
-		var chapterObject = {...this.state.chapters, [comicManager.comicID]: chapters};
+		if (typeof comicID === 'undefined') return;
+
+		var chapters = await (comicManager.getChapters(comicID));
+		var chapterObject = {...this.state.chapters, [comicID]: chapters};
 		var viewingChapters = (typeof viewingCID !== 'undefined' && viewingCID) ? [this.filterChapter(chapters, viewingCID)] : [chapters[0]];
 		var cid = viewingChapters[0].cid;
 
@@ -175,6 +180,7 @@ export default class ChapterListView extends Component {
 			return c.cid === viewingChapters.slice(-1)[0].cid;
 		})
 
+
 		let targetChapter = null;
 		if (curIndex > 0) {
 			targetChapter = this.availableChapters()[curIndex-1];
@@ -224,7 +230,10 @@ export default class ChapterListView extends Component {
 			var firstImage = ReactDOM.findDOMNode(this.firstImageByCID(chapter.cid))
 			var lastImage = ReactDOM.findDOMNode(this.lastImageByCID(chapter.cid))
 
-			var scrollTop = document.body.scrollTop;
+			if (!this.scrollContainer) {
+				this.scrollContainer = ReactDOM.findDOMNode(this.props.scrollContainerRef)
+			}
+			var scrollTop = this.scrollContainer.scrollTop;
 			if ( scrollTop > firstImage.offsetTop && scrollTop < (lastImage.offsetTop + lastImage.firstChild.height) ) {
 				this.onViewingChapterChanged(chapter);
 				break;
@@ -233,18 +242,20 @@ export default class ChapterListView extends Component {
 	}
 
 	onViewingChapterChanged = (chapter) => {
-		const { comicManager, onViewingChapterChanged } = this.props;
-		if (typeof onViewingChapterChanged !== 'undefined') {
-			onViewingChapterChanged(`${comicManager.comicName} - ${chapter.title}`, chapter.cid)
-		}
-		this.setState({
-			viewingCID: chapter.cid
+		const { comicManager, onViewingChapterChanged, comicID } = this.props;
+		comicManager.getComicName(comicID).then(comicName => {
+			if (typeof onViewingChapterChanged !== 'undefined') {
+				onViewingChapterChanged(`${comicName} - ${chapter.title}`, chapter.cid)
+			}
+			this.setState({
+				viewingCID: chapter.cid
+			})
 		})
 	}
 
 	availableChapters = () => {
-		const { comicManager } = this.props;
-		return this.state.chapters[comicManager.comicID];
+		const { comicManager, comicID } = this.props;
+		return this.state.chapters[comicID];
 	}
 
 	renderChapterComics = (chapter) => {

@@ -30,16 +30,19 @@ export default class Reader extends Component {
 			isLoading: false,
 			comicManager: null,
 			viewingCID: null,
-			comicListRefresh: false
+			comicListRefresh: false,
+			comicID: null,
 		};
 	}
 
 	async componentDidMount() {
 		// m251123, m144591, m4866
 		const { site, chapter } = this.props.params;
-		var dm5 = new DM5(chapter);
-		this.setState({
-			comicManager: dm5
+		DM5.fetchComicIDbyChapterID(chapter).then(comicID => {
+			this.setState({
+				comicManager: DM5,
+				comicID: comicID
+			})
 		})
 	}
 
@@ -67,6 +70,7 @@ export default class Reader extends Component {
 					viewingCID={this.state.viewingCID}
 					refresh={this.state.comicListRefresh}
 					scrollContainerRef={this.refs.scrollContainer}
+					comicID={this.state.comicID}
 				/>
 			)
 		}
