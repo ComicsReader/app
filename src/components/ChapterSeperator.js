@@ -7,7 +7,7 @@ var styles = {
 	fontSize: '1.5rem',
 	padding: '.5em 0',
 	color: 'white'
-}
+};
 
 export default class ChapterSeperator extends Component {
 	render() {

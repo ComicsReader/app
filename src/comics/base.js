@@ -7,9 +7,9 @@
 export class NotImplementError {}
 
 export default class Base {
-  getComics() { throw new NotImplementError(); }
-  getComic() { throw new NotImplementError(); }
-  getChapters() { throw new NotImplementError(); }
-  getChapter() { throw new NotImplementError(); }
-  getChapterImages() { throw new NotImplementError(); }
+	getComics() { throw new NotImplementError(); }
+	getComic() { throw new NotImplementError(); }
+	getChapters() { throw new NotImplementError(); }
+	getChapter() { throw new NotImplementError(); }
+	getChapterImages() { throw new NotImplementError(); }
 }

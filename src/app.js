@@ -12,6 +12,7 @@ import Collection from './containers/Collection';
 import Explorer from './containers/Explorer';
 
 import './less/main.less';
+
 // Needed for React Developer Tools
 window.React = React;
 

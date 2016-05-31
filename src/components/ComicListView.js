@@ -56,20 +56,20 @@ export default class ChapterListView extends Component {
 			viewingChapters: [], // visible chapters
 			isLoading: false,
 			comicImages: {} // TODO: load from storage
-		}
+		};
 	}
 
 	componentDidMount() {
 		this.initialize();
-		this.scrollContainer = ReactDOM.findDOMNode(this.props.scrollContainerRef)
+		this.scrollContainer = ReactDOM.findDOMNode(this.props.scrollContainerRef);
 
-		this.scrollContainer.addEventListener("scroll", this.checkLoadNewChapter);
-		this.scrollContainer.addEventListener("scroll", _.debounce(this.checkViewingChapter, 100));
+		this.scrollContainer.addEventListener('scroll', this.checkLoadNewChapter);
+		this.scrollContainer.addEventListener('scroll', _.debounce(this.checkViewingChapter, 100));
 	}
 
 	componentWillUnmount() {
-		this.scrollContainer.removeEventListener("scroll", this.checkLoadNewChapter);
-		this.scrollContainer.removeEventListener("scroll", _.debounce(this.checkViewingChapter, 100));
+		this.scrollContainer.removeEventListener('scroll', this.checkLoadNewChapter);
+		this.scrollContainer.removeEventListener('scroll', _.debounce(this.checkViewingChapter, 100));
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -96,8 +96,8 @@ export default class ChapterListView extends Component {
 			];
 			this.setState({
 				viewingChapters: viewingChapters
-			})
-			this.onViewingChapterChanged(viewingChapters[0])
+			});
+			this.onViewingChapterChanged(viewingChapters[0]);
 
 			// fetch chapters images if not loaded yet
 			var cid = viewingChapters[0].cid;
@@ -107,7 +107,7 @@ export default class ChapterListView extends Component {
 					comicImages[cid] = {...comicImages[cid], images: images}
 					this.setState({
 						comicImages: comicImages
-					})
+					});
 				});
 			}
 		}
@@ -133,18 +133,18 @@ export default class ChapterListView extends Component {
 				viewingChapters: viewingChapters,
 				chapters: chapterObject,
 				comicImages: comicImages
-			})
+			});
 		});
 	}
 
 	filterChapter(chapters, cid) {
-		return chapters.find(c => c.cid === cid)
+		return chapters.find(c => c.cid === cid);
 	}
 
 	onChaptersLoaded = (chapters) => {
 		const { onChaptersLoaded } = this.props;
 		if (typeof onChaptersLoaded !== 'undefined' && onChaptersLoaded) {
-			onChaptersLoaded(chapters)
+			onChaptersLoaded(chapters);
 		}
 	}
 
@@ -178,8 +178,7 @@ export default class ChapterListView extends Component {
 
 		var curIndex = this.availableChapters().findIndex(c => {
 			return c.cid === viewingChapters.slice(-1)[0].cid;
-		})
-
+		});
 
 		let targetChapter = null;
 		if (curIndex > 0) {
@@ -194,22 +193,22 @@ export default class ChapterListView extends Component {
 					this.setState({
 						comicImages: {...this.state.comicImages, [cid]: {images: images}},
 						viewingChapters: [...viewingChapters, targetChapter]
-					})
+					});
 
-					if (typeof callback !== 'undefined' && callback) { callback() }
-				})
+					if (typeof callback !== 'undefined' && callback) { callback(); }
+				});
 			} else {
-				if (typeof callback !== 'undefined' && callback) { callback() }
+				if (typeof callback !== 'undefined' && callback) { callback(); }
 			}
 		} else {
-			if (typeof callback !== 'undefined' && callback) { callback() }
+			if (typeof callback !== 'undefined' && callback) { callback(); }
 		}
 
 	}
 
 	checkLoadNewChapter = () => {
 		if (!this.state.isLoading) {
-			var lastImage = ReactDOM.findDOMNode(this.lastImage())
+			var lastImage = ReactDOM.findDOMNode(this.lastImage());
 
 			if ( typeof lastImage !== 'undefined' && lastImage) {
 				if (lastImage.getBoundingClientRect().top < 20000) { // threshold
@@ -227,11 +226,11 @@ export default class ChapterListView extends Component {
 	checkViewingChapter = () => {
 		// check scrolling region, 有點太狂了
 		for(let chapter of this.state.viewingChapters) {
-			var firstImage = ReactDOM.findDOMNode(this.firstImageByCID(chapter.cid))
-			var lastImage = ReactDOM.findDOMNode(this.lastImageByCID(chapter.cid))
+			var firstImage = ReactDOM.findDOMNode(this.firstImageByCID(chapter.cid));
+			var lastImage = ReactDOM.findDOMNode(this.lastImageByCID(chapter.cid));
 
 			if (!this.scrollContainer) {
-				this.scrollContainer = ReactDOM.findDOMNode(this.props.scrollContainerRef)
+				this.scrollContainer = ReactDOM.findDOMNode(this.props.scrollContainerRef);
 			}
 			var scrollTop = this.scrollContainer.scrollTop;
 			if ( scrollTop > firstImage.offsetTop && scrollTop < (lastImage.offsetTop + lastImage.firstChild.height) ) {
@@ -245,16 +244,16 @@ export default class ChapterListView extends Component {
 		const { comicManager, onViewingChapterChanged, comicID } = this.props;
 		comicManager.getComicName(comicID).then(comicName => {
 			if (typeof onViewingChapterChanged !== 'undefined') {
-				onViewingChapterChanged(`${comicName} - ${chapter.title}`, chapter.cid)
+				onViewingChapterChanged(`${comicName} - ${chapter.title}`, chapter.cid);
 			}
 			this.setState({
 				viewingCID: chapter.cid
-			})
-		})
+			});
+		});
 	}
 
 	availableChapters = () => {
-		const { comicManager, comicID } = this.props;
+		const { comicID } = this.props;
 		return this.state.chapters[comicID];
 	}
 
@@ -285,7 +284,7 @@ export default class ChapterListView extends Component {
 				{
 					(this.state.viewingChapters.length != 0) ?
 						this.state.viewingChapters.map(chapter => {
-							return(this.renderChapterComics(chapter))
+							return(this.renderChapterComics(chapter));
 						})
 						: <LoadIndicator />
 				}

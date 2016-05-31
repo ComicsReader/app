@@ -17,7 +17,7 @@ const styles = {
 			height: 1000,
 			borderWidth: 1,
 			borderColor: 'white',
-			borderStyle: 'solid',
+			borderStyle: 'solid'
 		},
 		active: {
 			width: '100%',

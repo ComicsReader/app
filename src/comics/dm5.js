@@ -7,24 +7,24 @@ import Base from './base';
 
 export default class DM5 extends Base {
 	static regex = /http\:\/\/(tel||www)\.dm5\.com(\/m\d+\/)/;
-	static baseURL = "http://www.dm5.com";
+	static baseURL = 'http://www.dm5.com';
 
 	static chapterCountData = {};
 	static chapterCache     = {};
 
 	static getChapters(comicID) {
 		return new Promise((resolve, reject) => {
-			this.getComicInfo(comicID, "chapters").then(chapters => resolve(chapters))
+			this.getComicInfo(comicID, 'chapters').then(chapters => resolve(chapters))
 		});
 	}
 
 	static getComicName(comicID) {
 		return new Promise((resolve, reject) => {
-			this.getComicInfo(comicID, "comicName").then(comicName => resolve(comicName))
+			this.getComicInfo(comicID, 'comicName').then(comicName => resolve(comicName))
 		});
 	}
 
-	static getComicInfo(comicID, type="chapters") {
+	static getComicInfo(comicID, type='chapters') {
 		return new Promise((resolve, reject) => {
 			if (typeof this.chapterCache[comicID] === 'undefined') {
 				this.chapterCache[comicID] = {}
@@ -50,7 +50,7 @@ export default class DM5 extends Base {
 				var urls = navigationItem.children('a').toArray().map((a) => $(a).attr('href'));
 
 				var comicID = urls[urls.length-2].replace(/\//gi, '');
-				resolve(comicID)
+				resolve(comicID);
 			});
 		});
 	}
@@ -81,11 +81,15 @@ export default class DM5 extends Base {
 				var results = $html.find('.ssnrk').toArray().map(div => {
 					$(div).find('.ssnr_bt a font').replaceWith('//////');
 
+					var $chapter = $(div).find('.ssnr_yt .ff.mato10.sr_dlj.matoa a').first()
+					var latest_chapter = null;
+					if ($chapter !== 'undefined') { latest_chapter = $chapter.attr('href').replace(/\//g, '') }
+
 					return({
 						cover_img: $(div).find('.ssnr_yt img').first().attr('src'),
 						comicName: $(div).find('.ssnr_bt a').text().split('//////')[0],
 						comicID: $(div).find('.ssnr_bt a').attr('href').replace(/\//g, ''),
-						latest_chapter: $(div).find('.ssnr_yt .ff.mato10.sr_dlj.matoa a').first().attr('href').replace(/\//g, '')
+						latest_chapter: latest_chapter
 					});
 				});
 
@@ -111,7 +115,7 @@ export default class DM5 extends Base {
 			).then(r => r.text()).then(response => {
 				var comicIndex = $(response);
 				var chapterInfos = comicIndex.find('.nr6.lan2>li>.tg').toArray().map((a) => {
-					var _rawID = $(a).attr('href')
+					var _rawID = $(a).attr('href');
 					return({
 						title: $(a).attr('title'),
 						link: this.joinBaseUrl(_rawID),
@@ -127,7 +131,7 @@ export default class DM5 extends Base {
 		});
 	}
 
-	static getChapterImages(cid, callback=null) {
+	static getChapterImages(cid) {
 		// images comes in pairs, we only concat them in odd
 		// [12] 23 [34] 45 [56] 67 [78] 89 [9]
 		// [12] 23 [34] 45 [56] 67 [78] 89 [910] 10
@@ -152,7 +156,7 @@ export default class DM5 extends Base {
 		return new Promise((resolve, reject) => {
 			if (this.chapterCountData[cid]) {
 				resolve(this.chapterCountData[cid]);
-				return
+				return;
 			}
 
 			fetch(this.getChapterURL(cid)).then(r => r.text()).then(_html => {
@@ -162,7 +166,7 @@ export default class DM5 extends Base {
 				this.chapterCountData[cid] = imagesCount;
 
 				resolve(imagesCount);
-			})
+			});
 		});
 	}
 
