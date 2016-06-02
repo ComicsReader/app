@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import { Router, Route, hashHistory } from 'react-router'
+import { Router, Route, hashHistory } from 'react-router';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -21,9 +21,9 @@ injectTapEventPlugin();
 const App = () => (
 	<MuiThemeProvider muiTheme={getMuiTheme()}>
 		<Router history={hashHistory}>
-		  <Route path="/" component={Collection}/>
-		  <Route path="/reader/:site/:chapter" component={Reader}/>
-		  <Route path="/explore" component={Explorer}/>
+			<Route path="/" component={Collection}/>
+			<Route path="/reader/:site/:chapter" component={Reader}/>
+			<Route path="/explore" component={Explorer}/>
 		</Router>
 	</MuiThemeProvider>
 );

@@ -2,9 +2,9 @@ import React, {
 	Component
 } from 'react';
 
-import { Link } from 'react-router'
+import { Link } from 'react-router';
 
-import Radium from 'radium'
+import Radium from 'radium';
 
 import { AppBar, Drawer, MenuItem } from 'material-ui';
 import { grey800, grey50 } from 'material-ui/styles/colors';
@@ -12,7 +12,7 @@ import IconButton from 'material-ui/IconButton';
 import FlatButton from 'material-ui/FlatButton';
 
 import Waypoint from 'react-waypoint';
-import queryString from 'query-string'
+import queryString from 'query-string';
 
 import DM5 from '../comics/dm5';
 import ComicImage from '../components/ComicImage';

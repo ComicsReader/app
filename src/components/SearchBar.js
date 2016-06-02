@@ -30,7 +30,7 @@ export default class SearhBar extends Component {
 		const { onSubmit } = this.props;
 		if (e.key === 'Enter') {
 			if (onSubmit) {
-				onSubmit(this.state.value)
+				onSubmit(this.state.value);
 			}
 		}
 	}
@@ -44,7 +44,7 @@ export default class SearhBar extends Component {
 			<div style={style.container}>
 				<input type="text" style={style.input} placeholder="搜尋漫畫..." onKeyPress={this.handleKeyPress} onChange={this.onChange}/>
 			</div>
-		)
+		);
 	}
 }
 

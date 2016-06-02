@@ -104,7 +104,7 @@ export default class ChapterListView extends Component {
 			if (typeof this.state.comicImages[cid] === 'undefined') {
 				var comicImages = {...this.state.comicImages};
 				comicManager.getChapterImages(cid).then(images => {
-					comicImages[cid] = {...comicImages[cid], images: images}
+					comicImages[cid] = {...comicImages[cid], images: images};
 					this.setState({
 						comicImages: comicImages
 					});
@@ -217,7 +217,7 @@ export default class ChapterListView extends Component {
 
 					this.loadNextChapter(() => {
 						this.setState({isLoading: false});
-					})
+					});
 				}
 			}
 		}

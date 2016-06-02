@@ -14,20 +14,20 @@ export default class DM5 extends Base {
 
 	static getChapters(comicID) {
 		return new Promise((resolve, reject) => {
-			this.getComicInfo(comicID, 'chapters').then(chapters => resolve(chapters))
+			this.getComicInfo(comicID, 'chapters').then(chapters => resolve(chapters));
 		});
 	}
 
 	static getComicName(comicID) {
 		return new Promise((resolve, reject) => {
-			this.getComicInfo(comicID, 'comicName').then(comicName => resolve(comicName))
+			this.getComicInfo(comicID, 'comicName').then(comicName => resolve(comicName));
 		});
 	}
 
 	static getComicInfo(comicID, type='chapters') {
 		return new Promise((resolve, reject) => {
 			if (typeof this.chapterCache[comicID] === 'undefined') {
-				this.chapterCache[comicID] = {}
+				this.chapterCache[comicID] = {};
 			} else if (this.chapterCache[comicID].hasOwnProperty(type)) {
 				resolve(this.chapterCache[comicID][type]);
 				return;
@@ -38,7 +38,7 @@ export default class DM5 extends Base {
 				this.chapterCache[comicID].comicName = info.comicName;
 
 				resolve(this.chapterCache[comicID][type]);
-			})
+			});
 		});
 	}
 
@@ -66,10 +66,10 @@ export default class DM5 extends Base {
 					return {
 						comicID: eval(/[^,]+?,[^,]+?[^,]+?,[^,]+?,([^,]+?),/g.exec($(li).attr('onmouseover'))[1]).replace(/\//g, ''),
 						title: $(li).attr('title')
-					}
-				})
+					};
+				});
 				resolve(array);
-			})
+			});
 		});
 	}
 
@@ -81,9 +81,14 @@ export default class DM5 extends Base {
 				var results = $html.find('.ssnrk').toArray().map(div => {
 					$(div).find('.ssnr_bt a font').replaceWith('//////');
 
-					var $chapter = $(div).find('.ssnr_yt .ff.mato10.sr_dlj.matoa a').first()
+					var $chapter = $(div).find('.ssnr_yt .ff.mato10.sr_dlj.matoa a').first();
 					var latest_chapter = null;
-					if ($chapter !== 'undefined') { latest_chapter = $chapter.attr('href').replace(/\//g, '') }
+					if (typeof $chapter !== 'undefined') {
+						var href = $chapter.attr('href');
+						if (typeof href !== 'undefined') {
+							latest_chapter = href.replace(/\//g, '');
+						}
+					}
 
 					return({
 						cover_img: $(div).find('.ssnr_yt img').first().attr('src'),
@@ -93,15 +98,15 @@ export default class DM5 extends Base {
 					});
 				});
 
-				var total = parseInt($html.find('.flr strong').text())
+				var total = parseInt($html.find('.flr strong').text());
 
 				var res = {
 					comics: results,
 					current_page: page,
 					total_page: Math.ceil(total/20)
-				}
+				};
 				resolve(res);
-			})
+			});
 		});
 	}
 
@@ -120,7 +125,7 @@ export default class DM5 extends Base {
 						title: $(a).attr('title'),
 						link: this.joinBaseUrl(_rawID),
 						cid: /^\/m(\d+)/.exec(_rawID)[1]
-					})
+					});
 				});
 
 				resolve({

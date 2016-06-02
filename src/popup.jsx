@@ -25,21 +25,21 @@ var Card=React.createClass({
 	mixins:[StylePropable,PureRenderMixin],
 
 	getInitialState: function() {
-	    return {
-	      titleHovered: false,
-	      siteHovered: false,
-	      readedHovered: false,
-	    }
+			return {
+				titleHovered: false,
+				siteHovered: false,
+				readedHovered: false,
+			}
 	},
 
 	childContextTypes: {
-	    muiTheme: React.PropTypes.object
+			muiTheme: React.PropTypes.object
 	},
 
 	getChildContext: function() {
-	    return {
-	      muiTheme: ThemeManager.getCurrentTheme()
-	    }
+			return {
+				muiTheme: ThemeManager.getCurrentTheme()
+			}
 	},
 
 	getStyles:function(){
@@ -66,23 +66,23 @@ var Card=React.createClass({
 			},
 			cardLink:{
 				fontSize: 15,
-			    lineHeight: 24+'px',
-			    fontWeight: 400,
-			    letterSpacing: 0,
-			    padding: 0,
-			    marginTop: 0,
-			    marginBottom: 5,
-			    color:'black'
+					lineHeight: 24+'px',
+					fontWeight: 400,
+					letterSpacing: 0,
+					padding: 0,
+					marginTop: 0,
+					marginBottom: 5,
+					color:'black'
 			},
 			cardTitle:{
 				fontSize: 24,
-			    lineHeight: 32+'px',
-			    fontWeight: 400,
-			    letterSpacing: 0,
-			    padding: 0,
-			    marginTop: 0,
-			    marginBottom: 5,
-			    color:'black'
+					lineHeight: 32+'px',
+					fontWeight: 400,
+					letterSpacing: 0,
+					padding: 0,
+					marginTop: 0,
+					marginBottom: 5,
+					color:'black'
 			},
 			hovered:{
 				color:'blue',
@@ -205,32 +205,32 @@ var Card=React.createClass({
 
 var Cards=React.createClass({
 	childContextTypes: {
-	    muiTheme: React.PropTypes.object
+			muiTheme: React.PropTypes.object
 	},
 
 	getChildContext: function() {
-	    return {
-	      muiTheme: ThemeManager.getCurrentTheme()
-	    };
+			return {
+				muiTheme: ThemeManager.getCurrentTheme()
+			};
 	},
 	getInitialState:function(){
 		return {collectedItems:[],historyItems:[],updateItems:[]};
 	},
 	componentDidMount:function(){
 		chrome.storage.local.get('collected',function(items){
-      		// console.log('get collected',items);
-      		var urllist=items.collected;
-      		this.setState({collectedItems:urllist});
+					// console.log('get collected',items);
+					var urllist=items.collected;
+					this.setState({collectedItems:urllist});
 		}.bind(this));
 		chrome.storage.local.get('readed',function(items){
-      		// console.log('get readed',items);
-      		var urllist=items.readed;
-      		this.setState({historyItems:urllist});
+					// console.log('get readed',items);
+					var urllist=items.readed;
+					this.setState({historyItems:urllist});
 		}.bind(this));
 		chrome.storage.local.get('update',function(items){
-      		// console.log('get update',items);
-      		var urllist=items.update;
-      		this.setState({updateItems:urllist});
+					// console.log('get update',items);
+					var urllist=items.update;
+					this.setState({updateItems:urllist});
 		}.bind(this));
 	},
 	render:function(){
@@ -239,19 +239,19 @@ var Cards=React.createClass({
 			<AppCanvas>
 				<Tabs>
 					 <Tab label="Update" >
-					   <div >
-					    {this._getUpdateChildren()}
-					   </div>
+						 <div >
+							{this._getUpdateChildren()}
+						 </div>
 					 </Tab>
 					 <Tab label="Subscribed" >
-					   <div >
-					    {this._getCollectedChildren()}
-					   </div>
+						 <div >
+							{this._getCollectedChildren()}
+						 </div>
 					 </Tab>
 					 <Tab label="History" >
-					   <div >
-					    {this._getHistoryChildren()}
-					   </div>
+						 <div >
+							{this._getHistoryChildren()}
+						 </div>
 					 </Tab>
 				</Tabs>
 			</AppCanvas>
@@ -342,7 +342,7 @@ var Cards=React.createClass({
 		chrome.storage.local.set({update:array});
 		this.setState({updateItems:array});
 		var badgeText=(array.length===0)?"":array.length.toString();
-      	chrome.browserAction.setBadgeText({text:badgeText});
+				chrome.browserAction.setBadgeText({text:badgeText});
 	}
 
 });
