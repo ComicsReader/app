@@ -25,25 +25,25 @@ export default class Reader extends Component {
 		super(props);
 		this.state = {
 			drawerOpen: false,
-			appBarTitle: "Loading...",
+			appBarTitle: 'Loading...',
 			chapters: [],
 			isLoading: false,
 			comicManager: null,
 			viewingCID: null,
 			comicListRefresh: false,
-			comicID: null,
+			comicID: null
 		};
 	}
 
 	async componentDidMount() {
 		// m251123, m144591, m4866
-		const { site, chapter } = this.props.params;
+		const { chapter } = this.props.params;
 		DM5.fetchComicIDbyChapterID(chapter).then(comicID => {
 			this.setState({
 				comicManager: DM5,
 				comicID: comicID
-			})
-		})
+			});
+		});
 	}
 
 	handleToggle = () => {
@@ -56,8 +56,8 @@ export default class Reader extends Component {
 				viewingCID: chapterItem.cid,
 				drawerOpen: false,
 				comicListRefresh: true
-			})
-		}
+			});
+		};
 	}
 
 	renderComicListView = () => {
@@ -65,14 +65,14 @@ export default class Reader extends Component {
 			return(
 				<ComicListView
 					comicManager={this.state.comicManager}
-					onChaptersLoaded={(chapters) => { this.setState({chapters}) }}
-					onViewingChapterChanged={(title, cid) => { this.setState({appBarTitle: title, viewingCID: cid, comicListRefresh: false}) }}
+					onChaptersLoaded={(chapters) => { this.setState({chapters}); }}
+					onViewingChapterChanged={(title, cid) => { this.setState({appBarTitle: title, viewingCID: cid, comicListRefresh: false}); }}
 					viewingCID={this.state.viewingCID}
 					refresh={this.state.comicListRefresh}
 					scrollContainerRef={this.refs.scrollContainer}
 					comicID={this.state.comicID}
 				/>
-			)
+			);
 		}
 		return null;
 	}
@@ -115,7 +115,7 @@ export default class Reader extends Component {
 							</MenuItem>
 							{
 								this.state.chapters.map((chapterItem) => {
-									var style = (this.state.viewingCID === chapterItem.cid) ? { backgroundColor: 'rgba(0, 0, 0, 0.098)' } : {}
+									var style = (this.state.viewingCID === chapterItem.cid) ? { backgroundColor: 'rgba(0, 0, 0, 0.098)' } : {};
 									return(
 										<MenuItem
 											onClick={this.handleChapterClick(chapterItem)}
@@ -124,7 +124,7 @@ export default class Reader extends Component {
 										>
 											{chapterItem.title}
 										</MenuItem>
-									)
+									);
 								})
 							}
 						</Drawer>

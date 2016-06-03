@@ -4,9 +4,11 @@ import {
 
 import { Link } from 'react-router';
 
-import TextField from 'material-ui/TextField';
+import Radium from 'radium';
+import Promise from 'bluebird';
 
-import { grey800, grey50 } from 'material-ui/styles/colors';
+import TextField from 'material-ui/TextField';
+import { grey800, grey700, grey50 } from 'material-ui/styles/colors';
 import { AppBar, Drawer, MenuItem } from 'material-ui';
 
 import DM5 from '../comics/dm5';
@@ -14,6 +16,7 @@ import SearchBar from '../components/SearchBar';
 import ComicBook from '../components/ComicBook';
 import LoadIndicator from '../components/LoadIndicator';
 
+@Radium
 export default class Explorer extends Component {
 
 	constructor(props) {
@@ -22,12 +25,13 @@ export default class Explorer extends Component {
 			comics: [],
 			current_page: 1,
 			total_page: 0,
-			isLoading: false
+			isLoading: false,
+			drawerOpen: false
 		};
 	}
 
 	componentDidMount() {
-		this.onSubmit('美');
+		this.onSubmit.bind(this)('美');
 	}
 
 	onSubmit = (value) => {
@@ -40,22 +44,17 @@ export default class Explorer extends Component {
 			});
 
 			if (r.total_page > 1) {
-				// var page_groups = [...Array(r.total_page - 1).keys()].map(i => i+2).reduce((prev, cur) => {
-				// 	var cur_page = parseInt(cur / 5);
-				// 	if (typeof prev[cur_page] === 'undefined') { prev[cur_page] = []; }
-				// 	prev[cur_page] = [...prev[cur_page], cur];
-				// 	return prev;
-				// }, []);
-
-				Promise.all([...Array(r.total_page - 1).keys()].map(i => i+2).map(page => DM5.search(value, page))).then(otherResults => {
-
-					var comics = otherResults.reduce((prev, cur) => {
-						return [...prev, ...cur.comics];
-					}, []);
-
-					this.setState({comics: [...r.comics, ...comics], current_page: r.current_page, total_page: r.total_page});
-					this.setState({isLoading: false});
+				Promise.reduce([...Array(r.total_page - 1).keys()].map(i => i+2), (comics, page) => {
+					return DM5.search(value, page).then(r => {
+						var c = [...comics, ...r.comics];
+						this.setState({comics: c, current_page: r.current_page, total_page: r.total_page});
+						return c;
+					});
+				}, []).then(comics => {
+					this.setState({comics: comics});
 				});
+				this.setState({isLoading: false});
+
 			} else {
 				this.setState({isLoading: false});
 			}
@@ -64,18 +63,41 @@ export default class Explorer extends Component {
 
 	render() {
 		return(
-			<div>
+			<div style={{height: '100%', overflow: 'hidden'}}>
 				<AppBar
 					title="Explore"
 					style={{backgroundColor: grey800, position: 'fixed'}}
 					// iconElementRight={<Link to="/"><FlatButton label="收藏" /></Link>}
 					// iconElementRight={ <i className="material-icons md-36">face</i> }
-					// onLeftIconButtonTouchTap={this.handleToggle}
+					onLeftIconButtonTouchTap={() => { this.setState({drawerOpen: !this.state.drawerOpen}); }}
 				>
-				<SearchBar onSubmit={this.onSubmit}/>
+				<SearchBar onSubmit={this.onSubmit.bind(this)}/>
 				</AppBar>
 
-				<div style={{padding: '80px 8% 20px', textAlign: 'center'}}>
+				<Drawer
+					open={this.state.drawerOpen}
+					containerStyle={{backgroundColor: grey800}}
+					width={300}
+					docked={false}
+					onRequestChange={(drawerOpen) => this.setState({drawerOpen})}
+					overlayStyle={{backgroundColor: 'transparent'}}
+					style={{color: grey50}}
+				>
+					<MenuItem style={{color: grey50, paddingLeft: 10, lineHeight: '60px'}}>
+						<i className="material-icons" style={{fontSize: 22, verticalAlign: 'middle', marginRight: 30}}>search</i>
+							Search
+					</MenuItem>
+					<MenuItem style={{color: grey50, paddingLeft: 10, lineHeight: '60px'}}>
+						<i className="material-icons" style={{fontSize: 22, verticalAlign: 'middle', marginRight: 30}}>history</i>
+							Recent
+					</MenuItem>
+					<MenuItem style={{color: grey50, paddingLeft: 10, lineHeight: '60px'}}>
+						<i className="material-icons" style={{fontSize: 22, verticalAlign: 'middle', marginRight: 30}}>library_books</i>
+							Collection
+					</MenuItem>
+				</Drawer>
+
+				<div style={{padding: '80px 20px 0', textAlign: 'center', height: 'calc(100% - 80px)', 'overflow-y': 'scroll'}}>
 					{
 						this.state.comics.map(comic => {
 							return(<ComicBook {...comic} key={comic.comicID}/>);
