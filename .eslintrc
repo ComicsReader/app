@@ -34,6 +34,7 @@
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "extends": ["eslint:recommended", "plugin:react/recommended"]
     }
 }
