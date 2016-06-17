@@ -35,7 +35,7 @@ export default class Explorer extends Component {
 	}
 
 	onSubmit = (value) => {
-		this.setState({isLoading: true});
+		this.setState({isLoading: true, comics: []});
 		DM5.search(value).then(r => {
 			this.setState({
 				comics: r.comics,
