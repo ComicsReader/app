@@ -10,42 +10,15 @@ import ComicImage from './ComicImage';
 import ChapterSeperator from './ChapterSeperator';
 import LoadIndicator from './LoadIndicator';
 
-// var comicImages = {
-//   "12345": { // cid
-//     count: 20,
-//     images: [
-//       "fghjmnm,..png",
-//       "fghjmnm,..png",
-//       "fghjmnm,..png"
-//     ]
-//   }
-// }
-
-// var chapters = {
-//   "manhua-yiquanchaoren": [
-//     {
-//       title: "rtyukjkl"
-//       link: "sfdafg"
-//       cid: "asdfasdf",
-//       next: "12333",
-//       previous: null
-//     },
-//     {
-//       title: "rtyukjkl"
-//       link: "sfdafg"
-//       cid: "12333"
-//     }
-//   ]
-// }
-
-export default class ChapterListView extends Component {
+export default class ComicListView extends Component {
 	static propTypes = {
 		comicManager: PropTypes.func.isRequired,
 		viewingCID: PropTypes.string,
 		onChaptersLoaded: PropTypes.func,
 		onViewingChapterChanged: PropTypes.func,
 		refresh: PropTypes.bool,
-		comicID: PropTypes.string
+		comicID: PropTypes.string,
+		scrollContainerRef: PropTypes.object
 	}
 
 	constructor(props) {
@@ -265,7 +238,7 @@ export default class ChapterListView extends Component {
 						this.state.comicImages[chapter.cid].images.map((image, index) => {
 							return(
 								<ComicImage key={image} src={image} ref={this.comicRef(chapter.cid, index)}/>
-							)
+							);
 						})
 						: <LoadIndicator />
 				}

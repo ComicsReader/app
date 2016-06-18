@@ -5,7 +5,7 @@
         "commonjs": true,
         "es6": true
     },
-    "extends": "eslint:recommended",
+    "extends": ["eslint:recommended", "plugin:react/recommended"],
     "installedESLint": true,
     "parserOptions": {
         "ecmaFeatures": {
@@ -35,6 +35,7 @@
             "error",
             "always"
         ],
-        "extends": ["eslint:recommended", "plugin:react/recommended"]
+        "react/jsx-uses-react": "warn",
+        "react/react-in-jsx-scope": "off"
     }
 }

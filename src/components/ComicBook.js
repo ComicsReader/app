@@ -1,5 +1,6 @@
 import {
-	Component
+	Component,
+	PropTypes
 } from 'react';
 
 import { Link } from 'react-router';
@@ -26,6 +27,12 @@ const style = {
 };
 
 export default class ComicBook extends Component {
+	static propTypes = {
+		cover_img: PropTypes.string,
+		latest_chapter: PropTypes.string,
+		comicName: PropTypes.string
+	}
+
 	render() {
 		const {
 			cover_img,

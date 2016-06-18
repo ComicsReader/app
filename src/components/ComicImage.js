@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component, PropTypes } from 'react';
 
 const styles = {
 	imageStyle: {
@@ -25,9 +25,14 @@ const styles = {
 			borderWidth: 0
 		}
 	}
-}
+};
 
 export default class ComicImage extends Component {
+	static propTypes = {
+		src: PropTypes.string,
+		style: PropTypes.object
+	}
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -35,7 +40,7 @@ export default class ComicImage extends Component {
 			containerStyle: styles.containerStyle.inactive,
 			width: 700,
 			height: 1000
-		}
+		};
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -49,18 +54,18 @@ export default class ComicImage extends Component {
 		this.setState({
 			style: styles.imageStyle.active,
 			containerStyle: styles.containerStyle.active
-		})
+		});
 	}
 
 	inactivate = () => {
 		this.setState({
 			style: styles.imageStyle.inactive,
 			containerStyle: styles.containerStyle.inactive
-		})
+		});
 	}
 
 	onImageLoad = () => {
-		if (this.refs.image.src && this.refs.image.src !== "") {
+		if (this.refs.image.src && this.refs.image.src !== '') {
 			this.activate();
 		}
 	}
@@ -89,6 +94,6 @@ export default class ComicImage extends Component {
 					onLoad={this.onImageLoad}
 				/>
 			</div>
-		)
+		);
 	}
 }
