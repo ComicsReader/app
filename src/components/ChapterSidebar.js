@@ -8,21 +8,19 @@ import { grey800, grey50 } from 'material-ui/styles/colors';
 
 export default class ChapterSidebar extends Component {
 	static propTypes = {
-		onChapterItemClick: PropTypes.function,
+		onChapterItemClick: PropTypes.func,
 		chapters: PropTypes.array,
-		drawerAutoClose: PropTypes.boolean
+		drawerAutoClose: PropTypes.bool
+	}
+
+	static defaultProps = {
+		drawerAutoClose: false
 	}
 
 	constructor(props) {
 		super(props);
 		this.state = {
 			drawerOpen: false
-		};
-	}
-
-	getDefaultProps() {
-		return {
-			drawerAutoClose: false
 		};
 	}
 

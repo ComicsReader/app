@@ -1,5 +1,6 @@
 import {
-	Component
+	Component,
+	PropTypes
 } from 'react';
 
 import Paper from 'material-ui/Paper';
@@ -26,6 +27,10 @@ const style = {
 };
 
 export default class SearhBar extends Component {
+	static propTypes = {
+		onSubmit: PropTypes.func
+	}
+
 	handleKeyPress = e => {
 		const { onSubmit } = this.props;
 		if (e.key === 'Enter') {
