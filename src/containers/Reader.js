@@ -2,20 +2,23 @@ import React, {
 	Component
 } from 'react';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux'
 import { Link } from 'react-router';
 
 import Radium from 'radium';
 
-import { AppBar, Drawer, MenuItem } from 'material-ui';
-import { grey800, grey50 } from 'material-ui/styles/colors';
+import { AppBar } from 'material-ui';
+import { grey800 } from 'material-ui/styles/colors';
 import FlatButton from 'material-ui/FlatButton';
 
-import DM5 from '../comics/dm5';
 import ComicListView from '../components/ComicListView';
 import ChapterSidebar from '../components/ChapterSidebar';
 
+import * as ChapterActions from '../actions/ChapterActions';
+
 @Radium
-export default class Reader extends Component {
+class Reader extends Component {
 
 	constructor(props) {
 		super(props);
@@ -30,52 +33,33 @@ export default class Reader extends Component {
 		};
 	}
 
-	async componentDidMount() {
+	componentDidMount() {
 		// m251123, m144591, m4866
-		const { chapter } = this.props.params;
-		DM5.fetchComicIDbyChapterID(chapter).then(comicID => {
-			this.setState({
-				comicManager: DM5,
-				comicID: comicID
-			});
-		});
+		const { site, chapter } = this.props.params;
+		const { initComicManager } = this.props;
+
+		initComicManager(site, chapter);
 	}
 
-	// handleToggle = () => {
-	// 	this.setState({drawerOpen: !this.state.drawerOpen});
-	// }
-
 	handleChapterClick = (chapterItem) => {
+		const { switchChapter, comicManager, chapters, history } = this.props;
 		return () => {
-			this.setState({
-				viewingCID: chapterItem.cid,
-				comicListRefresh: true
-			});
+			switchChapter({comicManager, chapterItem, chapters, history});
 		};
 	}
 
-	renderComicListView = () => {
-		if (this.state.comicManager) {
-			return(
-				<ComicListView
-					comicManager={this.state.comicManager}
-					onChaptersLoaded={(chapters) => { this.setState({chapters}); }}
-					onViewingChapterChanged={(title, cid) => { this.setState({appBarTitle: title, viewingCID: cid, comicListRefresh: false}); }}
-					viewingCID={this.state.viewingCID}
-					refresh={this.state.comicListRefresh}
-					scrollContainerRef={this.refs.scrollContainer}
-					comicID={this.state.comicID}
-				/>
-			);
-		}
-		return null;
-	}
-
 	render() {
+		const {
+			readingComicID,
+			readingImages,
+			chapters,
+			appBarTitle
+		} = this.props;
+
 		return(
 			<div style={{overflow: 'hidden'}}>
 				<AppBar
-					title={this.state.appBarTitle}
+					title={appBarTitle}
 					style={{backgroundColor: grey800, position: 'fixed'}}
 					iconElementRight={<Link to="/"><FlatButton label="收藏" /></Link>}
 					// iconElementRight={ <i className="material-icons md-36">face</i> }
@@ -92,13 +76,26 @@ export default class Reader extends Component {
 					}}
 				>
 					<ChapterSidebar
-						chapters={this.state.chapters}
+						chapters={chapters}
 						onChapterItemClick={this.handleChapterClick}
 						drawerAutoClose={true}
 					/>
-					{ this.renderComicListView() }
+					<ComicListView
+						comicImages={readingImages}
+					/>
+					{ /* this.renderComicListView()*/ }
 				</div>
 			</div>
 		);
 	}
 }
+
+export default connect(state => {
+	/* map state to props */
+	return {
+		...state.comics
+	};
+}, dispatch => {
+	/* map dispatch to props */
+	return(bindActionCreators(ChapterActions, dispatch));
+})(Reader);

@@ -4,7 +4,7 @@ var webpack=require('webpack');
 module.exports={
 	devtool: 'source-map',
 	entry:{
-		app_min:'./src/app/app.jsx',
+		app_min:'./src/App.js',
 		background:'./src/background.js',
 		popup_min:'./src/popup.jsx'
 	},
@@ -25,9 +25,9 @@ module.exports={
 			test:/\.css$/,
 			loader: ExtractTextPlugin.extract('style-loader','css-loader')
 		},{
-			test: /\.(png|jpg|gif)$/, 
+			test: /\.(png|jpg|gif)$/,
 			loader: 'url-loader?limit=8192'
-		},{ test: /\.(ttf|eot|svg)$/, 
+		},{ test: /\.(ttf|eot|svg)$/,
 			loader: 'url-loader?limit=100000' }
 		]
 	},
@@ -47,6 +47,6 @@ module.exports={
 	            comparisons:true,
 	            warnings:false
 	          }
-		})        
+		})
     ]
 }

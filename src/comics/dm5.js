@@ -12,6 +12,8 @@ export default class DM5 extends Base {
 	static chapterCountData = {};
 	static chapterCache     = {};
 
+	static siteName = 'dm5';
+
 	static getChapters(comicID) {
 		return new Promise((resolve, reject) => {
 			this.getComicInfo(comicID, 'chapters').then(chapters => resolve(chapters));
@@ -137,6 +139,7 @@ export default class DM5 extends Base {
 	}
 
 	static getChapterImages(cid) {
+		if (cid[0] === 'm') { cid = cid.slice(1, cid.length) }
 		// images comes in pairs, we only concat them in odd
 		// [12] 23 [34] 45 [56] 67 [78] 89 [9]
 		// [12] 23 [34] 45 [56] 67 [78] 89 [910] 10
@@ -201,6 +204,10 @@ export default class DM5 extends Base {
 
 	static getCID(chapterID) {
 		return /^m(\d+)/.exec(chapterID)[1];
+	}
+
+	static getChapterID(cid) {
+		return(`m${cid}`);
 	}
 
 }

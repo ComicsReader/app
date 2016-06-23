@@ -62,9 +62,6 @@
 		"react/prefer-es6-class": ["warn", "always"],
 		"react/jsx-no-bind": "warn",
 		"react/jsx-closing-bracket-location": "warn",
-		"react/jsx-equals-spacing": "warn",
-		"react/jsx-curly-spacing": ["warn", "always", {"spacing": {
-			"objectLiterals": "never"
-		}}]
+		"react/jsx-equals-spacing": "warn"
 	}
 }
