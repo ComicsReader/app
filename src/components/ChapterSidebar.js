@@ -10,7 +10,8 @@ export default class ChapterSidebar extends Component {
 	static propTypes = {
 		onChapterItemClick: PropTypes.func,
 		chapters: PropTypes.array,
-		drawerAutoClose: PropTypes.bool
+		drawerAutoClose: PropTypes.bool,
+		isSelected: PropTypes.func
 	}
 
 	static defaultProps = {
@@ -34,7 +35,7 @@ export default class ChapterSidebar extends Component {
 	}
 
 	render() {
-		const { chapters } = this.props;
+		const { chapters, isSelected } = this.props;
 
 		return(
 			<Drawer
@@ -54,12 +55,13 @@ export default class ChapterSidebar extends Component {
 				</MenuItem>
 				{
 					chapters.map((chapterItem) => {
-						// var style = (this.state.viewingCID === chapterItem.cid) ? { backgroundColor: 'rgba(0, 0, 0, 0.098)' } : {};
+
+						var style = isSelected(chapterItem) ? { backgroundColor: 'rgba(0, 0, 0, 0.098)' } : {};
 						return(
 							<MenuItem
 								// onClick={this.handleChapterClick(chapterItem)}
 								onClick={this.onChapterItemClick(chapterItem)}
-								// style={style}
+								style={style}
 								innerDivStyle={{paddingLeft: 37}}
 							>
 								{chapterItem.title}

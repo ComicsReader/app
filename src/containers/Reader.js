@@ -1,9 +1,10 @@
 import React, {
-	Component
+	Component,
+	PropTypes
 } from 'react';
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux'
+import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 
 import Radium from 'radium';
@@ -12,45 +13,86 @@ import { AppBar } from 'material-ui';
 import { grey800 } from 'material-ui/styles/colors';
 import FlatButton from 'material-ui/FlatButton';
 
+import Icon from '../components/Icon';
 import ComicListView from '../components/ComicListView';
 import ChapterSidebar from '../components/ChapterSidebar';
 
 import * as ChapterActions from '../actions/ChapterActions';
+import { getNextChapterIndex, getPreviousChapterIndex } from '../reducers/selectors';
+
+import '../styles/SwitchArea.scss';
+
+const styles = {
+	iconStyle: {fontSize: 22, verticalAlign: 'middle', marginRight: 30}
+};
 
 @Radium
 class Reader extends Component {
+	static propTypes = {
+		/* injected by redux */
+		readingComicID: PropTypes.string,
+		readingCID: PropTypes.string,
+		readingImages: PropTypes.array,
+		chapters: PropTypes.array,
+		appBarTitle: PropTypes.string.isRequired,
+		/* redux actions */
+		switchChapter: PropTypes.func,
+		comicManager: PropTypes.object,
+		switchChapterRequest: PropTypes.object,
+		initComicManager: PropTypes.func,
+		params: PropTypes.object
+	}
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			appBarTitle: 'Loading...',
-			chapters: [],
-			isLoading: false,
-			comicManager: null,
-			viewingCID: null,
-			comicListRefresh: false,
-			comicID: null
-		};
 	}
 
 	componentDidMount() {
-		// m251123, m144591, m4866
+		this.init();
+	}
+
+	componentWillReceiveProps(nextProps) {
+		const { site: nextSite, chapter: nextChapter } = nextProps.params;
+		const { site, chapter } = this.props.params;
+		const {comicManager, chapters, switchChapter} = this.props;
+
+		if (nextSite !== site) {
+			this.init();
+		} else if (nextChapter !== chapter) {
+			let chapterItem = chapters.find(c => c.cid == comicManager.getCID(chapter));
+			switchChapter({chapterItem});
+		}
+
+	}
+
+	init = () => {
 		const { site, chapter } = this.props.params;
 		const { initComicManager } = this.props;
 
-		initComicManager(site, chapter);
+		initComicManager({site, chapterID: chapter});
 	}
 
 	handleChapterClick = (chapterItem) => {
-		const { switchChapter, comicManager, chapters, history } = this.props;
+		const { switchChapter } = this.props;
 		return () => {
-			switchChapter({comicManager, chapterItem, chapters, history});
+			switchChapter(chapterItem);
 		};
 	}
 
+	switchChapterBy = (getterFunction) => {
+		return () => {
+			const { chapters, readingCID, switchChapter } = this.props;
+			let index = getterFunction(chapters, readingCID);
+			if ( index != -1 ) {
+				switchChapter(chapters[index]);
+			}
+		};
+	}
+
+	sidebarIsSelected = (chapterItem) => this.props.readingCID == chapterItem.cid;
+
 	render() {
 		const {
-			readingComicID,
 			readingImages,
 			chapters,
 			appBarTitle
@@ -75,15 +117,21 @@ class Reader extends Component {
 						width: 'calc(100% - 35px)'
 					}}
 				>
+					<div className='switchArea' onClick={this.switchChapterBy(getPreviousChapterIndex)}>
+						<Icon iconName='navigate_before'/>
+					</div>
+					<div className='switchArea right' onClick={this.switchChapterBy(getNextChapterIndex)}>
+						<Icon iconName='navigate_next'/>
+					</div>
 					<ChapterSidebar
 						chapters={chapters}
 						onChapterItemClick={this.handleChapterClick}
 						drawerAutoClose={true}
+						isSelected={this.sidebarIsSelected}
 					/>
 					<ComicListView
 						comicImages={readingImages}
 					/>
-					{ /* this.renderComicListView()*/ }
 				</div>
 			</div>
 		);

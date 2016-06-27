@@ -11,10 +11,17 @@ import TextField from 'material-ui/TextField';
 import { grey800, grey700, grey50 } from 'material-ui/styles/colors';
 import { AppBar, Drawer, MenuItem } from 'material-ui';
 
-import DM5 from '../comics/dm5';
+import {comicManagers} from '../services';
+import Icon from '../components/Icon';
 import SearchBar from '../components/SearchBar';
 import ComicBook from '../components/ComicBook';
 import LoadIndicator from '../components/LoadIndicator';
+
+const DM5 = comicManagers.dm5;
+
+const styles = {
+	iconStyle: {fontSize: 22, verticalAlign: 'middle', marginRight: 30}
+};
 
 @Radium
 export default class Explorer extends Component {
@@ -71,7 +78,7 @@ export default class Explorer extends Component {
 					// iconElementRight={ <i className="material-icons md-36">face</i> }
 					onLeftIconButtonTouchTap={() => { this.setState({drawerOpen: !this.state.drawerOpen}); }}
 				>
-				<SearchBar onSubmit={this.onSubmit.bind(this)}/>
+					<SearchBar onSubmit={this.onSubmit.bind(this)}/>
 				</AppBar>
 
 				<Drawer
@@ -84,15 +91,15 @@ export default class Explorer extends Component {
 					style={{color: grey50}}
 				>
 					<MenuItem style={{color: grey50, paddingLeft: 10, lineHeight: '60px'}}>
-						<i className="material-icons" style={{fontSize: 22, verticalAlign: 'middle', marginRight: 30}}>search</i>
+						<Icon iconName="search" style={styles.iconStyle} />
 							Search
 					</MenuItem>
 					<MenuItem style={{color: grey50, paddingLeft: 10, lineHeight: '60px'}}>
-						<i className="material-icons" style={{fontSize: 22, verticalAlign: 'middle', marginRight: 30}}>history</i>
+						<Icon iconName="history" style={styles.iconStyle} />
 							Recent
 					</MenuItem>
 					<MenuItem style={{color: grey50, paddingLeft: 10, lineHeight: '60px'}}>
-						<i className="material-icons" style={{fontSize: 22, verticalAlign: 'middle', marginRight: 30}}>library_books</i>
+						<Icon iconName="library_books" style={styles.iconStyle} />
 							Collection
 					</MenuItem>
 				</Drawer>

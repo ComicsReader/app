@@ -34,6 +34,7 @@ const initialState = {
 	 ]
 	 */
 	readingChapters: [],
+	readingCID: null,
 	readingComicID: null,
 	/*
 	 * readingImages is an array of array
@@ -79,8 +80,16 @@ export default function comics(state = initialState, action) {
 			...state,
 			readingChapters: action.readingChapters,
 			readingImages: action.readingImages,
-			appBarTitle: action.appBarTitle
+			appBarTitle: action.appBarTitle,
+			readingCID: action.readingCID
 			// flattenReadingImages: flatten
+		};
+
+	case t.CLEAR_COMIC_IMAGES:
+		return {
+			...state,
+			readingImages: [],
+			readingCID: null
 		};
 
 	case t.INIT_COMIC_MANAGER:

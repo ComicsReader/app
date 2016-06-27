@@ -1,7 +1,7 @@
 import * as t from '../constants/ActionTypes';
-import comicManagers from '../comics';
+import { comicManagers } from '../services';
 
-export const initComicManager = (site, chapterID) => {
+export const initComicManager = ({site, chapterID}) => {
 	return dispatch => {
 		let comicManager = null;
 
@@ -36,7 +36,8 @@ export const initComicManager = (site, chapterID) => {
 						type: t.SWITCH_CHAPTER,
 						readingChapters: [chapterItem],
 						readingImages: [images],
-						appBarTitle: chapterItem.title
+						appBarTitle: chapterItem.title,
+						readingCID: chapterItem.cid
 					});
 				});
 			});
@@ -44,28 +45,8 @@ export const initComicManager = (site, chapterID) => {
 	};
 };
 
-export const switchChapter = ({comicManager, chapterItem, chapters, history}) => {
+export const switchChapter = (chapterItem) => {
 	return dispatch => {
-		history.push(`/reader/${comicManager.siteName}/${comicManager.getChapterID(chapterItem.cid)}`);
-		dispatch({
-			type: t.SWITCH_CHAPTER,
-			readingImages: [],
-			appBarTitle: chapterItem.title
-		});
-
-		comicManager.getChapterImages(chapterItem.cid).then(images => {
-			dispatch({
-				type: t.SWITCH_CHAPTER,
-				readingImages: [images],
-				appBarTitle: chapterItem.title
-			});
-		});
+		dispatch({type: t.SWITCH_CHAPTER_REQUEST, chapterItem});
 	};
 };
-
-export const switchToNextChapter = (comicManager, comics, curIndex) => {
-	return dispatch => {
-
-	};
-};
-

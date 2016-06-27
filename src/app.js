@@ -4,8 +4,11 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 
+import rootSaga from './sagas';
+
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import { Router, Route, hashHistory } from 'react-router';
+import { Router, Route } from 'react-router';
+import { history } from './services';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -20,12 +23,13 @@ import './less/main.less';
 window.React = React;
 
 let store = configureStore();
+store.runSaga(rootSaga);
 
 injectTapEventPlugin();
 
 const App = () => (
 	<MuiThemeProvider muiTheme={getMuiTheme()}>
-		<Router history={hashHistory}>
+		<Router history={history}>
 			<Route path="/" component={Collection}/>
 			<Route path="/reader/:site/:chapter" component={Reader}/>
 			<Route path="/explore" component={Explorer}/>
