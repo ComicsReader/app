@@ -56,7 +56,7 @@ const initialState = {
 	readingImages: [],
 	flattenReadingImages: [],
 	readingIndex: null,
-	appBarTitle: 'Loading...' ,
+	appBarTitle: 'Loading...',
 	comicName: null,
 
 	comicManager: null
@@ -89,7 +89,8 @@ export default function comics(state = initialState, action) {
 		return {
 			...state,
 			readingImages: [],
-			readingCID: null
+			readingCID: null,
+			appBarTitle: 'Loading...'
 		};
 
 	case t.INIT_COMIC_MANAGER:

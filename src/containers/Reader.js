@@ -59,8 +59,8 @@ class Reader extends Component {
 		if (nextSite !== site) {
 			this.init();
 		} else if (nextChapter !== chapter) {
-			let chapterItem = chapters.find(c => c.cid == comicManager.getCID(chapter));
-			switchChapter({chapterItem});
+			let chapterItem = chapters.find(c => c.cid == comicManager.getCID(nextChapter));
+			switchChapter(chapterItem);
 		}
 
 	}
