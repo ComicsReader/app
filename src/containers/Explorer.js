@@ -1,74 +1,51 @@
 import {
-	Component
+	Component,
+	PropTypes
 } from 'react';
 
-import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import Radium from 'radium';
-import Promise from 'bluebird';
 
 import TextField from 'material-ui/TextField';
 import { grey800, grey700, grey50 } from 'material-ui/styles/colors';
 import { AppBar, Drawer, MenuItem } from 'material-ui';
 
-import {comicManagers} from '../services';
 import Icon from '../components/Icon';
 import SearchBar from '../components/SearchBar';
 import ComicBook from '../components/ComicBook';
 import LoadIndicator from '../components/LoadIndicator';
 
-const DM5 = comicManagers.dm5;
+import * as SearchActions from '../actions/SearchActions';
 
 const styles = {
 	iconStyle: {fontSize: 22, verticalAlign: 'middle', marginRight: 30}
 };
 
 @Radium
-export default class Explorer extends Component {
+class Explorer extends Component {
+	static propTypes = {
+		/* injected by redux */
+		comics: PropTypes.array,
+		isLoading: PropTypes.bool,
+		searchComics: PropTypes.func.required
+	}
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			comics: [],
-			current_page: 1,
-			total_page: 0,
-			isLoading: false,
 			drawerOpen: false
 		};
 	}
 
-	componentDidMount() {
-		this.onSubmit.bind(this)('美');
-	}
-
 	onSubmit = (value) => {
-		this.setState({isLoading: true, comics: []});
-		DM5.search(value).then(r => {
-			this.setState({
-				comics: r.comics,
-				current_page: r.current_page,
-				total_page: r.total_page
-			});
-
-			if (r.total_page > 1) {
-				Promise.reduce([...Array(r.total_page - 1).keys()].map(i => i+2), (comics, page) => {
-					return DM5.search(value, page).then(r => {
-						var c = [...comics, ...r.comics];
-						this.setState({comics: c, current_page: r.current_page, total_page: r.total_page});
-						return c;
-					});
-				}, []).then(comics => {
-					this.setState({comics: comics});
-				});
-				this.setState({isLoading: false});
-
-			} else {
-				this.setState({isLoading: false});
-			}
-		});
+		this.props.searchComics(value);
 	}
 
 	render() {
+		const { comics, isLoading } = this.props;
+
 		return(
 			<div style={{height: '100%', overflow: 'hidden'}}>
 				<AppBar
@@ -78,7 +55,7 @@ export default class Explorer extends Component {
 					// iconElementRight={ <i className="material-icons md-36">face</i> }
 					onLeftIconButtonTouchTap={() => { this.setState({drawerOpen: !this.state.drawerOpen}); }}
 				>
-					<SearchBar onSubmit={this.onSubmit.bind(this)}/>
+					<SearchBar onSubmit={this.onSubmit}/>
 				</AppBar>
 
 				<Drawer
@@ -104,15 +81,25 @@ export default class Explorer extends Component {
 					</MenuItem>
 				</Drawer>
 
-				<div style={{padding: '80px 20px 0', textAlign: 'center', height: 'calc(100% - 80px)', 'overflow-y': 'scroll'}}>
+				<div style={{padding: '80px 20px 0', textAlign: 'center', height: 'calc(100% - 80px)', 'overflowY': 'scroll'}}>
 					{
-						this.state.comics.map(comic => {
+						comics.map(comic => {
 							return(<ComicBook {...comic} key={comic.comicID}/>);
 						})
 					}
-					{ this.state.isLoading ? <LoadIndicator style={{height: 100}}/> : null }
+					{ isLoading ? <LoadIndicator style={{height: 100}}/> : null }
 				</div>
 			</div>
 		);
 	}
 }
+
+export default connect(state => {
+	/* map state to props */
+	return {
+		...state.searchState
+	};
+}, dispatch => {
+	/* map dispatch to props */
+	return(bindActionCreators(SearchActions, dispatch));
+})(Explorer);

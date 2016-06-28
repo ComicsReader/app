@@ -80,19 +80,19 @@ export function search(keyword, page=1) {
 				$(div).find('.ssnr_bt a font').replaceWith('//////');
 
 				var $chapter = $(div).find('.ssnr_yt .ff.mato10.sr_dlj.matoa a').first();
-				var latest_chapter = null;
+				var latestChapter = null;
 				if (typeof $chapter !== 'undefined') {
 					var href = $chapter.attr('href');
 					if (typeof href !== 'undefined') {
-						latest_chapter = href.replace(/\//g, '');
+						latestChapter = href.replace(/\//g, '');
 					}
 				}
 
 				return({
-					cover_img: $(div).find('.ssnr_yt img').first().attr('src'),
+					coverImage: $(div).find('.ssnr_yt img').first().attr('src'),
 					comicName: $(div).find('.ssnr_bt a').text().split('//////')[0],
 					comicID: $(div).find('.ssnr_bt a').attr('href').replace(/\//g, ''),
-					latest_chapter: latest_chapter
+					latestChapter: latestChapter
 				});
 			});
 
@@ -100,8 +100,8 @@ export function search(keyword, page=1) {
 
 			var res = {
 				comics: results,
-				current_page: page,
-				total_page: Math.ceil(total/20)
+				currentPage: page,
+				totalPage: Math.ceil(total/20)
 			};
 			resolve(res);
 		}).catch(error => reject(error));

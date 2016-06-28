@@ -18,3 +18,5 @@ export const getPreviousChapterIndex = (chapters, cid) => {
 		return -1;
 	}
 };
+
+export const getSearchState = (state) => state.searchState;
