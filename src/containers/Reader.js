@@ -110,10 +110,10 @@ class Reader extends Component {
 				<div
 					ref="scrollContainer"
 					style={{
-						marginTop: 80,
+						marginTop: 70,
 						overflow: 'auto',
 						position: 'absolute',
-						height: 'calc(100% - 80px)',
+						height: 'calc(100% - 70px)',
 						width: 'calc(100% - 35px)'
 					}}
 				>

@@ -8,8 +8,7 @@ import { bindActionCreators } from 'redux';
 
 import Radium from 'radium';
 
-import TextField from 'material-ui/TextField';
-import { grey800, grey700, grey50 } from 'material-ui/styles/colors';
+import { grey800, grey50 } from 'material-ui/styles/colors';
 import { AppBar, Drawer, MenuItem } from 'material-ui';
 
 import Icon from '../components/Icon';
@@ -29,7 +28,9 @@ class Explorer extends Component {
 		/* injected by redux */
 		comics: PropTypes.array,
 		isLoading: PropTypes.bool,
-		searchComics: PropTypes.func.required
+		searchComics: PropTypes.func.isRequired,
+		searchKeyword: PropTypes.string,
+		currentPage: PropTypes.number
 	}
 
 	constructor(props) {
@@ -39,8 +40,23 @@ class Explorer extends Component {
 		};
 	}
 
+	componentDidMount() {
+		document.body.onscroll = this.loadMore;
+	}
+
+	componentWillUnmount() {
+		document.body.onscroll = null;
+	}
+
 	onSubmit = (value) => {
 		this.props.searchComics(value);
+	}
+
+	loadMore = () => {
+		if (document.body.scrollHeight - document.body.scrollTop < 1000) {
+			const { searchKeyword, currentPage } = this.props;
+			this.props.searchComics(searchKeyword, currentPage + 1);
+		}
 	}
 
 	render() {
@@ -81,7 +97,7 @@ class Explorer extends Component {
 					</MenuItem>
 				</Drawer>
 
-				<div style={{padding: '80px 20px 0', textAlign: 'center', height: 'calc(100% - 80px)', 'overflowY': 'scroll'}}>
+				<div style={{padding: '80px 20px 0', textAlign: 'center', height: 'calc(100% - 80px)'}} ref="scrollContainerRef">
 					{
 						comics.map(comic => {
 							return(<ComicBook {...comic} key={comic.comicID}/>);

@@ -6,6 +6,7 @@ const initialState = {
 	totalPage: null,
 	isLoading: false,
 
+	searchKeyword: null,
 	searchCache: {}
 };
 
@@ -20,6 +21,7 @@ export default function searchState(state = initialState, action) {
 	case t.APPEND_SEARCH_RESULTS:
 		return {
 			...state,
+			searchKeyword: action.searchKeyword,
 			currentPage: action.currentPage,
 			totalPage: action.totalPage,
 			comics: [...state.comics, ...action.comics],
@@ -29,6 +31,7 @@ export default function searchState(state = initialState, action) {
 	case t.REPLACE_SEARCH_RESULTS:
 		return {
 			...state,
+			searchKeyword: action.searchKeyword,
 			currentPage: action.currentPage,
 			totalPage: action.totalPage,
 			comics: action.comics,

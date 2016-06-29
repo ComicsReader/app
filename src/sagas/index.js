@@ -34,16 +34,17 @@ function* watchSwitchChapter() {
 }
 
 function* searchComics(action) {
-	const {keyword, page=1} = action;
+	const {keyword: searchKeyword, page=1} = action;
 
 	yield put({type: t.SHOW_LOAD_INDICATOR});
 
-	const {comics, currentPage, totalPage} = yield DM5.search(keyword, page);
-	const { currentPage: previousPage } = yield select(getSearchState);
+	const {comics, currentPage, totalPage} = yield DM5.search(searchKeyword, page);
+	const { currentPage: previousPage, searchKeyword: previousKeyword } = yield select(getSearchState);
 
-	if (previousPage == null || (previousPage == currentPage && currentPage == 1)) {
+	if (previousPage == null || (previousPage == currentPage && currentPage == 1) || (previousKeyword != searchKeyword)) {
 		yield put({
 			type: t.REPLACE_SEARCH_RESULTS,
+			searchKeyword,
 			comics,
 			currentPage,
 			totalPage
@@ -52,6 +53,7 @@ function* searchComics(action) {
 	} else if (currentPage > previousPage) {
 		yield put({
 			type: t.APPEND_SEARCH_RESULTS,
+			searchKeyword,
 			comics,
 			currentPage,
 			totalPage
