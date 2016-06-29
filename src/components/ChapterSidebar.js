@@ -56,21 +56,23 @@ export default class ChapterSidebar extends Component {
 					<i className="material-icons" style={{fontSize: 30, verticalAlign: 'middle'}}>keyboard_arrow_left</i>
 					章節
 				</MenuItem>
-				{
-					chapters.map((chapterItem) => {
+				<div style={{height: 'calc(100% - 65px)', overflowY: 'scroll', overflowX: 'hidden'}}>
+					{
+						chapters.map((chapterItem) => {
 
-						var style = isSelected(chapterItem) ? { backgroundColor: 'rgba(0, 0, 0, 0.098)' } : {};
-						return(
-							<MenuItem
-								onClick={this.onChapterItemClick(chapterItem)}
-								style={style}
-								innerDivStyle={{paddingLeft: 37}}
-							>
-								{chapterItem.title}
-							</MenuItem>
-						);
-					})
-				}
+							var style = isSelected(chapterItem) ? { backgroundColor: 'rgba(0, 0, 0, 0.098)' } : {};
+							return(
+								<MenuItem
+									onClick={this.onChapterItemClick(chapterItem)}
+									style={style}
+									innerDivStyle={{paddingLeft: 37}}
+								>
+									{chapterItem.title}
+								</MenuItem>
+							);
+						})
+					}
+				</div>
 			</Drawer>
 		);
 	}
