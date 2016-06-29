@@ -14,6 +14,8 @@ export const initComicManager = ({site, chapterID}) => {
 			break;
 		}
 
+		dispatch({type: t.CLEAR_COMIC_IMAGES});
+
 		comicManager.fetchComicIDbyChapterID(chapterID).then(comicID => {
 			comicManager.getComicName(comicID).then(comicName => {
 				dispatch({
