@@ -12,7 +12,7 @@ export const getNextChapterIndex = (chapters, cid) => {
 
 export const getPreviousChapterIndex = (chapters, cid) => {
 	var index = chapters.findIndex(item => cid == item.cid);
-	if (index != -1 && index+1 < chapters.length-1) {
+	if (index != -1 && index+1 < chapters.length) {
 		return index + 1;
 	} else {
 		return -1;
