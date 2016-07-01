@@ -16,15 +16,13 @@ import FlatButton from 'material-ui/FlatButton';
 import Icon from '../components/Icon';
 import ComicListView from '../components/ComicListView';
 import ChapterSidebar from '../components/ChapterSidebar';
+import NavigationSidebar from '../components/NavigationSidebar';
 
 import * as ChapterActions from '../actions/ChapterActions';
+import {toggleAppDrawer} from '../actions/UIActions';
 import { getNextChapterIndex, getPreviousChapterIndex } from '../reducers/selectors';
 
 import '../styles/SwitchArea.scss';
-
-const styles = {
-	iconStyle: {fontSize: 22, verticalAlign: 'middle', marginRight: 30}
-};
 
 @Radium
 class Reader extends Component {
@@ -40,7 +38,8 @@ class Reader extends Component {
 		comicManager: PropTypes.object,
 		switchChapterRequest: PropTypes.object,
 		initComicManager: PropTypes.func,
-		params: PropTypes.object
+		params: PropTypes.object,
+		dispatch: PropTypes.func
 	}
 
 	constructor(props) {
@@ -91,6 +90,10 @@ class Reader extends Component {
 
 	sidebarIsSelected = (chapterItem) => this.props.readingCID == chapterItem.cid;
 
+	onLeftIconButtonTouchTap = () => {
+		this.props.dispatch(toggleAppDrawer());
+	}
+
 	render() {
 		const {
 			readingImages,
@@ -105,8 +108,9 @@ class Reader extends Component {
 					style={{backgroundColor: grey800, position: 'fixed'}}
 					iconElementRight={<Link to="/"><FlatButton label="收藏" /></Link>}
 					// iconElementRight={ <i className="material-icons md-36">face</i> }
-					// onLeftIconButtonTouchTap={this.handleToggle}
+					onLeftIconButtonTouchTap={this.onLeftIconButtonTouchTap}
 				/>
+				<NavigationSidebar />
 				<div
 					ref="scrollContainer"
 					style={{
@@ -145,5 +149,5 @@ export default connect(state => {
 	};
 }, dispatch => {
 	/* map dispatch to props */
-	return(bindActionCreators(ChapterActions, dispatch));
+	return({...bindActionCreators(ChapterActions, dispatch), dispatch});
 })(Reader);

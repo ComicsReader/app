@@ -38,9 +38,8 @@ function* searchComics(action) {
 	yield put({type: t.SHOW_LOAD_INDICATOR});
 
 	try {
-		const {comics, currentPage, totalPage} = yield DM5.search(searchKeyword, page);
-
 		const { currentPage: previousPage, searchKeyword: previousKeyword } = yield select(getSearchState);
+		const {comics, currentPage, totalPage} = yield DM5.search(searchKeyword, page);
 
 		if (previousPage == null || (previousPage == currentPage && currentPage == 1) || (previousKeyword != searchKeyword)) {
 			yield put({type: t.CLEAR_SEARCH_RESULT});

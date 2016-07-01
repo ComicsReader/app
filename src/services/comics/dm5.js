@@ -11,19 +11,19 @@ export const chapterCache     = {};
 export const siteName = 'dm5';
 
 export function getChapters(comicID) {
-	return new Promise((resolve, reject) => {
-		getComicInfo(comicID, 'chapters').then(chapters => resolve(chapters)).catch(error => reject(error));
+	return new Promise((resolve) => {
+		getComicInfo(comicID, 'chapters').then(chapters => resolve(chapters)).catch(error => ({error}));
 	});
 }
 
 export function getComicName(comicID) {
-	return new Promise((resolve, reject) => {
-		getComicInfo(comicID, 'comicName').then(comicName => resolve(comicName)).catch(error => reject(error));
+	return new Promise((resolve) => {
+		getComicInfo(comicID, 'comicName').then(comicName => resolve(comicName)).catch(error => ({error}));
 	});
 }
 
 export function getComicInfo(comicID, type='chapters') {
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		if (typeof chapterCache[comicID] === 'undefined') {
 			chapterCache[comicID] = {};
 		} else if (chapterCache[comicID].hasOwnProperty(type)) {
@@ -36,12 +36,12 @@ export function getComicInfo(comicID, type='chapters') {
 			chapterCache[comicID].comicName = info.comicName;
 
 			resolve(chapterCache[comicID][type]);
-		}).catch(error => reject(error));
+		}).catch(error => ({error}));
 	});
 }
 
 export function fetchComicIDbyChapterID(chapterID) {
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		fetch(`${baseURL}/${chapterID}`).then(r => r.text()).then(response => {
 			var chapterIndex = $(response);
 			var navigationItem = $(chapterIndex.find('.view_logo2.bai_lj').toArray()[0]);
@@ -49,7 +49,7 @@ export function fetchComicIDbyChapterID(chapterID) {
 
 			var comicID = urls[urls.length-2].replace(/\//gi, '');
 			resolve(comicID);
-		}).catch(error => reject(error));
+		}).catch(error => ({error}));
 	});
 }
 
@@ -58,7 +58,7 @@ export function getChapterURL(cid) {
 }
 
 export function quickSearch(keyword) {
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		fetch(`http://www.dm5.com/search.ashx?t=${encodeURI(keyword)}`).then(r => r.text()).then(response => {
 			var array = $(response).toArray().filter(r => $(r).hasClass('searchliclass')).map(li => {
 				return {
@@ -67,12 +67,12 @@ export function quickSearch(keyword) {
 				};
 			});
 			resolve(array);
-		}).catch(error => reject(error));
+		}).catch(error => ({error}));
 	});
 }
 
 export function search(keyword, page=1) {
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		fetch(`http://www.dm5.com/search?title=${encodeURI(keyword)}&language=1&page=${page}`).then(r => r.text()).then(response => {
 
 			var $html = $(response);
@@ -104,12 +104,12 @@ export function search(keyword, page=1) {
 				totalPage: Math.ceil(total/20)
 			};
 			resolve(res);
-		}).catch(error => reject(error));
+		}).catch(error => ({error}));
 	});
 }
 
 export function fetchComicsInfo(comicID) {
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		fetch(`${baseURL}/${comicID}/`,
 			{
 				credentials: 'include',
@@ -130,7 +130,7 @@ export function fetchComicsInfo(comicID) {
 				chapters: chapterInfos,
 				comicName: comicIndex.find('.inbt_title_h2')[0].innerHTML
 			});
-		}).catch(error => reject(error));
+		}).catch(error => ({error}));
 	});
 }
 
@@ -142,7 +142,7 @@ export function getChapterImages(cid) {
 
 	// 8 => 1 3 5 7 => (8+1) / 2
 	// 9 => 1 3 5 7 9 => (9+1) / 2
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		fetchImagesCount(cid).then(imagesCount => {
 			Promise.all(
 				[...Array(parseInt((imagesCount+1)/2)).keys()]
@@ -150,14 +150,14 @@ export function getChapterImages(cid) {
 			).then(images => {
 				images = images.reduce((prev, cur) => [...prev, ...cur], []);
 				resolve(images);
-			}).catch(error => reject(error));
-		}).catch(error => reject(error));
+			}).catch(error => ({error}));
+		}).catch(error => ({error}));
 	});
 }
 
 export function fetchImagesCount(cid) {
 	// cache exist
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		if (chapterCountData[cid]) {
 			resolve(chapterCountData[cid]);
 			return;
@@ -170,18 +170,18 @@ export function fetchImagesCount(cid) {
 			chapterCountData[cid] = imagesCount;
 
 			resolve(imagesCount);
-		}).catch(error => reject(error));
+		}).catch(error => ({error}));
 	});
 }
 
 export function fetchImages(page, cid) {
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		// imageFetchUrl: http://www.dm5.com/m251731/chapterfun.ashx?cid=251731&page=2
 		fetch(`${imageFetchUrl(cid)}?${$.param({ cid: cid, page: page, key: null, language: 1 })}`).then(r => r.text()).then(imageJs => {
 			var images = eval(imageJs);
 			// console.log(`fetchImages: ${images}`);
 			resolve(images);
-		}).catch(error => reject(error));
+		}).catch(error => ({error}));
 	});
 }
 

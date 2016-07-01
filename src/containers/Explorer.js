@@ -8,19 +8,16 @@ import { bindActionCreators } from 'redux';
 
 import Radium from 'radium';
 
-import { grey800, grey50 } from 'material-ui/styles/colors';
-import { AppBar, Drawer, MenuItem } from 'material-ui';
+import { grey800 } from 'material-ui/styles/colors';
+import { AppBar} from 'material-ui';
 
-import Icon from '../components/Icon';
 import SearchBar from '../components/SearchBar';
+import NavigationSidebar from '../components/NavigationSidebar';
 import ComicBook from '../components/ComicBook';
 import LoadIndicator from '../components/LoadIndicator';
 
 import * as SearchActions from '../actions/SearchActions';
-
-const styles = {
-	iconStyle: {fontSize: 22, verticalAlign: 'middle', marginRight: 30}
-};
+import {toggleAppDrawer} from '../actions/UIActions';
 
 @Radium
 class Explorer extends Component {
@@ -30,14 +27,13 @@ class Explorer extends Component {
 		isLoading: PropTypes.bool,
 		searchComics: PropTypes.func.isRequired,
 		searchKeyword: PropTypes.string,
-		currentPage: PropTypes.number
+		currentPage: PropTypes.number,
+		totalPage: PropTypes.number,
+		dispatch: PropTypes.func
 	}
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			drawerOpen: false
-		};
 	}
 
 	componentDidMount() {
@@ -53,10 +49,16 @@ class Explorer extends Component {
 	}
 
 	loadMore = () => {
-		const { searchKeyword, currentPage, isLoading } = this.props;
+		const { searchKeyword, currentPage, isLoading, totalPage } = this.props;
 		if (document.body.scrollHeight - document.body.scrollTop < 1000 && !isLoading) {
-			this.props.searchComics(searchKeyword, currentPage + 1);
+			if (totalPage && (currentPage + 1) <= totalPage || !totalPage) {
+				this.props.searchComics(searchKeyword, currentPage + 1);
+			}
 		}
+	}
+
+	onLeftIconButtonTouchTap = () => {
+		this.props.dispatch(toggleAppDrawer());
 	}
 
 	render() {
@@ -67,35 +69,12 @@ class Explorer extends Component {
 				<AppBar
 					title="Explore"
 					style={{backgroundColor: grey800, position: 'fixed'}}
-					// iconElementRight={<Link to="/"><FlatButton label="收藏" /></Link>}
-					// iconElementRight={ <i className="material-icons md-36">face</i> }
-					onLeftIconButtonTouchTap={() => { this.setState({drawerOpen: !this.state.drawerOpen}); }}
+					onLeftIconButtonTouchTap={this.onLeftIconButtonTouchTap}
 				>
 					<SearchBar onSubmit={this.onSubmit}/>
 				</AppBar>
 
-				<Drawer
-					open={this.state.drawerOpen}
-					containerStyle={{backgroundColor: grey800}}
-					width={300}
-					docked={false}
-					onRequestChange={(drawerOpen) => this.setState({drawerOpen})}
-					overlayStyle={{backgroundColor: 'transparent'}}
-					style={{color: grey50}}
-				>
-					<MenuItem style={{color: grey50, paddingLeft: 10, lineHeight: '60px'}}>
-						<Icon iconName="search" style={styles.iconStyle} />
-							Search
-					</MenuItem>
-					<MenuItem style={{color: grey50, paddingLeft: 10, lineHeight: '60px'}}>
-						<Icon iconName="history" style={styles.iconStyle} />
-							Recent
-					</MenuItem>
-					<MenuItem style={{color: grey50, paddingLeft: 10, lineHeight: '60px'}}>
-						<Icon iconName="library_books" style={styles.iconStyle} />
-							Collection
-					</MenuItem>
-				</Drawer>
+				<NavigationSidebar />
 
 				<div style={{padding: '80px 20px 0', textAlign: 'center', height: 'calc(100% - 80px)'}} ref="scrollContainerRef">
 					{
@@ -117,5 +96,5 @@ export default connect(state => {
 	};
 }, dispatch => {
 	/* map dispatch to props */
-	return(bindActionCreators(SearchActions, dispatch));
+	return({...bindActionCreators(SearchActions, dispatch), dispatch});
 })(Explorer);
