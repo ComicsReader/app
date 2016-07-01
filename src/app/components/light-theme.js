@@ -1,6 +1,6 @@
-var Colors = require('material-ui').Styles.Colors;
-var Spacing = require('material-ui').Styles.Spacing;
-var ColorManipulator = require('material-ui').Utils.ColorManipulator;
+var Colors = require('material-ui/styles/colors');
+var Spacing = require('material-ui/styles/spacing');
+var ColorManipulator = require('material-ui/utils/colorManipulator');
 /**
  *  Light Theme is the default theme used in material-ui. It is guaranteed to
  *  have all theme variables needed for every component. Variables not defined

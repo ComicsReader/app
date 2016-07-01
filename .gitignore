@@ -1,2 +1,9 @@
 *.DS_Store
-node_modules/
+node_modules
+npm-debug.log
+
+src/config.js
+
+# ignore build results
+ComicsScroller/js/
+ComicsScroller/css/

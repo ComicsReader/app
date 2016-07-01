@@ -1,0 +1,33 @@
+.switchArea {
+	width: 8em;
+	height: 100%;
+	position: fixed;
+	background-color: black;
+	opacity: 0;
+	transition: all .2s;
+
+	&:hover {
+		opacity: 0.6;
+		cursor: pointer;
+	}
+
+	.material-icons {
+		top: 42%;
+		position: absolute;
+		margin-left: -.1em;
+		color: white;
+    font-size: 7em;
+	}
+}
+
+.switchArea.right {
+	right: 50px;
+
+	.material-icons {
+		top: 42%;
+		position: absolute;
+		margin-left: .1em;
+		color: white;
+    font-size: 7em;
+	}
+}

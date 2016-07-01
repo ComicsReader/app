@@ -11,7 +11,7 @@ let comics={
 	handleUrlHash:function(menuItems){
 		let params_str=window.location.hash;
 	    this.site= /site\/(\w*)\//.exec(params_str)[1];
-	    this.pageURL=/chapter(\/HTML\/[^\/]+\/)/.exec(params_str)[1];   
+	    this.pageURL=/chapter(\/HTML\/[^\/]+\/)/.exec(params_str)[1];
 	    this.chapterURL=this.baseURL+(/chapter(\/.*)$/.exec(params_str)[1]);
 	    this.indexURL=this.baseURL+this.pageURL;
 	    // console.log("chapterURL",this.chapterURL);
@@ -30,7 +30,7 @@ let comics={
 	    }else{
 	      this.chapterURL=this.baseURL+(/chapter\/(.*\/)#$/.exec(params_str)[1]);
 	      window.history.replaceState('',document.title,"#/site/sf/chapter/"+(/chapter\/(.*\/)#$/.exec(params_str)[1]));
-	    }  
+	    }
 	},
 
 	getChapter:function(doc){
@@ -56,7 +56,7 @@ let comics={
     	let response = await fetch(url);
 		let rtxt = await response.text();
 		let doc = parser.parseFromString(rtxt,"text/html");
-		let scriptURL=/src=\"(\/Utility.*\.js)\">/.exec(doc.head.innerHTML)[1]; 
+		let scriptURL=/src=\"(\/Utility.*\.js)\">/.exec(doc.head.innerHTML)[1];
     	let response2 = await fetch(this.baseURL+scriptURL);
 		let rtxt2 = await response2.text();
 		this.setImages(index,rtxt2);
@@ -65,7 +65,7 @@ let comics={
   	// markedItems: Immutable.Set(),
 
   	getMenuItems:function(doc,markedItems){
-		let nl = this.getChapter(doc);      
+		let nl = this.getChapter(doc);
 	    let array=[];
 	    this.initIndex=-1;
 	    for(let i=0;i<nl.length;++i){
@@ -82,7 +82,7 @@ let comics={
 	        }
 	      }
 	      if(markedItems.has(item.payload)){
-	        item.isMarked=true;  
+	        item.isMarked=true;
 	      }
 	      item=Immutable.Map(item);
 	      array.push(item);
@@ -92,7 +92,7 @@ let comics={
 	},
 
 	chapterUpdateIndex: -1,
-  
+
   	setImageIndex:function(index){
     	if(this.chapterUpdateIndex===-1){
       		this.chapterUpdateIndex=index;
@@ -101,7 +101,7 @@ let comics={
       		for(let i=0;i<imgs.length;++i){
         		imgs[i].setAttribute("data-chapter",index);
       		}
-      		this.chapterUpdateIndex=-1;  
+      		this.chapterUpdateIndex=-1;
     	}
 	},
 
@@ -109,16 +109,16 @@ let comics={
 		console.log(response);
 		eval(response);
 		let name = "picHost=";
-		let picHost= hosts[1];
-    	let img =[]; 
+		let picHost= hosts[0];
+  	let img = [];
 		this.pageMax=picCount;
 		for(let i=0;i<this.pageMax;i++){
 			img[i]=picHost+picAy[i];
 		}
 		this.images=img;
-		this.appendImage(index);		 
+		this.appendImage(index);
 	},
-	
+
 	appendImage:function(index){
 	    let comics_panel=document.getElementById("comics_panel");
 	    if(index===-1){
@@ -156,7 +156,7 @@ let comics={
 	    chapterPromote.textContent="If you like Comics Scroller, give me a like on FB or Github.";
 	    comics_panel.appendChild(chapterPromote);
 	    if(!Echo.hadInited){
-	      Echo.init(); 
+	      Echo.init();
 	    }else{
 	      Echo.render();
 	    }
@@ -175,7 +175,7 @@ let comics={
 		    item.payload=this.baseURL+nl[i].getAttribute('href');
 		    item.text=nl[i].textContent;
 		    array.push(item);
-		    let urlInChapter=false;  				    		
+		    let urlInChapter=false;
 		    for(let j=0;j<chapters.length;++j){
 		    	if(chapters[j].payload===item.payload){
 		    		urlInChapter=true;
@@ -197,12 +197,12 @@ let comics={
 					message:title+"  "+obj.lastReaded.text,
 					imageUrl:imgUrl
 				});
-				chrome.storage.local.get('update',function(items){							
+				chrome.storage.local.get('update',function(items){
 					items.update.push(this);
 					let num=items.update.length.toString();
 					chrome.browserAction.setBadgeText({text:num});
 					chrome.storage.local.set(items);
-				}.bind(obj));							
+				}.bind(obj));
 		    }
 		}
 		items.collected[k].menuItems=array;
@@ -213,4 +213,3 @@ let comics={
 
 
 module.exports = comics;
-

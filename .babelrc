@@ -1,0 +1,17 @@
+{
+  "presets": ["es2015", "stage-0"],
+  "plugins": [
+    "syntax-async-functions",
+    "syntax-class-properties",
+    "transform-class-properties",
+    "transform-regenerator",
+    "transform-react-jsx",
+    "transform-object-rest-spread",
+    "transform-es2015-arrow-functions",
+    ["transform-runtime", {
+      "polyfill": true,
+      "regenerator": true
+    }],
+    "babel-plugin-transform-decorators-legacy"
+  ]
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import Comics_dm5 from '../comics_dm5.js';
 import Comics_sf from '../comics_sf.js';
 import Comics_8 from '../comics_8.js';
@@ -6,8 +6,10 @@ import Mixins from '../../Mixin/mymixin.jsx';
 import StoreMixin from '../../Mixin/storemixin.jsx';
 import ChapterAction from'../../actions/chapterAction.js';
 import ChapterStore from '../../store/chapterStore.js';
-import { PureRenderMixin } from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { Mixins as mMixin } from 'material-ui';
+
+var ThemeManager = require('./theme-manager.js');
 
 let site= /site\/(\w*)\//.exec(window.location.hash)[1];
 // console.log(Comics_sf);
@@ -22,7 +24,7 @@ switch (site){
     break;
   case 'dm5':
     Comics=Comics_dm5;
-    break;    
+    break;
 }
 
 let hasAddedListener=false;
@@ -30,9 +32,8 @@ let parser=new DOMParser();
 
 
 let Main = React.createClass({
-  
-  mixins:[PureRenderMixin,StoreMixin,Mixins, mMixin.StylePropable],  
-  
+  mixins:[PureRenderMixin, StoreMixin, Mixins],
+
   componentDidMount: async function() {
     // console.log(Comics);
     Comics.handleUrlHash(this.state.menuItems);
@@ -49,7 +50,7 @@ let Main = React.createClass({
     }
   },
 
-  _getChapter: function(){    
+  _getChapter: function(){
     var creq=new XMLHttpRequest();
 
     creq.open("GET",Comics.indexURL,true);
@@ -109,7 +110,7 @@ let Main = React.createClass({
     if(index===this.lastIndex){
       if(this.lastIndex>0){
         Comics.getImage(--this.lastIndex,this.state.menuItems.get(this.lastIndex).get('payload'));
-      }        
+      }
     }
   },
 

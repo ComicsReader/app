@@ -1,15 +1,16 @@
 require('../less/main.less');
 // (function () {
   var React = require('react'),
+    ReactDOM = require("react-dom"),
     injectTapEventPlugin = require("react-tap-event-plugin");
-    
+
     // Main_sf = require('./components/main_sf.jsx'), // Our custom react component
     // Main_dm5 = require('./components/main_dm5.jsx'), // Our custom react component
     // Main_8 = require('./components/main_8.jsx');
-  
+
   var site= /site\/(\w*)\//.exec(window.location.hash)[1];
   var Main=require('./components/main.jsx');
-  
+
 
 
   //Needed for React Developer Tools
@@ -21,9 +22,9 @@ require('../less/main.less');
   //https://github.com/zilverline/react-tap-event-plugin
   injectTapEventPlugin();
 
-  // Render the main app react component into the document body. 
+  // Render the main app react component into the document body.
   // For more details see: https://facebook.github.io/react/docs/top-level-api.html#react.render
-  React.render(<Main />, document.body);
-  
+  ReactDOM.render(<Main />, document.body);
+
 
 // })();

@@ -1,10 +1,10 @@
-var React = require('react');
+import React, { PropTypes } from 'react';
 // var mui = require('material-ui');
 var Immutable = require('immutable');
 var mui = require('material-ui');
-var Colors = mui.Styles.Colors;
-var Spacing = require('material-ui').Styles.Spacing;
-var Typography = mui.Styles.Typography;
+var Colors = require('material-ui/styles/colors');
+var Spacing = require('material-ui/styles/spacing');
+var Typography = require('material-ui/styles/typography');
 var TM = require('../app/components/theme-manager.js');
 var ThemeManager=new TM;
 var AppCanvas=require('../app/components/app-canvas.jsx');
@@ -13,7 +13,7 @@ var IconButton=require('../app/components/icon-button.jsx');
 var TagIconButton=require('../app/components/TagIconButton.jsx');
 var AppLeftNav=require('../app/components/app-left-nav.jsx');
 
-// var ChapterMenu=require('../app/components/chapter-menu.jsx');  
+// var ChapterMenu=require('../app/components/chapter-menu.jsx');
 // var objectAssign=require('object-assign');
 
 // var Echo=require('../app/echo');
@@ -25,12 +25,14 @@ var MyMixin={
   collectedItems: [],
 
   childContextTypes: {
-    muiTheme: React.PropTypes.object
+    muiTheme: React.PropTypes.object,
+    themeManager: PropTypes.object
   },
 
   getChildContext: function() {
     return {
-      muiTheme: ThemeManager.getCurrentTheme()
+      muiTheme: ThemeManager.getCurrentTheme(),
+      themeManager: ThemeManager
     }
   },
 
@@ -73,8 +75,8 @@ var MyMixin={
       starDisable:true,
       chapter:"",
       starIsMarked:false}
-  },    
-  
+  },
+
   render: function() {
     var styles = this.getStyles();
     // var subscribedStyle=
@@ -82,46 +84,46 @@ var MyMixin={
       <IconButton
         // className="github-icon-button"
         iconClassName="icon-github"
-        style={this.mergeAndPrefix(styles.iconButton.style)}
-        // iconStyle={this.mergeAndPrefix(styles.iconButton.iconStyle)}
+        style={[styles.iconButton.style]}
+        // iconStyle={[styles.iconButton.iconStyle)]}
         tooltip="Github"
         target="_blank"
         href="https://github.com/zeroshine/ComicsScroller"
         linkButton={true} />
     );
-    // var subscribedButtonStyle=this.mergeAndPrefix(styles.iconButton.style,styles.iconButton.yellowIconStyle)
-    // console.log('subscribedStyle',this.state.starIsMarked,this.mergeAndPrefix(this.state.starIsMarked&&styles.iconButton.yellowIconStyle));
+    // var subscribedButtonStyle=[styles.iconButton.style,styles.iconButton.yellowIconStyle])
+    // console.log('subscribedStyle',this.state.starIsMarked,[this.state.starIsMarked&&styles].iconButton.yellowIconStyle));
     // console.log('subscribed',);
     var subscribedButton =(
-      <IconButton 
-        // className={"tag-icon-button"} 
-        iconClassName={'icon-price-tag'} 
-        style={this.mergeAndPrefix(styles.iconButton.style)}
-        iconStyle={this.mergeAndPrefix(this.state.starIsMarked && styles.iconButton.yellowIconStyle)} 
-        tooltip="Subscribed" 
-        onClick={this._starClick} 
+      <IconButton
+        // className={"tag-icon-button"}
+        iconClassName={'icon-price-tag'}
+        style={[styles.iconButton.style]}
+        iconStyle={[this.state.starIsMarked && styles.iconButton.yellowIconStyle]}
+        tooltip="Subscribed"
+        onClick={this._starClick}
         disabled={this.state.starDisable} />
     );
-    
+
     var nextButton=(
-      <IconButton 
-        // className="right-icon-button" 
-        style={this.mergeAndPrefix(styles.iconButton.style)}
-        // iconStyle={this.mergeAndPrefix(styles.iconButton.iconStyle)} 
-        iconClassName="icon-circle-right" 
-        disabled={this.state.rightDisable} 
-        onClick={this._nextClick} 
+      <IconButton
+        // className="right-icon-button"
+        style={[styles.iconButton.style]}
+        // iconStyle={[styles.iconButton.iconStyle)]}
+        iconClassName="icon-circle-right"
+        disabled={this.state.rightDisable}
+        onClick={this._nextClick}
         tooltip="下一話"/>
     );
 
     var previousButton=(
-      <IconButton 
-        // className="left-icon-button"  
-        style={this.mergeAndPrefix(styles.iconButton.style)}
-        // iconStyle={this.mergeAndPrefix(styles.iconButton.iconStyle)} 
-        iconClassName="icon-circle-left" 
-        disabled={this.state.leftDisable} 
-        onClick={this._previousClick} 
+      <IconButton
+        // className="left-icon-button"
+        style={[styles.iconButton.style]}
+        // iconStyle={[styles.iconButton.iconStyle)]}
+        iconClassName="icon-circle-left"
+        disabled={this.state.leftDisable}
+        onClick={this._previousClick}
         tooltip="上一話"/>
     );
 
@@ -129,8 +131,8 @@ var MyMixin={
       <IconButton
         // className="fb-icon-button"
         iconClassName="icon-facebook2"
-        style={this.mergeAndPrefix(styles.iconButton.style)}
-        // iconStyle={this.mergeAndPrefix(styles.iconButton.iconStyle)}
+        style={[styles.iconButton.style]}
+        // iconStyle={[styles.iconButton.iconStyle)]}
         tooltip="facebook"
         target="_blank"
         href="https://www.facebook.com/ComicsScroller"
@@ -141,8 +143,8 @@ var MyMixin={
       <IconButton
         // className="home-icon-button"
         iconClassName="icon-home"
-        style={this.mergeAndPrefix(styles.iconButton.style)}
-        // iconStyle={this.mergeAndPrefix(styles.iconButton.iconStyle)}
+        style={[styles.iconButton.style]}
+        // iconStyle={[styles.iconButton.iconStyle)]}
         tooltip="site"
         target="_blank"
         href="https://zeroshine.github.io/ComicsScroller"
@@ -151,29 +153,29 @@ var MyMixin={
 
     return (
       <AppCanvas>
-        <AppBar 
-          title={"Comics Scroller  "+this.state.comicname+"  "+this.state.chapter+"  "+this.state.pageratio} 
+        <AppBar
+          title={"Comics Scroller  "+this.state.comicname+"  "+this.state.chapter+"  "+this.state.pageratio}
           onLeftIconButtonTouchTap={this._onLeftIconButtonTouchTap} >
           {subscribedButton}
           {homeButton}
-          {fbButton}  
+          {fbButton}
           {githubButton}
           {nextButton}
           {previousButton}
         </AppBar>
-        <AppLeftNav 
-          ref="leftNav" 
-          menuItems={this.state.menuItems} 
-          selectedIndex={this.state.selectedIndex} 
-          isInitiallyOpen={true}  
+        <AppLeftNav
+          ref="leftNav"
+          menuItems={this.state.menuItems}
+          selectedIndex={this.state.selectedIndex}
+          isInitiallyOpen={true}
           onMenuItemClick={this._onMenuItemClick}/>
-        <div id="comics_panel" />   
+        <div id="comics_panel" />
       </AppCanvas>
     );
   },
 
   _onLeftIconButtonTouchTap: function() {
-    
+
     // console.log(this.tmp_menuItems.get(1).get('isMarked'));
     this.setState({menuItems:this.tmp_menuItems});
     this.refs.leftNav.toggle();
@@ -188,9 +190,9 @@ var MyMixin={
       obj=obj.set('isMarked',true);
       this.tmp_menuItems=this.tmp_menuItems.set(index,obj);
       // console.log(menuItems.get(index).get('isMarked'));
-      this.markedItems=this.markedItems.add(payload);      
+      this.markedItems=this.markedItems.add(payload);
     }
-    
+
     this.setState({
       // menuItems:menuItems,
       rightDisable:index===0,
@@ -201,17 +203,17 @@ var MyMixin={
     this.lastIndex=index;
     document.title=this.title+" "+chstr;
     this._updateHash(payload,'');
-  },  
-  
+  },
+
   _starClick:function(){
     var array=this.collectedItems.filter(function(obj){ return obj.url===this.indexURL}.bind(this));
     console.log('collectedItems',array);
-    if(array.length===0){      
+    if(array.length===0){
       this._saveStoreCollected();
-      this.setState({starIsMarked:true});  
+      this.setState({starIsMarked:true});
     }else if(array.length>=0){
       this._removeStoreCollected();
-      this.setState({starIsMarked:false});  
+      this.setState({starIsMarked:false});
     }
   },
 
@@ -226,9 +228,9 @@ var MyMixin={
         var obj=this.tmp_menuItems.get(index);
         obj=obj.set('isMarked',true);
         this.tmp_menuItems=this.tmp_menuItems.set(index,obj);
-        this.markedItems=this.markedItems.add(payload);  
+        this.markedItems=this.markedItems.add(payload);
 
-      }   
+      }
       this.setState({
         // menuItems:menuItems,
         selectedIndex:index,
@@ -254,8 +256,8 @@ var MyMixin={
         var obj=this.tmp_menuItems.get(index);
         obj=obj.set('isMarked',true);
         this.tmp_menuItems=this.tmp_menuItems.set(index,obj);
-        this.markedItems=this.markedItems.add(payload);    
-      }   
+        this.markedItems=this.markedItems.add(payload);
+      }
       this.setState({
         // menuItems:menuItems,
         selectedIndex:index,

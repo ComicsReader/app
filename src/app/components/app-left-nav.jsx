@@ -1,12 +1,11 @@
 var React = require('react'),
   //Router = require('react-router'),
   LeftNav = require('./left-nav.jsx');
-var Colors= require('material-ui').Styles.Colors;
-var Typography=require('material-ui').Styles.Typography;
-var Spacing=require('material-ui').Styles.Spacing;
-var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
+var Colors= require('material-ui/styles/colors');
+var Typography=require('material-ui/styles/typography');
+var Spacing=require('material-ui/styles/spacing');
 
-
+var PureRenderMixin = require('react-addons-pure-render-mixin');
 
 var AppLeftNav = React.createClass({
 
@@ -14,7 +13,7 @@ var AppLeftNav = React.createClass({
   //   if(this.props.selectedIndex!==nextProps.selectedIndex){
   //     // console.log('appleftNav update');
   //     return true;
-  //   } 
+  //   }
   //   return false;
   // },
 
@@ -49,12 +48,12 @@ var AppLeftNav = React.createClass({
   render: function() {
     var header = (<div style={this.getStyles()} onClick={this._onHeaderClick}>章節</div>);
     return (
-      <LeftNav 
+      <LeftNav
         ref="leftNav"
         docked={false}
         isInitiallyOpen={true}
         header={header}
-        menuItems={this.props.menuItems} 
+        menuItems={this.props.menuItems}
         selectedIndex={this.props.selectedIndex}
         onChange={this.props.onMenuItemClick}/>
     );
