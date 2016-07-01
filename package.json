@@ -1,10 +1,10 @@
 {
-  "name": "ComicsScrollerEnhance",
-  "version": "3.0.1",
-  "description": "a comic reader app for chinese websites",
+  "name": "ComicsReader",
+  "version": "1.0.0",
+  "description": "a comic reader app for dm5",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Yukaii/ComicsScroller.git"
+    "url": "https://github.com/Yukaii/ComicsReader.git"
   },
   "scripts": {
     "product": "webpack --config webpack.product.config.js --progress --colors --watch",
