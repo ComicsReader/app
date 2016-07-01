@@ -5,13 +5,11 @@ import React, {
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router';
 
 import Radium from 'radium';
 
 import { AppBar } from 'material-ui';
 import { grey800 } from 'material-ui/styles/colors';
-import FlatButton from 'material-ui/FlatButton';
 
 import Icon from '../components/Icon';
 import ComicListView from '../components/ComicListView';
@@ -106,7 +104,7 @@ class Reader extends Component {
 				<AppBar
 					title={appBarTitle}
 					style={{backgroundColor: grey800, position: 'fixed'}}
-					iconElementRight={<Link to="/"><FlatButton label="收藏" /></Link>}
+					// iconElementRight={<Link to="/"><FlatButton label="收藏" /></Link>}
 					// iconElementRight={ <i className="material-icons md-36">face</i> }
 					onLeftIconButtonTouchTap={this.onLeftIconButtonTouchTap}
 				/>

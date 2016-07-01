@@ -1,7 +1,7 @@
 import 'whatwg-fetch';
 import $ from 'jquery';
 
-// TODO: initalize by comicID
+// TODO: should support multiple regex
 export const regex = /http\:\/\/(tel||www)\.dm5\.com(\/m\d+\/)/;
 export const baseURL = 'http://www.dm5.com';
 

@@ -6,11 +6,11 @@ var LiveReloadPlugin = require('webpack-livereload-plugin');
 module.exports = {
 	entry: {
 		app_min:'./src/App.js',
-		background:'./src/background.js',
-		popup_min:'./src/popup.jsx'
+		background:'./src/background.js'
+		// popup_min:'./src/popup.jsx'
 	},
 	output:{
-		path:Path.resolve(__dirname,'ComicsScroller/'),
+		path:Path.resolve(__dirname, 'ComicsScroller/'),
 		filename: 'js/[name].js'
 	},
 	module:{
@@ -45,8 +45,8 @@ module.exports = {
 	},
 	plugins: [
 		new ExtractTextPlugin('css/[name].css'),
-		new webpack.IgnorePlugin(/ReactContext|react\/addons/),
+		// new webpack.IgnorePlugin(/ReactContext|react\/addons/),
 		new LiveReloadPlugin({appendScriptTag: true})
-	],
+	]
 	devtool: '#inline-source-map'
 };
