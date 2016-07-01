@@ -18,6 +18,18 @@ export default function searchState(state = initialState, action) {
 			isLoading: true
 		};
 
+	case t.HIDE_LOAD_INDICATOR:
+		return {
+			...state,
+			isLoading: false
+		};
+
+	case t.CLEAR_SEARCH_RESULT:
+		return {
+			...state,
+			comics: []
+		};
+
 	case t.APPEND_SEARCH_RESULTS:
 		return {
 			...state,

@@ -1,5 +1,5 @@
 import { take, put, call, fork, select } from 'redux-saga/effects';
-import { takeEvery, takeLatest } from 'redux-saga';
+import { takeLatest } from 'redux-saga';
 import * as t from '../constants/ActionTypes';
 import { getComicManager, getSearchState } from '../reducers/selectors';
 import { history } from '../services';
@@ -35,31 +35,36 @@ function* watchSwitchChapter() {
 
 function* searchComics(action) {
 	const {keyword: searchKeyword, page=1} = action;
-
 	yield put({type: t.SHOW_LOAD_INDICATOR});
 
-	const {comics, currentPage, totalPage} = yield DM5.search(searchKeyword, page);
-	const { currentPage: previousPage, searchKeyword: previousKeyword } = yield select(getSearchState);
+	try {
+		const {comics, currentPage, totalPage} = yield DM5.search(searchKeyword, page);
 
-	if (previousPage == null || (previousPage == currentPage && currentPage == 1) || (previousKeyword != searchKeyword)) {
-		yield put({
-			type: t.REPLACE_SEARCH_RESULTS,
-			searchKeyword,
-			comics,
-			currentPage,
-			totalPage
-		});
+		const { currentPage: previousPage, searchKeyword: previousKeyword } = yield select(getSearchState);
 
-	} else if (currentPage > previousPage) {
-		yield put({
-			type: t.APPEND_SEARCH_RESULTS,
-			searchKeyword,
-			comics,
-			currentPage,
-			totalPage
-		});
-	} else {
-		yield;
+		if (previousPage == null || (previousPage == currentPage && currentPage == 1) || (previousKeyword != searchKeyword)) {
+			yield put({type: t.CLEAR_SEARCH_RESULT});
+			yield put({
+				type: t.REPLACE_SEARCH_RESULTS,
+				searchKeyword,
+				comics,
+				currentPage,
+				totalPage
+			});
+
+		} else if (currentPage > previousPage) {
+			yield put({
+				type: t.APPEND_SEARCH_RESULTS,
+				searchKeyword,
+				comics,
+				currentPage,
+				totalPage
+			});
+		} else {
+			yield put({type: t.HIDE_LOAD_INDICATOR});
+		}
+	} catch(e) {
+		yield put({type: t.HIDE_LOAD_INDICATOR});
 	}
 }
 

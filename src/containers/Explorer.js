@@ -53,8 +53,8 @@ class Explorer extends Component {
 	}
 
 	loadMore = () => {
-		if (document.body.scrollHeight - document.body.scrollTop < 1000) {
-			const { searchKeyword, currentPage } = this.props;
+		const { searchKeyword, currentPage, isLoading } = this.props;
+		if (document.body.scrollHeight - document.body.scrollTop < 1000 && !isLoading) {
 			this.props.searchComics(searchKeyword, currentPage + 1);
 		}
 	}
