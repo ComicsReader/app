@@ -99,7 +99,15 @@ class Reader extends Component {
 
 	getDocumentTitle = () => {
 		const { comicName, appBarTitle } = this.props;
-		return comicName ? `${comicName} - ${appBarTitle} | ComicsReader` : 'Reader | ComicsReader';
+		if (comicName) {
+			if (appBarTitle.includes(comicName)) {
+				return `${appBarTitle} | ComicsReader`;
+			} else {
+				return `${comicName} - ${appBarTitle} | ComicsReader`;
+			}
+		} else {
+			return 'Reader | ComicsReader';
+		}
 	}
 
 	render() {

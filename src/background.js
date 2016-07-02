@@ -1,5 +1,7 @@
-import {dm5} from './services/comics';
-import queryString from 'query-string';
+import {comicManagers} from './services';
+const { dm5 } = comicManagers;
+
+let windowID;
 
 let chapterfunhandler = function(details) {
 	details.requestHeaders.push({
@@ -33,10 +35,22 @@ chrome.webRequest.onBeforeSendHeaders.addListener(mhandler, {
 
 chrome.webNavigation.onCommitted.addListener(function(details) {
 	if (dm5.regex.test(details.url)) {
-		let chapter = dm5.regex.exec(details.url)[1];
-		chrome.tabs.update(details.tabId, {
-			url: chrome.extension.getURL('index.html') + `#/reader/dm5/${chapter.replace(/\//g, '')}`
-		});
+		let chapter = dm5.regex.exec(details.url)[2];
+		chrome.tabs.remove(details.tabId);
+
+		let url = chrome.extension.getURL('index.html') + `#/reader/dm5/${chapter.replace(/\//g, '')}`;
+
+		if (windowID) {
+			chrome.windows.update(windowID, {
+				type: 'popup',
+				url: url
+			});
+		} else {
+			windowID = chrome.windows.create({
+				type: 'popup',
+				url: url
+			});
+		}
 	}
 }, {
 	url: [{
