@@ -11,6 +11,8 @@ import Radium from 'radium';
 import { AppBar } from 'material-ui';
 import { grey800 } from 'material-ui/styles/colors';
 
+import DocumentTitle from 'react-document-title';
+
 import Icon from '../components/Icon';
 import ComicListView from '../components/ComicListView';
 import ChapterSidebar from '../components/ChapterSidebar';
@@ -31,6 +33,7 @@ class Reader extends Component {
 		readingImages: PropTypes.array,
 		chapters: PropTypes.array,
 		appBarTitle: PropTypes.string.isRequired,
+		comicName: PropTypes.string,
 		/* redux actions */
 		switchChapter: PropTypes.func,
 		comicManager: PropTypes.object,
@@ -86,10 +89,17 @@ class Reader extends Component {
 		};
 	}
 
-	sidebarIsSelected = (chapterItem) => this.props.readingCID == chapterItem.cid;
+	sidebarIsSelected = (chapterItem) => {
+		return this.props.readingCID == chapterItem.cid;
+	}
 
 	onLeftIconButtonTouchTap = () => {
 		this.props.dispatch(toggleAppDrawer());
+	}
+
+	getDocumentTitle = () => {
+		const { comicName, appBarTitle } = this.props;
+		return comicName ? `${comicName} - ${appBarTitle} | ComicsReader` : 'Reader | ComicsReader';
 	}
 
 	render() {
@@ -100,42 +110,44 @@ class Reader extends Component {
 		} = this.props;
 
 		return(
-			<div style={{overflow: 'hidden'}}>
-				<AppBar
-					title={appBarTitle}
-					style={{backgroundColor: grey800, position: 'fixed'}}
-					// iconElementRight={<Link to="/"><FlatButton label="收藏" /></Link>}
-					// iconElementRight={ <i className="material-icons md-36">face</i> }
-					onLeftIconButtonTouchTap={this.onLeftIconButtonTouchTap}
-				/>
-				<NavigationSidebar />
-				<div
-					ref="scrollContainer"
-					style={{
-						marginTop: 70,
-						overflow: 'auto',
-						position: 'absolute',
-						height: 'calc(100% - 70px)',
-						width: 'calc(100% - 35px)'
-					}}
-				>
-					<div className='switchArea' onClick={this.switchChapterBy(getPreviousChapterIndex)}>
-						<Icon iconName='navigate_before'/>
-					</div>
-					<div className='switchArea right' onClick={this.switchChapterBy(getNextChapterIndex)}>
-						<Icon iconName='navigate_next'/>
-					</div>
-					<ChapterSidebar
-						chapters={chapters}
-						onChapterItemClick={this.handleChapterClick}
-						drawerAutoClose={true}
-						isSelected={this.sidebarIsSelected}
+			<DocumentTitle title={this.getDocumentTitle()}>
+				<div style={{overflow: 'hidden'}}>
+					<AppBar
+						title={appBarTitle}
+						style={{backgroundColor: grey800, position: 'fixed'}}
+						// iconElementRight={<Link to="/"><FlatButton label="收藏" /></Link>}
+						// iconElementRight={ <i className="material-icons md-36">face</i> }
+						onLeftIconButtonTouchTap={this.onLeftIconButtonTouchTap}
 					/>
-					<ComicListView
-						comicImages={readingImages}
-					/>
+					<NavigationSidebar />
+					<div
+						ref="scrollContainer"
+						style={{
+							marginTop: 70,
+							overflow: 'auto',
+							position: 'absolute',
+							height: 'calc(100% - 70px)',
+							width: 'calc(100% - 35px)'
+						}}
+					>
+						<div className='switchArea' onClick={this.switchChapterBy(getPreviousChapterIndex)}>
+							<Icon iconName='navigate_before'/>
+						</div>
+						<div className='switchArea right' onClick={this.switchChapterBy(getNextChapterIndex)}>
+							<Icon iconName='navigate_next'/>
+						</div>
+						<ChapterSidebar
+							chapters={chapters}
+							onChapterItemClick={this.handleChapterClick}
+							drawerAutoClose={true}
+							isSelected={this.sidebarIsSelected}
+						/>
+						<ComicListView
+							comicImages={readingImages}
+						/>
+					</div>
 				</div>
-			</div>
+			</DocumentTitle>
 		);
 	}
 }

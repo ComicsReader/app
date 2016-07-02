@@ -11,6 +11,8 @@ import Radium from 'radium';
 import { grey800 } from 'material-ui/styles/colors';
 import { AppBar} from 'material-ui';
 
+import DocumentTitle from 'react-document-title';
+
 import SearchBar from '../components/SearchBar';
 import NavigationSidebar from '../components/NavigationSidebar';
 import ComicBook from '../components/ComicBook';
@@ -61,30 +63,37 @@ class Explorer extends Component {
 		this.props.dispatch(toggleAppDrawer());
 	}
 
+	getDocumentTitle = () => {
+		const { searchKeyword, currentPage, totalPage } = this.props;
+		return searchKeyword ? `${searchKeyword} - ${currentPage}/${totalPage} | ComicsReader` : 'Explorer | ComicsReader';
+	}
+
 	render() {
 		const { comics, isLoading } = this.props;
 
 		return(
-			<div style={{height: '100%', overflow: 'hidden'}}>
-				<AppBar
-					title="Explore"
-					style={{backgroundColor: grey800, position: 'fixed'}}
-					onLeftIconButtonTouchTap={this.onLeftIconButtonTouchTap}
-				>
-					<SearchBar onSubmit={this.onSubmit}/>
-				</AppBar>
+			<DocumentTitle title={this.getDocumentTitle()}>
+				<div style={{height: '100%', overflow: 'hidden'}}>
+					<AppBar
+						title="Explore"
+						style={{backgroundColor: grey800, position: 'fixed'}}
+						onLeftIconButtonTouchTap={this.onLeftIconButtonTouchTap}
+					>
+						<SearchBar onSubmit={this.onSubmit}/>
+					</AppBar>
 
-				<NavigationSidebar />
+					<NavigationSidebar />
 
-				<div style={{padding: '80px 20px 0', textAlign: 'center', height: 'calc(100% - 80px)'}} ref="scrollContainerRef">
-					{
-						comics.map(comic => {
-							return(<ComicBook {...comic} key={comic.comicID}/>);
-						})
-					}
-					{ isLoading ? <LoadIndicator style={{height: 100}}/> : null }
+					<div style={{padding: '80px 20px 0', textAlign: 'center', height: 'calc(100% - 80px)'}} ref="scrollContainerRef">
+						{
+							comics.map(comic => {
+								return(<ComicBook {...comic} key={comic.comicID}/>);
+							})
+						}
+						{ isLoading ? <LoadIndicator style={{height: 100}}/> : null }
+					</div>
 				</div>
-			</div>
+			</DocumentTitle>
 		);
 	}
 }
