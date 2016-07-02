@@ -1,11 +1,18 @@
 # Comics Reader
 
-fork 自 [zeroshine/ComicsScroller](https://github.com/zeroshine/ComicsScroller)，重建架構作為 redux 練習。預計作為 electron app 發佈。
+fork 自 [zeroshine/ComicsScroller](https://github.com/zeroshine/ComicsScroller)，重建架構作為 React/redux 練習。預計作為 electron app 發佈。
 
 目前進度詳見專案 [trello](https://trello.com/b/4XFDEKbV/comicscroller-pr-or-enhancement)。
 
+# Preview
+![](doc/reader.png)
+
+![](doc/reader_sidebar_toggle.png)
+
+![](doc/search.png)
 
 # Support Websites
+
 目前僅支援動漫屋，比起原作少一點，我會盡力把這部分標準化，方便加入其它站點。
 
 # LICENSE
