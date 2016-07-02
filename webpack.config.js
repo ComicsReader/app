@@ -1,6 +1,5 @@
 var Path = require('path');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var LiveReloadPlugin = require('webpack-livereload-plugin');
 
 module.exports = {
@@ -47,6 +46,6 @@ module.exports = {
 		new ExtractTextPlugin('css/[name].css'),
 		// new webpack.IgnorePlugin(/ReactContext|react\/addons/),
 		new LiveReloadPlugin({appendScriptTag: true})
-	]
+	],
 	devtool: '#inline-source-map'
 };
