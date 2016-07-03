@@ -1,7 +1,5 @@
-require('es6-promise').polyfill();
-require('fetch-everywhere');
-
-const $ = require('jquery');
+import 'fetch-everywhere';
+import $ from 'isomorphic-parse';
 
 // TODO: should support multiple regex
 export const regex = /http\:\/\/(tel||www)\.dm5\.com(\/m\d+\/)/;

@@ -1,0 +1,16 @@
+{
+  "name": "isomorphic-parse",
+  "version": "0.0.3",
+  "description": "",
+  "main": "index-node.js",
+  "browser": "index-browserify.js",
+  "scripts": {
+    "test": ""
+  },
+  "author": "Yukai Huang <yukaihuangtw@gmail.com> (https://yukaii.tw)",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^0.20.0",
+    "jquery": "^3.0.0"
+  }
+}

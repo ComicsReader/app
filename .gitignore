@@ -10,3 +10,4 @@ ComicsScroller/css/
 
 # npm modules
 comics-dm5/dist
+server/.env

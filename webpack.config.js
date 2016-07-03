@@ -39,6 +39,10 @@ module.exports = {
 			},
 			{ test: /\.(ttf|eot|svg)$/,
 				loader: 'url-loader?limit=100000'
+			},
+			{
+				test: /cheerio\/package$/,
+				loader: 'json'
 			}
 		]
 	},
