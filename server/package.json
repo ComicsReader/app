@@ -1,7 +1,7 @@
 {
   "name": "comics-reader-server",
   "version": "0.0.1",
-  "description": "",
+  "description": "The proxy server for ComicsReader app.",
   "main": "dist/app.js",
   "scripts": {
     "dev": "babel-node src/app.js",
