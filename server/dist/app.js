@@ -55,7 +55,7 @@ try {
 	_fs2.default.accessSync('.env', _fs2.default.F_OK);
 	require('dotenv').config();
 } catch (e) {
-	_fs2.default.createReadStream('.sample-env').pipe(_fs2.default.createWriteStream('.env'));
+	_fs2.default.createReadStream('.sample.env').pipe(_fs2.default.createWriteStream('.env'));
 }
 
 // parse application/x-www-form-urlencoded

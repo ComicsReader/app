@@ -11,7 +11,7 @@ try {
 	fs.accessSync('.env', fs.F_OK);
 	require('dotenv').config();
 } catch (e) {
-	fs.createReadStream('.sample-env')
+	fs.createReadStream('.sample.env')
 		.pipe(fs.createWriteStream('.env'));
 }
 
