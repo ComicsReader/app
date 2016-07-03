@@ -8,6 +8,8 @@ src/config.js
 ComicsScroller/js/
 ComicsScroller/css/
 
-# npm modules
+# other npm modules
 comics-dm5/dist
+
 server/.env
+server/dist
