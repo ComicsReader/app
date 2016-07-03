@@ -114,8 +114,12 @@ export function fetchComicsInfo(comicID) {
 	return new Promise((resolve) => {
 		fetch(`${baseURL}/${comicID}/`,
 			{
-				credentials: 'include',
-				headers: {Cookie: 'isAdult=1'}
+				headers: {
+					'accept-encoding': 'gzip, deflate, sdch',
+					'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+					'Accept-Language': 'en-US,en;q=0.8,zh-TW;q=0.6,zh;q=0.4,ja;q=0.2',
+					cookie: 'isAdult=1'
+				}
 			}
 		).then(r => r.text()).then(response => {
 			var comicIndex = $(response);
@@ -130,7 +134,7 @@ export function fetchComicsInfo(comicID) {
 
 			resolve({
 				chapters: chapterInfos,
-				comicName: comicIndex.find('.inbt_title_h2')[0].innerHTML
+				comicName: comicIndex.find('.inbt_title_h2').text()
 			});
 		}).catch(error => ({error}));
 	});
