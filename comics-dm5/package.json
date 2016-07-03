@@ -1,6 +1,6 @@
 {
   "name": "comics-dm5",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "dm5.com api client",
   "main": "dist/index.js",
   "browser": "dist/index.js",
@@ -12,7 +12,8 @@
   "license": "MIT",
   "dependencies": {
     "fetch-everywhere": "^1.0.5",
-    "isomorphic-parse": "^0.0.1"
+    "isomorphic-parse": "^0.0.1",
+    "query-string": "^4.2.2"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",

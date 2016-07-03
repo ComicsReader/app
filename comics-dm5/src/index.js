@@ -1,6 +1,8 @@
 import 'fetch-everywhere';
 import $ from 'isomorphic-parse';
 
+const queryString = require('query-string');
+
 // TODO: should support multiple regex
 export const regex = /http\:\/\/(tel||www)\.dm5\.com(\/m\d+\/)/;
 export const baseURL = 'http://www.dm5.com';
@@ -113,7 +115,7 @@ export function fetchComicsInfo(comicID) {
 		fetch(`${baseURL}/${comicID}/`,
 			{
 				credentials: 'include',
-				headers: {cookie: 'isAdult=1'}
+				headers: {Cookie: 'isAdult=1'}
 			}
 		).then(r => r.text()).then(response => {
 			var comicIndex = $(response);
@@ -177,7 +179,7 @@ export function fetchImagesCount(cid) {
 export function fetchImages(page, cid) {
 	return new Promise((resolve) => {
 		// imageFetchUrl: http://www.dm5.com/m251731/chapterfun.ashx?cid=251731&page=2
-		fetch(`${imageFetchUrl(cid)}?${$.param({ cid: cid, page: page, key: null, language: 1 })}`, {
+		fetch(`${imageFetchUrl(cid)}?${queryString.stringify({ cid: cid, page: page, key: null, language: 1 })}`, {
 			headers: {
 				Referer: 'http://www.dm5.com/'
 			}
