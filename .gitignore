@@ -7,3 +7,6 @@ src/config.js
 # ignore build results
 ComicsScroller/js/
 ComicsScroller/css/
+
+# npm modules
+comics-dm5/dist

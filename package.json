@@ -6,6 +6,8 @@
     "type": "git",
     "url": "https://github.com/Yukaii/ComicsReader.git"
   },
+  "author": "Yukai Huang",
+  "license": "MIT",
   "scripts": {
     "product": "webpack --config webpack.product.config.js --progress --colors --watch",
     "dev": "webpack --config webpack.config.js --progress --colors --watch",
@@ -51,11 +53,11 @@
   "dependencies": {
     "bluebird": "^3.4.0",
     "cheerio": "^0.20.0",
+    "comics-dm5": "0.0.1",
     "echo-js": "^1.7.3",
     "firebase": "^3.0.3",
     "flux": "^2.1.1",
     "immutable": "^3.8.1",
-    "jquery": "^3.0.0",
     "keycode": "^2.1.1",
     "lodash": "^4.12.0",
     "material-ui": "^0.15.0",

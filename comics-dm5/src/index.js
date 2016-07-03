@@ -1,5 +1,7 @@
-import 'whatwg-fetch';
-import $ from 'jquery';
+require('es6-promise').polyfill();
+require('fetch-everywhere');
+
+const $ = require('jquery');
 
 // TODO: should support multiple regex
 export const regex = /http\:\/\/(tel||www)\.dm5\.com(\/m\d+\/)/;
@@ -113,7 +115,7 @@ export function fetchComicsInfo(comicID) {
 		fetch(`${baseURL}/${comicID}/`,
 			{
 				credentials: 'include',
-				headers: {'cookie': 'isAdult=1'}
+				headers: {cookie: 'isAdult=1'}
 			}
 		).then(r => r.text()).then(response => {
 			var comicIndex = $(response);
@@ -177,7 +179,11 @@ export function fetchImagesCount(cid) {
 export function fetchImages(page, cid) {
 	return new Promise((resolve) => {
 		// imageFetchUrl: http://www.dm5.com/m251731/chapterfun.ashx?cid=251731&page=2
-		fetch(`${imageFetchUrl(cid)}?${$.param({ cid: cid, page: page, key: null, language: 1 })}`).then(r => r.text()).then(imageJs => {
+		fetch(`${imageFetchUrl(cid)}?${$.param({ cid: cid, page: page, key: null, language: 1 })}`, {
+			headers: {
+				Referer: 'http://www.dm5.com/'
+			}
+		}).then(r => r.text()).then(imageJs => {
 			var images = eval(imageJs);
 			// console.log(`fetchImages: ${images}`);
 			resolve(images);
