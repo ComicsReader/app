@@ -4,18 +4,20 @@ fork 自 [zeroshine/ComicsScroller](https://github.com/zeroshine/ComicsScroller)
 
 目前進度詳見專案 [trello](https://trello.com/b/4XFDEKbV/comicscroller-pr-or-enhancement)。
 
-# Preview
+## Preview
+
 ![](doc/reader.png)
 
 ![](doc/reader_sidebar_toggle.png)
 
 ![](doc/search.png)
 
-# Support Websites
+## Support Websites
 
 目前僅支援動漫屋，比起原作少一點，我會盡力把這部分標準化，方便加入其它站點。
 
-# LICENSE
+## LICENSE
+
 The MIT License (MIT)
 
 Copyright (c) 2016 Yukai Huang
