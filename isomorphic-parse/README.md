@@ -2,22 +2,19 @@
 
 DOM parsing for both node & browserify. A wrapped library of jquery & cheerio.
 
-# Installation
+## Installation
 
-## NPM
+### NPM
 
-```
+```bash
 npm install --save isomorphic-parse
 ```
 
-## Webpack config
+### Webpack config
 
 If you're using webpack, you would also need the following setup from [cheerio build issue](https://github.com/cheeriojs/cheerio/pull/801).
 
-1. install json-loader
-
-   ```npm install --save-dev json-loader```
-
+1. install json-loader: `npm install --save-dev json-loader`
 2. Go to your webpack config and make sure to use the "json-loader" and configure that "cheerio/package" is resolved with the "json-loader".
 
 ```js
@@ -33,7 +30,7 @@ module: {
 
 
 
-# Usage
+## Usage
 
 ```js
 const $ = require('isomorphic-parse')
@@ -53,10 +50,10 @@ cheerio.find = cheerio;
 module.exports = cheerio;
 ```
 
-Now in cheerio, we can use `find` method in jquery style, but it should be differed from jquery global query style,  ```$(selector)``` .
+Now in cheerio, we can use `find` method in jquery style, but it should be differed from jquery global query style,  `$(selector)` .
 
 
 
-# LISENCE
+## LISENCE
 
 MIT

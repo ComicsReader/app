@@ -1,10 +1,9 @@
 export default {
   firebase: {
-      apiKey: '',
-      authDomain: '',
-      databaseURL: '',
-      storageBucket: ''
-    }
+    apiKey: '',
+    authDomain: '',
+    databaseURL: '',
+    storageBucket: ''
   },
 
   apiURL: ''
