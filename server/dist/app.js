@@ -63,6 +63,10 @@ app.use(_bodyParser2.default.urlencoded({ extended: false }));
 // parse application/json
 app.use(_bodyParser2.default.json());
 
+app.get('/', function (req, res) {
+	res.json({ message: 'Hello World' });
+});
+
 var func = {
 	fetchComicsInfo: {
 		args: ['comicID']

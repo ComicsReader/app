@@ -20,6 +20,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
+app.get('/', (req, res) => {
+	res.json({message: 'Hello World'});
+});
+
 const func = {
 	fetchComicsInfo: {
 		args: ['comicID']
