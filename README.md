@@ -6,11 +6,11 @@ fork 自 [zeroshine/ComicsScroller](https://github.com/zeroshine/ComicsScroller)
 
 ## Preview
 
-![](doc/reader.png)
+![](docs/images/reader.png)
 
-![](doc/reader_sidebar_toggle.png)
+![](docs/images/reader_sidebar_toggle.png)
 
-![](doc/search.png)
+![](docs/images/search.png)
 
 ## Support Websites
 
