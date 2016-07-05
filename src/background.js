@@ -14,12 +14,16 @@ let chapterfunhandler = function(details) {
 };
 
 let mhandler = function(details) {
-	for (let i = 0; i < details.requestHeaders.length; ++i) {
-		if (details.requestHeaders[i].name === 'Cookie') {
-			details.requestHeaders[i].value += ';isAdult=1';
-			break;
-		}
+	let cookieIndex = details.requestHeaders.findIndex(header => header.name == 'Cookie');
+	if (cookieIndex > 0) {
+		details.requestHeaders[cookieIndex] = {name: 'Cookie', value: `${details.requestHeaders[cookieIndex]};isAdult=1;`};
+	} else {
+		details.requestHeaders = [...details.requestHeaders, {
+			name: 'Cookie',
+			value: 'isAdult=1'
+		}];
 	}
+
 	return {
 		requestHeaders: details.requestHeaders
 	};
