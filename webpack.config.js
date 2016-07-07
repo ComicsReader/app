@@ -6,10 +6,9 @@ module.exports = {
 	entry: {
 		app_min:'./src/App.js',
 		background:'./src/background.js'
-		// popup_min:'./src/popup.jsx'
 	},
 	output:{
-		path:Path.resolve(__dirname, 'ComicsScroller/'),
+		path: Path.resolve(__dirname, 'ComicsReader/'),
 		filename: 'js/[name].js'
 	},
 	module:{

@@ -1,8 +1,10 @@
 {
     "name":"Comics Reader",
-    "version":"1.0.0",
+    "version":"0.9.8",
+		"author": "Yukai Huang",
+		"short_name": "ComicsReader",
     "manifest_version": 2,
-    "description":"一個支援動漫屋、無限動漫、sfacg，給你更好的漫畫閱讀體驗的 chrome extension",
+    "description":"一個 dm5 的閱讀器。Fork 自 zeroshine 的 ComicsScroller",
     "icons":{
         "16":"img/comics-16.png",
         "48":"img/comics-48.png",
@@ -13,8 +15,7 @@
         "default_icon": {
           "16": "img/comics-16.png"
         },
-        "default_title": "Comics Reader",
-        "default_popup": "popup.html"
+        "default_title": "Comics Reader"
     },
     "background":{
         "page": "background.html",
@@ -23,6 +24,7 @@
     "permissions":[
     	"webNavigation",
     	"alarms",
+			"contextMenus",
     	"unlimitedStorage",
     	"notifications",
     	"webRequest",
@@ -37,5 +39,8 @@
     	"http://*.cdndm5.com/*"
     ],
     "content_security_policy": "img-src 'self' data: * ; script-src 'self' 'unsafe-eval' https://*.google-analytics.com https://ajax.googleapis.com ; object-src 'self' ; ",
-    "web_accessible_resources":["js/*.js","css/*.css"]
+    "web_accessible_resources":[
+			"js/*.js",
+			"css/*.css"
+		]
 }

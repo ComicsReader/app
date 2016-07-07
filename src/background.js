@@ -65,3 +65,20 @@ chrome.webNavigation.onCommitted.addListener(function(details) {
 		urlMatches: 'http://(tel||www)\.dm5\.com/m\d*'
 	}]
 });
+
+chrome.browserAction.onClicked.addListener(() => {
+	let windowID = chrome.windows.create({
+		type: 'popup',
+		url: `${chrome.extension.getURL('index.html')}#/explore`
+	});
+});
+
+chrome.contextMenus.create({
+	title: 'Open in new Tab',
+	contexts: ['browser_action'],
+	onclick: function() {
+		chrome.tabs.create({
+			url: `${chrome.extension.getURL('index.html')}#/explore`
+		});
+	}
+});

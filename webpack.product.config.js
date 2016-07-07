@@ -8,7 +8,7 @@ module.exports = {
 		background:'./src/background.js'
 	},
 	output:{
-		path:Path.resolve(__dirname, 'ComicsScroller/'),
+		path:Path.resolve(__dirname, 'ComicsReader/'),
 		filename: 'js/[name].js'
 	},
 	module:{

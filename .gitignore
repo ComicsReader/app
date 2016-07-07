@@ -5,8 +5,8 @@ npm-debug.log
 src/config.js
 
 # ignore build results
-ComicsScroller/js/
-ComicsScroller/css/
+ComicsReader/js/
+ComicsReader/css/
 
 # other npm modules
 comics-dm5/dist

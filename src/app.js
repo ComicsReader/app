@@ -17,7 +17,7 @@ import Reader from './containers/Reader';
 import Collection from './containers/Collection';
 import Explorer from './containers/Explorer';
 
-import './less/main.less';
+import './styles/main.scss';
 
 // Needed for React Developer Tools
 window.React = React;
