@@ -5,8 +5,9 @@ npm-debug.log
 src/config.js
 
 # ignore build results
-ComicsReader/js/
-ComicsReader/css/
+extension_chrome/js/
+extension_chrome/css/
+extension_chrome.zip
 
 # other npm modules
 comics-dm5/dist
