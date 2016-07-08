@@ -1,16 +1,8 @@
-var Path = require('path');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var webpack = require('webpack');
+const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack');
 
-module.exports = {
-	entry: {
-		app_min:'./src/App.js',
-		background:'./src/background.js'
-	},
-	output:{
-		path:Path.resolve(__dirname, 'ComicsReader/'),
-		filename: 'js/[name].js'
-	},
+const configBase = {
 	module:{
 		loaders: [
 			{
@@ -38,6 +30,10 @@ module.exports = {
 			},
 			{ test: /\.(ttf|eot|svg)$/,
 				loader: 'url-loader?limit=100000'
+			},
+			{
+				test: /cheerio\/package$/,
+				loader: 'json'
 			}
 		]
 	},
@@ -63,5 +59,48 @@ module.exports = {
 				'NODE_ENV': JSON.stringify('production')
 			}
 		})
-	]
+	],
+	externals: [
+    (function () {
+      var IGNORES = [
+        'electron'
+      ];
+      return function (context, request, callback) {
+        if (IGNORES.indexOf(request) >= 0) {
+          return callback(null, "require('" + request + "')");
+        }
+        return callback();
+      };
+    })()
+	],
+	resolve: {
+		root: path.resolve('./src'),
+		extensions: ['', '.js']
+	}
 };
+
+module.exports = [
+	Object.assign(configBase, {
+		name: 'chrome',
+		entry: {
+			app:'./src/app.js',
+			background:'./src/platform/chrome-ext/background.js'
+		},
+		output: {
+			path: path.join(__dirname, 'extension_chrome/js'),
+			filename: '[name].js'
+		}
+	}),
+
+	Object.assign(configBase, {
+		name: 'electron',
+		entry: {
+			app:'./src/app.js',
+			main:'./src/platform/electron/main.js'
+		},
+		output: {
+			path: path.join(__dirname, 'electron/js'),
+			filename: '[name].js'
+		}
+	})
+];

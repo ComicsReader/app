@@ -9,6 +9,9 @@ extension_chrome/js/
 extension_chrome/css/
 extension_chrome.zip
 
+electron/js/
+electron/dist
+
 # other npm modules
 comics-dm5/dist
 

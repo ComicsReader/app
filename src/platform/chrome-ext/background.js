@@ -1,4 +1,4 @@
-import {comicManagers} from './services';
+import {comicManagers} from 'services';
 const { dm5 } = comicManagers;
 
 let windowID;
