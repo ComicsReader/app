@@ -30,7 +30,7 @@ injectTapEventPlugin();
 const App = () => (
 	<MuiThemeProvider muiTheme={getMuiTheme()}>
 		<Router history={history}>
-			<Route path="/" component={Collection}/>
+			<Route path="/" component={Explorer}/>
 			<Route path="/reader/:site/:chapter" component={Reader}/>
 			<Route path="/explore" component={Explorer}/>
 		</Router>
