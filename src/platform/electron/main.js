@@ -1,3 +1,4 @@
+/* global process */
 const electron = require('electron');
 const {app, session, BrowserWindow} = electron;
 

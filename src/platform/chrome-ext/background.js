@@ -1,3 +1,4 @@
+/* global chrome */
 import {comicManagers} from 'services';
 const { dm5 } = comicManagers;
 
@@ -67,7 +68,7 @@ chrome.webNavigation.onCommitted.addListener(function(details) {
 });
 
 chrome.browserAction.onClicked.addListener(() => {
-	let windowID = chrome.windows.create({
+	chrome.windows.create({
 		type: 'popup',
 		url: `${chrome.extension.getURL('index.html')}#/explore`
 	});
