@@ -1,5 +1,5 @@
-import * as t from '../constants/ActionTypes';
-import { comicManagers } from '../services';
+import * as t from 'constants/ActionTypes';
+import { comicManagers } from 'services';
 
 export const initComicManager = ({site, chapterID}) => {
 	return dispatch => {

@@ -13,13 +13,13 @@ import { AppBar} from 'material-ui';
 
 import DocumentTitle from 'react-document-title';
 
-import SearchBar from '../components/SearchBar';
-import NavigationSidebar from '../components/NavigationSidebar';
-import ComicBook from '../components/ComicBook';
-import LoadIndicator from '../components/LoadIndicator';
+import SearchBar from 'components/SearchBar';
+import NavigationSidebar from 'components/NavigationSidebar';
+import ComicBook from 'components/ComicBook';
+import LoadIndicator from 'components/LoadIndicator';
 
-import * as SearchActions from '../actions/SearchActions';
-import {toggleAppDrawer} from '../actions/UIActions';
+import * as SearchActions from 'actions/SearchActions';
+import {toggleAppDrawer} from 'actions/UIActions';
 
 @Radium
 class Explorer extends Component {

@@ -1,4 +1,4 @@
-import * as t from '../constants/ActionTypes';
+import * as t from 'constants/ActionTypes';
 
 const initialState = {
 	comics: [],

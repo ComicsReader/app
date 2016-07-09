@@ -13,14 +13,14 @@ import { grey800 } from 'material-ui/styles/colors';
 
 import DocumentTitle from 'react-document-title';
 
-import Icon from '../components/Icon';
-import ComicListView from '../components/ComicListView';
-import ChapterSidebar from '../components/ChapterSidebar';
-import NavigationSidebar from '../components/NavigationSidebar';
+import Icon from 'components/Icon';
+import ComicListView from 'components/ComicListView';
+import ChapterSidebar from 'components/ChapterSidebar';
+import NavigationSidebar from 'components/NavigationSidebar';
 
-import * as ChapterActions from '../actions/ChapterActions';
-import {toggleAppDrawer} from '../actions/UIActions';
-import { getNextChapterIndex, getPreviousChapterIndex } from '../reducers/selectors';
+import * as ChapterActions from 'actions/ChapterActions';
+import {toggleAppDrawer} from 'actions/UIActions';
+import { getNextChapterIndex, getPreviousChapterIndex } from 'reducers/selectors';
 
 import '../styles/SwitchArea.scss';
 

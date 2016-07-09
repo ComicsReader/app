@@ -13,11 +13,11 @@ import { history } from './services';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import Reader from './containers/Reader';
-import Collection from './containers/Collection';
-import Explorer from './containers/Explorer';
+import Reader from 'containers/Reader';
+import Collection from 'containers/Collection';
+import Explorer from 'containers/Explorer';
 
-import './styles/main.scss';
+import 'styles/main.scss';
 
 // Needed for React Developer Tools
 window.React = React;

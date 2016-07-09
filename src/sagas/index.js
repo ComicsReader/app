@@ -1,9 +1,8 @@
 import { take, put, call, fork, select } from 'redux-saga/effects';
 import { takeLatest } from 'redux-saga';
-import * as t from '../constants/ActionTypes';
-import { getComicManager, getSearchState } from '../reducers/selectors';
-import { history } from '../services';
-import { comicManagers } from '../services';
+import * as t from 'constants/ActionTypes';
+import { getComicManager, getSearchState } from 'reducers/selectors';
+import { history, comicManagers } from 'services';
 
 // default comics service
 const DM5 = comicManagers.dm5;

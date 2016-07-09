@@ -3,8 +3,6 @@ import {
 	PropTypes
 } from 'react';
 
-import Paper from 'material-ui/Paper';
-
 const style = {
 	container: {
 		marginTop: 13,

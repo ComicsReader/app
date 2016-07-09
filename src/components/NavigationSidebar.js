@@ -8,10 +8,10 @@ import { connect } from 'react-redux';
 import { Drawer, MenuItem } from 'material-ui';
 import { grey800, grey50 } from 'material-ui/styles/colors';
 
-import Icon from '../components/Icon';
+import Icon from 'components/Icon';
 
-import * as t from '../constants/ActionTypes';
-import {toggleAppDrawer} from '../actions/UIActions';
+import * as t from 'constants/ActionTypes';
+import {toggleAppDrawer} from 'actions/UIActions';
 
 const styles = {
 	iconStyle: {fontSize: 22, verticalAlign: 'middle', marginRight: 30}
