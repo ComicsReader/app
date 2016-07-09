@@ -1,3 +1,4 @@
+/* eslint-env node */
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
@@ -29,7 +30,7 @@ const baseConfig = Object.assign(require('./baseConfig'), {
 });
 
 module.exports = [
-	Object.assign(baseConfig, {
+	Object.assign({}, baseConfig, {
 		name: 'chrome',
 		entry: {
 			app:'./src/app.js',
@@ -38,10 +39,15 @@ module.exports = [
 		output: {
 			path: path.join(__dirname, 'extension_chrome/js'),
 			filename: '[name].js'
-		}
+		},
+		plugins: [
+			new webpack.DefinePlugin({
+				PLATFORM: JSON.stringify('chrome')
+			})
+		]
 	}),
 
-	Object.assign(baseConfig, {
+	Object.assign({}, baseConfig, {
 		name: 'electron',
 		entry: {
 			app:'./src/app.js',
@@ -50,6 +56,11 @@ module.exports = [
 		output: {
 			path: path.join(__dirname, 'electron/js'),
 			filename: '[name].js'
-		}
+		},
+		plugins: [
+			new webpack.DefinePlugin({
+				PLATFORM: JSON.stringify('electron')
+			})
+		]
 	})
 ];
