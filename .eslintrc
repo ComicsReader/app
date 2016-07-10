@@ -35,6 +35,7 @@
 			"error",
 			"always"
 		],
+		"no-console": 0,
 		"react/jsx-uses-react": "warn",
 		"react/react-in-jsx-scope": "off",
 		"react/prefer-stateless-function": "warn",

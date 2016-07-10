@@ -1,7 +1,4 @@
-import React, {
-	Component,
-	PropTypes
-} from 'react';
+import React, { Component, PropTypes } from 'react';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -22,7 +19,7 @@ import * as ChapterActions from 'actions/ChapterActions';
 import {toggleAppDrawer} from 'actions/UIActions';
 import { getNextChapterIndex, getPreviousChapterIndex } from 'reducers/selectors';
 
-import '../styles/SwitchArea.scss';
+import 'styles/SwitchArea.scss';
 
 @Radium
 class Reader extends Component {

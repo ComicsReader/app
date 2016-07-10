@@ -66,6 +66,7 @@ export default class ChapterSidebar extends Component {
 									onClick={this.onChapterItemClick(chapterItem)}
 									style={style}
 									innerDivStyle={{paddingLeft: 37}}
+									key={`chapter_item_${chapterItem.cid}`}
 								>
 									{chapterItem.title}
 								</MenuItem>

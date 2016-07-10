@@ -30,29 +30,8 @@ export default class ComicListView extends Component {
 		}
 	}
 
-	rowRenderer = ({index}) => {
-		const { comicImages } = this.props;
-		var image = comicImages[index];
-		return <ComicImage key={image} src={image} />;
-	}
-
 	render() {
 		const { comicImages } = this.props;
-
-		/*
-		<AutoSizer>
-			{({ height, width }) => (
-				<VirtualScroll
-					// ref={registerChild}
-					rowCount={comicImages.length}
-					width={width}
-					height={height}
-					rowHeight={500}
-					rowRenderer={this.rowRenderer}
-				/>
-			)}
-		</AutoSizer>
-		*/
 
 		if (comicImages.length == 0) {
 			return(<LoadIndicator />);
