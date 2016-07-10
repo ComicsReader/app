@@ -19,6 +19,7 @@ import ComicBook from 'components/ComicBook';
 import LoadIndicator from 'components/LoadIndicator';
 
 import * as SearchActions from 'actions/SearchActions';
+import * as ConfigActions from 'actions/ConfigActions';
 import {toggleAppDrawer} from 'actions/UIActions';
 
 @Radium
@@ -31,7 +32,14 @@ class Explorer extends Component {
 		searchKeyword: PropTypes.string,
 		currentPage: PropTypes.number,
 		totalPage: PropTypes.number,
-		dispatch: PropTypes.func
+		dispatch: PropTypes.func,
+
+		/* configs */
+		collections: PropTypes.object,
+		fetchCollections: PropTypes.func,
+		addCollection: PropTypes.func,
+		removeCollection: PropTypes.func,
+		turnOffFetchCollectionCallback: PropTypes.func
 	}
 
 	constructor(props) {
@@ -40,10 +48,12 @@ class Explorer extends Component {
 
 	componentDidMount() {
 		document.body.onscroll = this.loadMore;
+		this.props.fetchCollections();
 	}
 
 	componentWillUnmount() {
 		document.body.onscroll = null;
+		this.props.turnOffFetchCollectionCallback();
 	}
 
 	onSubmit = (value) => {
@@ -68,6 +78,22 @@ class Explorer extends Component {
 		return searchKeyword ? `${searchKeyword} - ${currentPage}/${totalPage} | ComicsReader` : 'Explorer | ComicsReader';
 	}
 
+	isStarred = (comic) => {
+		return typeof this.props.collections[comic.comicID] === 'object';
+	}
+
+	toggleCollection = (comic) => {
+		if (this.isStarred(comic)) {
+			return () => {
+				this.props.removeCollection(comic.comicID);
+			};
+		} else {
+			return () => {
+				this.props.addCollection(comic);
+			};
+		}
+	}
+
 	render() {
 		const { comics, isLoading } = this.props;
 
@@ -87,7 +113,14 @@ class Explorer extends Component {
 					<div style={{padding: '80px 20px 0', textAlign: 'center', height: 'calc(100% - 80px)'}} ref="scrollContainerRef">
 						{
 							comics.map(comic => {
-								return(<ComicBook {...comic} key={comic.comicID}/>);
+								return(
+									<ComicBook
+										{...comic}
+										key={comic.comicID}
+										onStarButtonClick={this.toggleCollection(comic)}
+										starred={this.isStarred(comic)}
+									/>
+								);
 							})
 						}
 						{ isLoading ? <LoadIndicator style={{height: 100}}/> : null }
@@ -101,9 +134,14 @@ class Explorer extends Component {
 export default connect(state => {
 	/* map state to props */
 	return {
-		...state.searchState
+		...state.searchState,
+		collections: state.config.collections
 	};
 }, dispatch => {
 	/* map dispatch to props */
-	return({...bindActionCreators(SearchActions, dispatch), dispatch});
+	return({
+		...bindActionCreators(SearchActions, dispatch),
+		...bindActionCreators(ConfigActions, dispatch),
+		dispatch
+	});
 })(Explorer);

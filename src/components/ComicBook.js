@@ -3,9 +3,14 @@ import {
 	PropTypes
 } from 'react';
 
+import Radium from 'radium';
+
+import { yellow500 } from 'material-ui/styles/colors';
+
+import Icon from 'components/Icon';
 import { Link } from 'react-router';
 
-const style = {
+const styles = {
 	container: {
 		display: 'inline-block',
 		padding: 10
@@ -23,30 +28,60 @@ const style = {
 	image: {
 		width: 195,
 		height: 260
+	},
+	starButton: {
+		fontSize: '40px',
+		cursor: 'pointer',
+		color: yellow500
+	},
+	starred: {
+		color: yellow500
+	},
+	starButtonContainer: {
+		position: 'absolute',
+		marginLeft: '150px'
 	}
 };
 
+@Radium
 export default class ComicBook extends Component {
 	static propTypes = {
 		coverImage: PropTypes.string,
 		latestChapter: PropTypes.string,
-		comicName: PropTypes.string
+		comicName: PropTypes.string,
+		starred: PropTypes.bool,
+		onStarButtonClick: PropTypes.func
 	}
+
+	iconName = () => this.props.starred ? 'star' : 'star_border';
+
+	iconStyle = () => this.props.starred ? styles.starred : { };
 
 	render() {
 		const {
 			coverImage,
 			latestChapter,
-			comicName
+			comicName,
+			onStarButtonClick
 		} = this.props;
 
 		return(
-			<div style={style.container}>
-				<div style={style.book}>
+			<div style={styles.container}>
+				<div style={styles.starButtonContainer}>
+					<Icon
+						iconName={this.iconName()}
+						style={{
+							...styles.starButton,
+							...this.iconStyle()
+						}}
+						onClick={onStarButtonClick}
+					/>
+				</div>
+				<div style={styles.book}>
 					<Link to={`/reader/dm5/${latestChapter}`}>
-						<img src={coverImage} style={style.image}/>
+						<img src={coverImage} style={styles.image}/>
 					</Link>
-					<Link to={`/reader/dm5/${latestChapter}`} style={style.link}>
+					<Link to={`/reader/dm5/${latestChapter}`} style={styles.link}>
 						{comicName}
 					</Link>
 				</div>

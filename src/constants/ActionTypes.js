@@ -23,3 +23,6 @@ export const CLEAR_SEARCH_RESULT        = 'CLEAR_SEARCH_RESULT';
 /* UI actions */
 export const TOGGLE_APP_DRAWER          = 'TOGGLE_APP_DRAWER';
 export const CHANGE_DRAWER_STATE        = 'CHANGE_DRAWER_STATE';
+
+/* Collections */
+export const FETCH_ALL_COLLECTION       = 'FETCH_ALL_COLLECTION';

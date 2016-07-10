@@ -6,14 +6,15 @@ import Radium from 'radium';
 export default class Icon extends Component {
 	static propTypes = {
 		style: PropTypes.object,
-		iconName: PropTypes.string
+		iconName: PropTypes.string,
+		onClick: PropTypes.func
 	}
 
 	render() {
-		const {style, iconName} = this.props;
+		const {style, iconName, onClick} = this.props;
 
 		return(
-			<i className="material-icons" style={style}>{iconName}</i>
+			<i className="material-icons" style={[style]} onClick={onClick}>{iconName}</i>
 		);
 
 	}

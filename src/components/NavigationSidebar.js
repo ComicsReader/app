@@ -29,6 +29,11 @@ class NavigationSidebar extends Component {
 		this.props.dispatch(toggleAppDrawer());
 	}
 
+	onCollectionClick = () => {
+		this.props.dispatch({type: t.NAVIGATE, pathname: '/collection'});
+		this.props.dispatch(toggleAppDrawer());
+	}
+
 	onRequestChange = (drawerOpen) => {
 		const { dispatch } = this.props;
 		dispatch({type: t.CHANGE_DRAWER_STATE, drawerOpen});
@@ -58,7 +63,10 @@ class NavigationSidebar extends Component {
 					<Icon iconName="history" style={styles.iconStyle} />
 						Recent
 				</MenuItem>
-				<MenuItem style={{color: grey50, paddingLeft: 10, lineHeight: '60px'}}>
+				<MenuItem
+					style={{color: grey50, paddingLeft: 10, lineHeight: '60px'}}
+					onClick={this.onCollectionClick}
+				>
 					<Icon iconName="library_books" style={styles.iconStyle} />
 						Collection
 				</MenuItem>

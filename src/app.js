@@ -17,6 +17,8 @@ import Reader from 'containers/Reader';
 import Collection from 'containers/Collection';
 import Explorer from 'containers/Explorer';
 
+import { initializeDeviceId } from 'utils';
+
 import 'styles/main.scss';
 
 // Needed for React Developer Tools
@@ -32,14 +34,17 @@ const App = () => (
 		<Router history={history}>
 			<Route path="/" component={Explorer}/>
 			<Route path="/reader/:site/:chapter" component={Reader}/>
+			<Route path="/collection" component={Collection} />
 			<Route path="/explore" component={Explorer}/>
 		</Router>
 	</MuiThemeProvider>
 );
 
-ReactDOM.render(
-	<Provider store={ store }>
-		<App />
-	</Provider>,
-	document.getElementById('app')
-);
+initializeDeviceId({callback: () => {
+	ReactDOM.render(
+		<Provider store={ store }>
+			<App />
+		</Provider>,
+		document.getElementById('app')
+	);
+}});

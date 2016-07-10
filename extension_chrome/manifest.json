@@ -38,7 +38,7 @@
     	"http://*.dm5.com/*",
     	"http://*.cdndm5.com/*"
     ],
-    "content_security_policy": "img-src 'self' data: * ; script-src 'self' 'unsafe-eval' https://*.google-analytics.com https://ajax.googleapis.com ; object-src 'self' ; ",
+    "content_security_policy": "img-src 'self' data: * ; script-src 'self' 'unsafe-eval' https://*.google-analytics.com https://ajax.googleapis.com https://*.firebaseio.com ; object-src 'self' ; ",
     "web_accessible_resources":[
 			"js/*.js",
 			"css/*.css"
