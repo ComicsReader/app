@@ -86,7 +86,7 @@ class Collection extends Component {
 
 	render() {
 		return(
-			<DocumentTitle title="Collection">
+			<DocumentTitle title="Collections | ComicsReader">
 				<div style={{height: '100%', overflow: 'hidden'}}>
 					<AppBar
 						title="Collection"
@@ -109,17 +109,20 @@ class Collection extends Component {
 
 					<div style={{padding: '80px 20px 0', textAlign: 'center', height: 'calc(100% - 80px)'}}>
 						{
-							Object.keys(this.props.collections).map(comicID => {
-								let comic = this.props.collections[comicID];
-								return(
-									<ComicBook
-										{...comic}
-										key={comic.comicID}
-										onStarButtonClick={this.onStarButtonClick(comic)}
-										starred={this.isStarred(comic)}
-									/>
-								);
-							})
+							Object.keys(this.props.collections)
+								.map(comicID => this.props.collections[comicID])
+								.sort((a, b) => b.updated_at - a.updated_at)
+								.map(comic => {
+									return(
+										<ComicBook
+											{...comic}
+											key={comic.comicID}
+											onStarButtonClick={this.onStarButtonClick(comic)}
+											starred={this.isStarred(comic)}
+										/>
+									);
+								}
+							)
 						}
 					</div>
 				</div>

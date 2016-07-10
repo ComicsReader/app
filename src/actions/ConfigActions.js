@@ -22,7 +22,7 @@ export const turnOffFetchCollectionCallback = () => {
 };
 
 export const addCollection = (comic) => {
-	return dispatch => firebaseApp.database().ref(`users/${deviceID}/collections/${comic.comicID}`).set(comic);
+	return dispatch => firebaseApp.database().ref(`users/${deviceID}/collections/${comic.comicID}`).set({...comic, created_at: new Date().getTime()});
 };
 
 export const removeCollection = (key, callback=null) => {
