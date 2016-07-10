@@ -6,7 +6,7 @@ import {
 import { connect } from 'react-redux';
 
 import { Drawer, MenuItem } from 'material-ui';
-import { grey800, grey50 } from 'material-ui/styles/colors';
+import { grey800, grey50, grey500 } from 'material-ui/styles/colors';
 
 import Icon from 'components/Icon';
 
@@ -14,7 +14,13 @@ import * as t from 'constants/ActionTypes';
 import {toggleAppDrawer} from 'actions/UIActions';
 
 const styles = {
-	iconStyle: {fontSize: 22, verticalAlign: 'middle', marginRight: 30}
+	iconStyle: {fontSize: 22, verticalAlign: 'middle', marginRight: 30},
+	menuItem: {color: grey50, paddingLeft: 10, lineHeight: '60px'},
+	seperator: {
+		color: grey500,
+		border: 'solid 0.5px',
+		borderBottomWidth: '0px'
+	}
 };
 
 class NavigationSidebar extends Component {
@@ -24,14 +30,11 @@ class NavigationSidebar extends Component {
 		dispatch: PropTypes.func
 	}
 
-	onSearchClick = () => {
-		this.props.dispatch({type: t.NAVIGATE, pathname: '/explore'});
-		this.props.dispatch(toggleAppDrawer());
-	}
-
-	onCollectionClick = () => {
-		this.props.dispatch({type: t.NAVIGATE, pathname: '/collection'});
-		this.props.dispatch(toggleAppDrawer());
+	navigateTo = (pathname) => {
+		return () => {
+			this.props.dispatch({type: t.NAVIGATE, pathname: pathname});
+			this.props.dispatch(toggleAppDrawer());
+		};
 	}
 
 	onRequestChange = (drawerOpen) => {
@@ -53,22 +56,37 @@ class NavigationSidebar extends Component {
 				style={{color: grey50}}
 			>
 				<MenuItem
-					style={{color: grey50, paddingLeft: 10, lineHeight: '60px'}}
-					onClick={this.onSearchClick}
+					style={styles.menuItem}
+					onClick={this.navigateTo('/explore')}
 				>
 					<Icon iconName="search" style={styles.iconStyle} />
 						Search
 				</MenuItem>
-				<MenuItem style={{color: grey50, paddingLeft: 10, lineHeight: '60px'}}>
+				<MenuItem style={styles.menuItem}>
 					<Icon iconName="history" style={styles.iconStyle} />
 						Recent
 				</MenuItem>
 				<MenuItem
-					style={{color: grey50, paddingLeft: 10, lineHeight: '60px'}}
-					onClick={this.onCollectionClick}
+					style={styles.menuItem}
+					onClick={this.navigateTo('/collection')}
 				>
 					<Icon iconName="library_books" style={styles.iconStyle} />
 						Collection
+				</MenuItem>
+				<div style={styles.seperator} />
+				<MenuItem
+					style={styles.menuItem}
+					// onClick={null}
+				>
+					<Icon iconName="settings" style={styles.iconStyle} />
+						Setting
+				</MenuItem>
+				<MenuItem
+					style={styles.menuItem}
+					// onClick={null}
+				>
+					<Icon iconName="info" style={styles.iconStyle} />
+						About
 				</MenuItem>
 			</Drawer>
 		);

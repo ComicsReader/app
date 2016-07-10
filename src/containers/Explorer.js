@@ -75,7 +75,7 @@ class Explorer extends Component {
 
 	getDocumentTitle = () => {
 		const { searchKeyword, currentPage, totalPage } = this.props;
-		return searchKeyword ? `${searchKeyword} - ${currentPage}/${totalPage} | ComicsReader` : 'Explorer | ComicsReader';
+		return searchKeyword ? `${searchKeyword} - ${currentPage}/${totalPage} | ComicsReader` : 'Explore | ComicsReader';
 	}
 
 	isStarred = (comic) => {
