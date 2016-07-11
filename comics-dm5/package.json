@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "browser": "dist/index.js",
   "scripts": {
+    "watch": "babel src --watch --presets babel-preset-es2015 --out-dir dist",
     "build": "babel src --presets babel-preset-es2015 --out-dir dist",
     "prepublish": "npm run build"
   },
