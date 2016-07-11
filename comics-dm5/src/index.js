@@ -24,18 +24,33 @@ export function getComicName(comicID) {
 	});
 }
 
-export function getComicInfo(comicID, type='chapters') {
+export function getComicCoverImage(comicID) {
+	return new Promise((resolve) => {
+		getComicInfo(comicID, 'coverImage').then(comicName => resolve(comicName)).catch(error => ({error}));
+	});
+}
+
+export function getComicInfo(comicID, type=null) {
 	return new Promise((resolve) => {
 		if (typeof chapterCache[comicID] === 'undefined') {
 			chapterCache[comicID] = {};
 		} else if (chapterCache[comicID].hasOwnProperty(type)) {
 			resolve(chapterCache[comicID][type]);
 			return;
+		} else if (type === null && chapterCache[comicID] !== {}) {
+			resolve(chapterCache[comicID]);
+			return;
 		}
 
 		fetchComicsInfo(comicID).then(info => {
-			chapterCache[comicID].chapters = info.chapters;
-			chapterCache[comicID].comicName = info.comicName;
+			chapterCache[comicID].chapters   = info.chapters;
+			chapterCache[comicID].comicName  = info.comicName;
+			chapterCache[comicID].coverImage = info.coverImage;
+
+			if (type === null) {
+				resolve(chapterCache[comicID]);
+				return;
+			}
 
 			resolve(chapterCache[comicID][type]);
 		}).catch(error => ({error}));
@@ -134,7 +149,8 @@ export function fetchComicsInfo(comicID) {
 
 			resolve({
 				chapters: chapterInfos,
-				comicName: comicIndex.find('.inbt_title_h2').text()
+				comicName: comicIndex.find('.inbt_title_h2').text(),
+				coverImage: comicIndex.find('.innr91 img').attr('src')
 			});
 		}).catch(error => ({error}));
 	});
