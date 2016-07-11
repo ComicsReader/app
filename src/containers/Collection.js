@@ -9,7 +9,7 @@ import { grey800 } from 'material-ui/styles/colors';
 import { AppBar, Dialog, FlatButton, RaisedButton } from 'material-ui';
 
 import NavigationSidebar from 'components/NavigationSidebar';
-import ComicBook from 'components/ComicBook';
+import ComicBookShelf from 'components/ComicBookShelf';
 
 import * as ConfigActions from 'actions/ConfigActions';
 import {toggleAppDrawer} from 'actions/UIActions';
@@ -20,10 +20,7 @@ class Collection extends Component {
 		dispatch: PropTypes.func,
 
 		collections: PropTypes.object,
-		addCollection: PropTypes.func,
-		removeCollection: PropTypes.func,
-		fetchCollections: PropTypes.func,
-		turnOffFetchCollectionCallback: PropTypes.func
+		removeCollection: PropTypes.func
 	}
 
 	constructor(props) {
@@ -33,24 +30,12 @@ class Collection extends Component {
 		};
 	}
 
-	componentDidMount() {
-		this.props.fetchCollections();
-	}
-
-	componentWillUnmount() {
-		this.props.turnOffFetchCollectionCallback();
-	}
-
 	handleClose = () => {
 		this.setState({modalOpen: false});
 	};
 
 	onLeftIconButtonTouchTap = () => {
 		this.props.dispatch(toggleAppDrawer());
-	}
-
-	isStarred = (comic) => {
-		return typeof this.props.collections[comic.comicID] === 'object';
 	}
 
 	removeCollection = (comic) => {
@@ -107,24 +92,15 @@ class Collection extends Component {
 						你確定要移除 { this.state.comic && this.state.comic.comicName } 的收藏嗎？
 					</Dialog>
 
-					<div style={{padding: '80px 20px 0', textAlign: 'center', height: 'calc(100% - 80px)'}}>
-						{
+					<ComicBookShelf
+						comics={
 							Object.keys(this.props.collections)
 								.map(comicID => this.props.collections[comicID])
 								.sort((a, b) => b.updated_at - a.updated_at)
-								.map(comic => {
-									return(
-										<ComicBook
-											{...comic}
-											key={comic.comicID}
-											onStarButtonClick={this.onStarButtonClick(comic)}
-											starred={this.isStarred(comic)}
-										/>
-									);
-								}
-							)
-						}
-					</div>
+							}
+						onStarButtonClick={this.onStarButtonClick}
+					/>
+
 				</div>
 			</DocumentTitle>
 		);
