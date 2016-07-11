@@ -1,5 +1,6 @@
 import * as t from 'constants/ActionTypes';
 import { comicManagers } from 'services';
+import { addRecentComic } from 'actions/ConfigActions';
 
 export const initComicManager = ({site, chapterID}) => {
 	return dispatch => {
@@ -17,14 +18,14 @@ export const initComicManager = ({site, chapterID}) => {
 		dispatch({type: t.CLEAR_COMIC_IMAGES});
 
 		comicManager.fetchComicIDbyChapterID(chapterID).then(comicID => {
-			comicManager.getComicName(comicID).then(comicName => {
+			comicManager.getComicInfo(comicID).then(({comicName, coverImage, chapters}) => {
+				addRecentComic({comicID, coverImage, comicName})(dispatch);
+
 				dispatch({
 					type: t.SET_COMIC_NAME,
 					comicName: comicName
 				});
-			});
 
-			comicManager.getChapters(comicID).then(chapters => {
 				dispatch({
 					type: t.INIT_COMIC_MANAGER,
 					comicManager: comicManager,
