@@ -1,6 +1,6 @@
 {
   "name": "comics-dm5",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "dm5.com api client",
   "main": "dist/index.js",
   "browser": "dist/index.js",

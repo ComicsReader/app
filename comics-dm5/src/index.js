@@ -43,9 +43,10 @@ export function getComicInfo(comicID, type=null) {
 		}
 
 		fetchComicsInfo(comicID).then(info => {
-			chapterCache[comicID].chapters   = info.chapters;
-			chapterCache[comicID].comicName  = info.comicName;
-			chapterCache[comicID].coverImage = info.coverImage;
+			chapterCache[comicID].chapters      = info.chapters;
+			chapterCache[comicID].comicName     = info.comicName;
+			chapterCache[comicID].coverImage    = info.coverImage;
+			chapterCache[comicID].latestChapter = info.latestChapter;
 
 			if (type === null) {
 				resolve(chapterCache[comicID]);
@@ -109,7 +110,7 @@ export function search(keyword, page=1) {
 					coverImage: $(div).find('.ssnr_yt img').first().attr('src'),
 					comicName: $(div).find('.ssnr_bt a').text().split('//////')[0],
 					comicID: $(div).find('.ssnr_bt a').attr('href').replace(/\//g, ''),
-					latestChapter: latestChapter
+					latestChapter: latestChapter // chapterID
 				});
 			});
 
@@ -150,7 +151,8 @@ export function fetchComicsInfo(comicID) {
 			resolve({
 				chapters: chapterInfos,
 				comicName: comicIndex.find('.inbt_title_h2').text(),
-				coverImage: comicIndex.find('.innr91 img').attr('src')
+				coverImage: comicIndex.find('.innr91 img').attr('src'),
+				latestChapter: getChapterID(chapterInfos[0].cid)
 			});
 		}).catch(error => ({error}));
 	});
