@@ -22,7 +22,7 @@ class ComicBookShelf extends Component {
 		/* general props */
 		comics: PropTypes.array,
 		onStarButtonClick: PropTypes.func,
-		styles: PropTypes.object,
+		style: PropTypes.object,
 
 		/* injected by redux */
 		collections: PropTypes.object,
@@ -31,22 +31,29 @@ class ComicBookShelf extends Component {
 		fetchCollections: PropTypes.func,
 		turnOffFetchCollectionCallback: PropTypes.func,
 
+		fetchRecentComic: PropTypes.func,
+		turnOffFetchRecentComicCallback: PropTypes.func,
+
 		/* control whether LoadIndicator would show */
 		isLoading: PropTypes.bool,
-		showLoadingWhileEmpty: PropTypes.bool
+		showLoadingWhileEmpty: PropTypes.bool,
+		showStarButton: PropTypes.bool
 	}
 
 	static defaultProps = {
 		showLoadingWhileEmpty: true,
-		isLoading: false
+		isLoading: false,
+		showStarButton: true
 	};
 
 	componentDidMount() {
 		this.props.fetchCollections();
+		this.props.fetchRecentComic();
 	}
 
 	componentWillUnmount() {
 		this.props.turnOffFetchCollectionCallback();
+		this.props.turnOffFetchRecentComicCallback();
 	}
 
 	isStarred = (comic) => {
@@ -78,11 +85,12 @@ class ComicBookShelf extends Component {
 		const {
 			comics,
 			showLoadingWhileEmpty,
-			isLoading
+			isLoading,
+			showStarButton
 		} = this.props;
 
 		return(
-			<div style={[styles, this.props.styles]}>
+			<div style={[styles, this.props.style]}>
 				{
 					comics.map(comic => {
 						return(
@@ -91,6 +99,7 @@ class ComicBookShelf extends Component {
 								key={comic.comicID}
 								onStarButtonClick={this.onStarButtonClick(comic)}
 								starred={this.isStarred(comic)}
+								showStarButton={showStarButton}
 							/>
 						);
 					})
@@ -104,7 +113,8 @@ class ComicBookShelf extends Component {
 export default connect(state => {
 	/* map state to props */
 	return {
-		collections: state.config.collections
+		collections: state.config.collections,
+		recentComics: state.config.recentComics
 	};
 }, dispatch => {
 	/* map dispatch to props */

@@ -26,3 +26,4 @@ export const CHANGE_DRAWER_STATE        = 'CHANGE_DRAWER_STATE';
 
 /* Collections */
 export const FETCH_ALL_COLLECTION       = 'FETCH_ALL_COLLECTION';
+export const FETCH_RECENT_COMICS        = 'FETCH_RECENT_COMICS';

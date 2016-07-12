@@ -12,6 +12,7 @@ if (!deviceID) {
 }
 
 const Collection = firebaseApp.database().ref(`users/${deviceID}/collections/`);
+const RecentComic = firebaseApp.database().ref(`users/${deviceID}/recentComics/`);
 
 export const fetchCollections = () => {
 	return dispatch => {
@@ -38,3 +39,30 @@ export const removeCollection = (key, callback=null) => {
 		if (callback) callback();
 	};
 };
+
+export const fetchRecentComic = () => {
+	return dispatch => {
+		RecentComic.on('value', snapshot => {
+			dispatch({
+				type: t.FETCH_RECENT_COMICS,
+				recentComics: snapshot.val() || {}
+			});
+		});
+	};
+};
+
+export const turnOffFetchRecentComicCallback = () => {
+	return dispatch => RecentComic.off();
+};
+
+export const addRecentComic = (comic) => {
+	return dispatch => firebaseApp.database().ref(`users/${deviceID}/recentComics/${comic.comicID}`).set({...comic, last_read_at: new Date().getTime()});
+};
+
+export const removeRecentComic = (key, callback=null) => {
+	return dispatch => {
+		RecentComic.child(key).remove();
+		if (callback) callback();
+	};
+};
+

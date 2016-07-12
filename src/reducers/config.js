@@ -1,7 +1,8 @@
 import * as t from 'constants/ActionTypes';
 
 const initialState = {
-	collections: {}
+	collections: {},
+	recentComics: {}
 };
 
 export default function config(state = initialState , action) {
@@ -10,6 +11,11 @@ export default function config(state = initialState , action) {
 		return {
 			...state,
 			collections: action.collections
+		};
+	case t.FETCH_RECENT_COMICS:
+		return {
+			...state,
+			recentComics: action.recentComics
 		};
 	default:
 		return state;

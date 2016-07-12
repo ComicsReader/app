@@ -50,32 +50,46 @@ export default class ComicBook extends Component {
 		latestChapter: PropTypes.string,
 		comicName: PropTypes.string,
 		starred: PropTypes.bool,
-		onStarButtonClick: PropTypes.func
+		onStarButtonClick: PropTypes.func,
+
+		showStarButton: PropTypes.bool
+	}
+
+	static defaultProps = {
+		showStarButton: true
 	}
 
 	iconName = () => this.props.starred ? 'star' : 'star_border';
 
 	iconStyle = () => this.props.starred ? styles.starred : { };
 
+	renderStarButton = () => {
+		const { onStarButtonClick } = this.props;
+
+		return(
+			<Icon
+				iconName={this.iconName()}
+				style={{
+					...styles.starButton,
+					...this.iconStyle()
+				}}
+				onClick={onStarButtonClick}
+			/>
+		);
+	}
+
 	render() {
 		const {
 			coverImage,
 			latestChapter,
 			comicName,
-			onStarButtonClick
+			showStarButton
 		} = this.props;
 
 		return(
 			<div style={styles.container}>
 				<div style={styles.starButtonContainer}>
-					<Icon
-						iconName={this.iconName()}
-						style={{
-							...styles.starButton,
-							...this.iconStyle()
-						}}
-						onClick={onStarButtonClick}
-					/>
+					{ showStarButton ? this.renderStarButton() : null }
 				</div>
 				<div style={styles.book}>
 					<Link to={`/reader/dm5/${latestChapter}`}>

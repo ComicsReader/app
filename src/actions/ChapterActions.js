@@ -18,8 +18,8 @@ export const initComicManager = ({site, chapterID}) => {
 		dispatch({type: t.CLEAR_COMIC_IMAGES});
 
 		comicManager.fetchComicIDbyChapterID(chapterID).then(comicID => {
-			comicManager.getComicInfo(comicID).then(({comicName, coverImage, chapters}) => {
-				addRecentComic({comicID, coverImage, comicName})(dispatch);
+			comicManager.getComicInfo(comicID).then(({comicName, coverImage, chapters, latestChapter}) => {
+				addRecentComic({comicID, coverImage, comicName, latestChapter})(dispatch);
 
 				dispatch({
 					type: t.SET_COMIC_NAME,

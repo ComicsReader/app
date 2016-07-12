@@ -31,7 +31,8 @@ class Reader extends Component {
 		chapters: PropTypes.array,
 		appBarTitle: PropTypes.string.isRequired,
 		comicName: PropTypes.string,
-		/* redux actions */
+
+		/* chapter actions */
 		switchChapter: PropTypes.func,
 		comicManager: PropTypes.object,
 		switchChapterRequest: PropTypes.object,
@@ -59,7 +60,6 @@ class Reader extends Component {
 			let chapterItem = chapters.find(c => c.cid == comicManager.getCID(nextChapter));
 			switchChapter(chapterItem);
 		}
-
 	}
 
 	init = () => {
