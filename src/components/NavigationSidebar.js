@@ -62,16 +62,12 @@ class NavigationSidebar extends Component {
 					<Icon iconName="search" style={styles.iconStyle} />
 						Search
 				</MenuItem>
-				<MenuItem style={styles.menuItem}>
-					<Icon iconName="history" style={styles.iconStyle} />
-						Recent
-				</MenuItem>
 				<MenuItem
 					style={styles.menuItem}
-					onClick={this.navigateTo('/collection')}
+					onClick={this.navigateTo('/collection?tab=collection')}
 				>
 					<Icon iconName="library_books" style={styles.iconStyle} />
-						Collection
+						Collection & Recents
 				</MenuItem>
 				<div style={styles.seperator} />
 				<MenuItem

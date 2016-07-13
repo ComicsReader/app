@@ -13,7 +13,8 @@ import NavigationSidebar from 'components/NavigationSidebar';
 import ComicBookShelf from 'components/ComicBookShelf';
 
 import * as ConfigActions from 'actions/ConfigActions';
-import {toggleAppDrawer} from 'actions/UIActions';
+import { NAVIGATE } from 'constants/ActionTypes';
+import { toggleAppDrawer } from 'actions/UIActions';
 
 class Collection extends Component {
 	static propTypes = {
@@ -22,15 +23,24 @@ class Collection extends Component {
 
 		collections: PropTypes.object,
 		removeCollection: PropTypes.func,
-		recentComics: PropTypes.object
+		recentComics: PropTypes.object,
+		tabValue: PropTypes.string
 	}
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			modalOpen: false,
-			tabValue: 'collection'
+			modalOpen: false
 		};
+	}
+
+	componentDidMount() {
+		if (typeof this.props.tabValue === 'undefined') {
+			this.props.dispatch({
+				type: NAVIGATE,
+				pathname: '/collection?tab=collection'
+			});
+		}
 	}
 
 	handleClose = () => {
@@ -73,14 +83,24 @@ class Collection extends Component {
 	}
 
 	handleChange = (value) => {
-		this.setState({
-			tabValue: value
+		this.props.dispatch({
+			type: NAVIGATE,
+			pathname: `/collection?tab=${value}`
 		});
+	}
+
+	getDocumentTitle = () => {
+		switch(this.props.tabValue) {
+		case 'recentComics':
+			return('Recent Comics | ComicsReader');
+		default:
+			return('Collection | ComicsReader');
+		}
 	}
 
 	render() {
 		return(
-			<DocumentTitle title="Collections | ComicsReader">
+			<DocumentTitle title={this.getDocumentTitle()}>
 				<div style={{height: '100%', overflow: 'hidden'}}>
 					<AppBar
 						title="Collection"
@@ -102,7 +122,7 @@ class Collection extends Component {
 					</Dialog>
 
 					<Tabs
-						value={this.state.tabValue}
+						value={this.props.tabValue}
 						onChange={this.handleChange}
 						style={{padding: '80px 20px 0'}}
 					>
@@ -143,10 +163,11 @@ class Collection extends Component {
 	}
 }
 
-export default connect(state => {
+export default connect((state, ownProps) => {
 	return {
 		collections: state.config.collections,
-		recentComics: state.config.recentComics
+		recentComics: state.config.recentComics,
+		tabValue: ownProps.location.query.tab
 	};
 }, dispatch => {
 	return({...bindActionCreators(ConfigActions, dispatch), dispatch});
