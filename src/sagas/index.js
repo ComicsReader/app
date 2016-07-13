@@ -2,7 +2,8 @@ import { take, put, call, fork, select } from 'redux-saga/effects';
 import { takeLatest } from 'redux-saga';
 import * as t from 'constants/ActionTypes';
 import { getComicManager, getSearchState } from 'reducers/selectors';
-import { history, comicManagers } from 'services';
+import { comicManagers } from 'services';
+import { push } from 'react-router-redux';
 
 // default comics service
 const DM5 = comicManagers.dm5;
@@ -73,7 +74,7 @@ function* watchSearchComics() {
 function* watchNavigate() {
 	while(true) {
 		const {pathname} = yield take(t.NAVIGATE);
-		yield history.push(pathname);
+		yield put(push(pathname));
 	}
 }
 
