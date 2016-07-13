@@ -38,6 +38,16 @@ chrome.webRequest.onBeforeSendHeaders.addListener(mhandler, {
 	urls: ['http://www.dm5.com/m*/']
 }, ['requestHeaders', 'blocking']);
 
+// TODO: save last state when closing window
+const windowRect = () => {
+	let width = 1280;
+	let height = 900;
+	let left = (screen.width/2)-(width/2);
+	let top = (screen.height/2)-(height/2);
+
+	return({ width, height, left, top });
+};
+
 chrome.webNavigation.onCommitted.addListener(function(details) {
 	if (dm5.regex.test(details.url)) {
 		let chapter = dm5.regex.exec(details.url)[2];
@@ -48,12 +58,14 @@ chrome.webNavigation.onCommitted.addListener(function(details) {
 		if (windowID) {
 			chrome.windows.update(windowID, {
 				type: 'popup',
-				url: url
+				url: url,
+				...windowRect()
 			});
 		} else {
 			windowID = chrome.windows.create({
 				type: 'popup',
-				url: url
+				url: url,
+				...windowRect()
 			});
 		}
 	}
@@ -70,7 +82,8 @@ chrome.webNavigation.onCommitted.addListener(function(details) {
 chrome.browserAction.onClicked.addListener(() => {
 	chrome.windows.create({
 		type: 'popup',
-		url: `${chrome.extension.getURL('index.html')}#/explore`
+		url: `${chrome.extension.getURL('index.html')}#/explore`,
+		...windowRect()
 	});
 });
 
