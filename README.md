@@ -1,5 +1,7 @@
 # Comics Reader
 
+<img src="http://i.imgur.com/tHWdF5a.png" width="200">
+
 fork 自 [zeroshine/ComicsScroller](https://github.com/zeroshine/ComicsScroller)，重建架構作為 React/Redux 練習。預計作為 electron app 發佈。
 
 目前進度詳見專案 [GitHub Issue #1](https://github.com/Yukaii/ComicsReader/issues/1)。
@@ -12,9 +14,12 @@ fork 自 [zeroshine/ComicsScroller](https://github.com/zeroshine/ComicsScroller)
 
 ![](docs/images/search.png)
 
-## Support Websites
+## Backend
 
-目前僅支援動漫屋，比起原作少一點，我會盡力把這部分標準化，方便加入其它站點。
+* 漫畫源為[動漫屋](http://www.dm5.com)
+* 使用Firebase 作為使用者資訊（收藏啦、最近閱讀啦）儲存。
+
+其它文件陸續誕生中 😅
 
 ## LICENSE
 
