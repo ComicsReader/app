@@ -1,14 +1,14 @@
 {
   "name": "comics-reader-electron",
   "productName": "Comics Reader",
-  "version": "0.9.8",
+  "version": "0.9.9",
   "description": "a comic reader app for dm5",
   "main": "js/main.js",
   "scripts": {
     "start": "electron .",
     "package": "electron-packager . --all",
     "postinstall": "install-app-deps",
-    "pack": "build --dir",
+    "build": "build --mac --win --linux --x64",
     "dist": "build --mac"
   },
   "author": "Yukai Huang <yukaihuangtw@gmail.com> (https://yukaii.tw)",
@@ -21,6 +21,9 @@
   },
   "build": {
     "appId": "tds.comics.reader",
-    "app-category-type": "fun"
+    "app-category-type": "fun",
+    "win": {
+      "iconUrl": "https://github.com/Yukaii/ComicsReader/blob/master/electron/build/icon.ico?raw=true"
+    }
   }
 }
