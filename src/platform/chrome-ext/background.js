@@ -40,10 +40,10 @@ chrome.webRequest.onBeforeSendHeaders.addListener(mhandler, {
 
 // TODO: save last state when closing window
 const windowRect = () => {
-	let width = 1280;
+	let width  = 1280;
 	let height = 900;
-	let left = (screen.width/2)-(width/2);
-	let top = (screen.height/2)-(height/2);
+	let left   = (screen.width/2)-(width/2);
+	let top    = (screen.height/2)-(height/2);
 
 	return({ width, height, left, top });
 };
