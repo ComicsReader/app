@@ -54,7 +54,7 @@
   "dependencies": {
     "bluebird": "^3.4.0",
     "cheerio": "^0.20.0",
-    "comics-dm5": "^0.0.6",
+    "comics-dm5": "^0.0.7",
     "echo-js": "^1.7.3",
     "firebase": "^3.0.3",
     "lodash": "^4.12.0",

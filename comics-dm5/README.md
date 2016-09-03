@@ -22,5 +22,5 @@ const dm5 = require('comics-dm5');
 
 ```sh
 npm install # install dependencies
-npm run build # build
+npm run watch # watch build
 ```

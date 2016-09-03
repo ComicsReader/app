@@ -62,10 +62,9 @@ export function fetchComicIDbyChapterID(chapterID) {
 	return new Promise((resolve) => {
 		fetch(`${baseURL}/${chapterID}`).then(r => r.text()).then(response => {
 			var chapterIndex = $(response);
-			var navigationItem = $(chapterIndex.find('.view_logo2.bai_lj').toArray()[0]);
-			var urls = navigationItem.children('a').toArray().map((a) => $(a).attr('href'));
+			var href = chapterIndex.find('.topToolBar a.left').first().attr('href');
 
-			var comicID = urls[urls.length-2].replace(/\//gi, '');
+			var comicID = href.replace(/\//gi, '');
 			resolve(comicID);
 		}).catch(error => ({error}));
 	});
@@ -94,10 +93,10 @@ export function search(keyword, page=1) {
 		fetch(`http://www.dm5.com/search?title=${encodeURI(keyword)}&language=1&page=${page}`).then(r => r.text()).then(response => {
 
 			var $html = $(response);
-			var results = $html.find('.ssnrk').toArray().map(div => {
-				$(div).find('.ssnr_bt a font').replaceWith('//////');
+			var results = $html.find('.midBar .item').toArray().map(div => {
 
-				var $chapter = $(div).find('.ssnr_yt .ff.mato10.sr_dlj.matoa a').first();
+				var $chapter = $(div).find('a.value.red').first();
+
 				var latestChapter = null;
 				if (typeof $chapter !== 'undefined') {
 					var href = $chapter.attr('href');
@@ -107,19 +106,21 @@ export function search(keyword, page=1) {
 				}
 
 				return({
-					coverImage: $(div).find('.ssnr_yt img').first().attr('src'),
-					comicName: $(div).find('.ssnr_bt a').text().split('//////')[0],
-					comicID: $(div).find('.ssnr_bt a').attr('href').replace(/\//g, ''),
+					coverImage: $(div).find('img').first().attr('src'),
+					comicName: $(div).find('a.title').text(),
+					comicID: $(div).find('a').attr('href').replace(/\//g, ''),
 					latestChapter: latestChapter // chapterID
 				});
 			});
 
-			var total = parseInt($html.find('.flr strong').text());
+			var pages = $html.find('.pager a').toArray().map(a => $(a).attr('href')).map(href => parseInt(href.match(/page=(\d+)/)[1]))
+
+			var total = Math.max(...pages);
 
 			var res = {
 				comics: results,
 				currentPage: page,
-				totalPage: Math.ceil(total/20)
+				totalPage: total
 			};
 			resolve(res);
 		}).catch(error => ({error}));
@@ -139,7 +140,7 @@ export function fetchComicsInfo(comicID) {
 			}
 		).then(r => r.text()).then(response => {
 			var comicIndex = $(response);
-			var chapterInfos = comicIndex.find('.nr6.lan2>li>.tg').toArray().map((a) => {
+			var chapterInfos = comicIndex.find('.nr6.lan2 a.tg').toArray().map(a => {
 				var _rawID = $(a).attr('href');
 				return({
 					title: $(a).attr('title'),
@@ -150,7 +151,7 @@ export function fetchComicsInfo(comicID) {
 
 			resolve({
 				chapters: chapterInfos,
-				comicName: comicIndex.find('.inbt_title_h2').text(),
+				comicName: comicIndex.find('.inbt h1').text(),
 				coverImage: comicIndex.find('.innr91 img').attr('src'),
 				latestChapter: getChapterID(chapterInfos[0].cid)
 			});
@@ -190,7 +191,7 @@ export function fetchImagesCount(cid) {
 		fetch(getChapterURL(cid)).then(r => r.text()).then(_html => {
 			var chapterDoc = $(_html);
 
-			var imagesCount = chapterDoc.find('select#pagelist > option').length;
+			var imagesCount = chapterDoc.find('.pageBar.bar.down.iList > a').length;
 			chapterCountData[cid] = imagesCount;
 
 			resolve(imagesCount);
