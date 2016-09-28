@@ -1,5 +1,6 @@
 /* global process */
 const electron = require('electron');
+const windowStateKeeper = require('electron-window-state');
 const {app, session, BrowserWindow} = electron;
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -7,11 +8,26 @@ const {app, session, BrowserWindow} = electron;
 let mainWindow;
 
 function createWindow () {
+	let mainWindowState = windowStateKeeper({
+		defaultWidth: 1280,
+		defaultHeight: 800
+	});
+
 	// Create the browser window.
-	mainWindow = new BrowserWindow({width: 1280, height: 900, icon: __dirname + '/Icon.ico'});
+	mainWindow = new BrowserWindow({
+		width: mainWindowState.width,
+		height: mainWindowState.height,
+		x: mainWindowState.x,
+		y: mainWindowState.y,
+		icon: __dirname + '/Icon.ico'
+	});
+
+  // Let us register listeners on the window, so we can update the state
+  // automatically (the listeners will be removed when the window is closed)
+  // and restore the maximized or full screen state
+	mainWindowState.manage(mainWindow);
 
 	// and load the index.html of the app.
-
 	mainWindow.loadURL(`file://${app.getAppPath()}/index.html`);
 
 	// Open the DevTools.
@@ -49,9 +65,7 @@ app.on('ready', createWindow);
 app.on('window-all-closed', function () {
 	// On OS X it is common for applications and their menu bar
 	// to stay active until the user quits explicitly with Cmd + Q
-	if (process.platform !== 'darwin') {
-		app.quit();
-	}
+	app.quit();
 });
 
 app.on('activate', function () {
