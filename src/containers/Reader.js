@@ -136,12 +136,6 @@ class Reader extends Component {
 							width: '100%'
 						}}
 					>
-						<div className='switchArea' onClick={this.switchChapterBy(getPreviousChapterIndex)}>
-							<Icon iconName='navigate_before'/>
-						</div>
-						<div className='switchArea right' onClick={this.switchChapterBy(getNextChapterIndex)}>
-							<Icon iconName='navigate_next'/>
-						</div>
 						<ChapterSidebar
 							chapters={chapters}
 							onChapterItemClick={this.handleChapterClick}
