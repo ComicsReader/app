@@ -10,7 +10,7 @@ fork 自 [zeroshine/ComicsScroller](https://github.com/zeroshine/ComicsScroller)
 
 ![](docs/images/reader.png)
 
-![](docs/images/reader_sidebar_toggle.png)
+![](docs/images/collection.png)
 
 ![](docs/images/search.png)
 
