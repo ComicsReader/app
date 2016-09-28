@@ -8,6 +8,7 @@ import rootSaga from './sagas';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import { Router, Route } from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux';
 import { history } from './services';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -31,7 +32,7 @@ injectTapEventPlugin();
 
 const App = () => (
 	<MuiThemeProvider muiTheme={getMuiTheme()}>
-		<Router history={history}>
+		<Router history={syncHistoryWithStore(history, store)}>
 			<Route path="/" component={Explorer}/>
 			<Route path="/reader/:site/:chapter" component={Reader}/>
 			<Route path="/collection" component={Collection} />
