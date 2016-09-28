@@ -32,7 +32,7 @@ export default class ComicListView extends Component {
 							return(<ComicImage key={image} src={image} />);
 						})
 					}
-					{ hasNextChapter ? <RaisedButton label="載入下一章" fullWidth={true} onClick={loadNextChapter} backgroundColor={grey900} labelColor={grey50} /> : null }
+					{ hasNextChapter ? <RaisedButton label="載入下一章" fullWidth={true} onClick={loadNextChapter} backgroundColor={grey900} labelColor={grey50} labelStyle={{fontSize: '1.3em'}} style={{height: '2.2em'}}/> : null }
 				</div>
 			);
 		}
