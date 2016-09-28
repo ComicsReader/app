@@ -51,6 +51,8 @@ const windowRect = () => {
 chrome.webNavigation.onCommitted.addListener(function(details) {
 	if (dm5.regex.test(details.url)) {
 		let chapter = dm5.regex.exec(details.url)[2];
+
+		// TODO: add option for preserving original tab
 		chrome.tabs.remove(details.tabId);
 
 		let url = chrome.extension.getURL('index.html') + `#/reader/dm5/${chapter.replace(/\//g, '')}`;
