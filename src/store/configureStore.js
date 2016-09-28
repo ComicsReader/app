@@ -5,6 +5,7 @@ import reducer from 'reducers';
 import createLogger from 'redux-logger';
 import { history } from 'services';
 import { routerMiddleware } from 'react-router-redux';
+import { persistStore, autoRehydrate } from 'redux-persist';
 
 const logger = createLogger();
 
@@ -18,7 +19,9 @@ export default function configureStore(initialState) {
 		routerMiddleware(history)
 	)(createStore);
 
-	const store = createStoreWithMiddleware(reducer, initialState);
+	const store = createStoreWithMiddleware(reducer, initialState, autoRehydrate());
+	persistStore(store);
+
 	store.runSaga = sagaMiddleware.run;
 
 	return store;
