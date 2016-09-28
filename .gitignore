@@ -17,3 +17,6 @@ electron/Comics Reader-linux-ia32
 comics-dm5/dist
 
 server/.env
+
+# ignore jekyll build
+docs/_site
