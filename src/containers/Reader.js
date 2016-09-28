@@ -16,7 +16,7 @@ import ChapterSidebar from 'components/ChapterSidebar';
 import NavigationSidebar from 'components/NavigationSidebar';
 
 import * as ChapterActions from 'actions/ChapterActions';
-import {toggleAppDrawer} from 'actions/UIActions';
+import { toggleAppDrawer } from 'actions/UIActions';
 import { getNextChapterIndex, getPreviousChapterIndex } from 'reducers/selectors';
 
 import 'styles/SwitchArea.scss';
@@ -86,6 +86,14 @@ class Reader extends Component {
 		};
 	}
 
+	hasNextChapter = () => {
+		return getNextChapterIndex(this.props.chapters, this.props.readingCID) !== -1;
+	}
+
+	hasPrevioushapter = () => {
+		return getPreviousChapterIndex(this.props.chapters, this.props.readingCID) !== -1;
+	}
+
 	sidebarIsSelected = (chapterItem) => {
 		return this.props.readingCID == chapterItem.cid;
 	}
@@ -149,6 +157,10 @@ class Reader extends Component {
 						/>
 						<ComicListView
 							comicImages={readingImages}
+							loadNextChapter={this.switchChapterBy(getNextChapterIndex)}
+							loadPreviousChapter={this.switchChapterBy(getPreviousChapterIndex)}
+							hasNextChapter={this.hasNextChapter()}
+							hasPrevioushapter={this.hasPrevioushapter()}
 						/>
 					</div>
 				</div>

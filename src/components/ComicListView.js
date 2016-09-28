@@ -4,19 +4,27 @@ import {
 } from 'react';
 
 import ComicImage from './ComicImage';
-import ChapterSeperator from './ChapterSeperator';
 import LoadIndicator from './LoadIndicator';
+
+import RaisedButton from 'material-ui/RaisedButton';
+import { grey900, grey50 } from 'material-ui/styles/colors';
 
 export default class ComicListView extends Component {
 	static propTypes = {
 		comicManager: PropTypes.func,
-		comicImages: PropTypes.array
+		comicImages: PropTypes.array,
+		loadNextChapter: PropTypes.func,
+		loadPreviousChapter: PropTypes.func,
+		hasNextChapter: PropTypes.bool,
+		hasPrevioushapter: PropTypes.bool
 	}
 
 	renderChapterComics = (chapterImages) => {
 		if (chapterImages.length == 0) {
 			return(<LoadIndicator />);
 		} else {
+			const { loadNextChapter, hasNextChapter, loadPreviousChapter, hasPrevioushapter } = this.props;
+
 			return(
 				<div>
 					{
@@ -24,7 +32,7 @@ export default class ComicListView extends Component {
 							return(<ComicImage key={image} src={image} />);
 						})
 					}
-					<ChapterSeperator />
+					{ hasNextChapter ? <RaisedButton label="載入下一章" fullWidth={true} onClick={loadNextChapter} backgroundColor={grey900} labelColor={grey50} /> : null }
 				</div>
 			);
 		}
