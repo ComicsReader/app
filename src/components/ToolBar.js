@@ -27,14 +27,24 @@ const styles = {
 	}
 };
 
-class ToolBar extends Component {
+export default class ToolBar extends Component {
 	static propTypes = {
 		loadNextChapter: PropTypes.func,
-		loadPreviousChapter: PropTypes.func
+		loadPreviousChapter: PropTypes.func,
+
+		increaseZoomRate: PropTypes.func,
+		decreaseZoomRate: PropTypes.func,
+		resetZoomRate: PropTypes.func
 	}
 
 	render() {
-		const { loadPreviousChapter, loadNextChapter } = this.props;
+		const {
+			loadPreviousChapter,
+			loadNextChapter,
+			increaseZoomRate,
+			decreaseZoomRate,
+			resetZoomRate
+		} = this.props;
 
 		return(
 			<div className="toolbar" style={styles.container}>
@@ -51,18 +61,19 @@ class ToolBar extends Component {
 				<Icon
 					iconName="zoom_in"
 					style={styles.iconStyle}
+					onClick={increaseZoomRate}
 				/>
 				<Icon
 					iconName="zoom_out"
 					style={styles.iconStyle}
+					onClick={decreaseZoomRate}
 				/>
 				<Icon
 					iconName="aspect_ratio"
 					style={styles.iconStyle}
+					onClick={resetZoomRate}
 				/>
 			</div>
 		);
 	}
 }
-
-export default connect()(ToolBar);

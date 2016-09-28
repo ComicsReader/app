@@ -1,7 +1,8 @@
 import * as t from 'constants/ActionTypes';
 
 const initialState = {
-	drawerOpen: false
+	drawerOpen: false,
+	zommRate: 0
 };
 
 export default function ui(state = initialState, action) {
@@ -16,6 +17,24 @@ export default function ui(state = initialState, action) {
 		return {
 			...state,
 			drawerOpen: action.drawerOpen
+		};
+
+	case t.INCREASE_ZOOM_RATE:
+		return {
+			...state,
+			zoomRate: state.zoomRate + 10
+		};
+
+	case t.DECREASE_ZOOM_RATE:
+		return {
+			...state,
+			zoomRate: state.zoomRate - 10
+		};
+
+	case t.RESET_ZOOM_RATE:
+		return {
+			...state,
+			zoomRate: 0
 		};
 
 	default:

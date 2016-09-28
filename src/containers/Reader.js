@@ -15,6 +15,7 @@ import ToolBar from 'components/ToolBar';
 
 import * as ChapterActions from 'actions/ChapterActions';
 import { toggleAppDrawer } from 'actions/UIActions';
+import * as UIActions from 'actions/UIActions';
 import { getNextChapterIndex, getPreviousChapterIndex } from 'reducers/selectors';
 
 import 'styles/SwitchArea.scss';
@@ -29,6 +30,7 @@ class Reader extends Component {
 		chapters: PropTypes.array,
 		appBarTitle: PropTypes.string.isRequired,
 		comicName: PropTypes.string,
+		zoomRate: PropTypes.number,
 
 		/* chapter actions */
 		switchChapter: PropTypes.func,
@@ -36,6 +38,12 @@ class Reader extends Component {
 		switchChapterRequest: PropTypes.object,
 		initComicManager: PropTypes.func,
 		params: PropTypes.object,
+
+		/* ui actions */
+		increaseZoomRate: PropTypes.func,
+		decreaseZoomRate: PropTypes.func,
+		resetZoomRate: PropTypes.func,
+
 		dispatch: PropTypes.func
 	}
 
@@ -126,6 +134,9 @@ class Reader extends Component {
 					<ToolBar
 						loadNextChapter={this.switchChapterBy(getNextChapterIndex)}
 						loadPreviousChapter={this.switchChapterBy(getPreviousChapterIndex)}
+						increaseZoomRate={this.props.increaseZoomRate}
+						decreaseZoomRate={this.props.decreaseZoomRate}
+						resetZoomRate={this.props.resetZoomRate}
 					/>
 					<div
 						ref="scrollContainer"
@@ -133,7 +144,7 @@ class Reader extends Component {
 							marginTop: 25,
 							overflow: 'auto',
 							height: 'calc(100% - 70px)',
-							width: '100%'
+							width: 'calc(100% - 38px)'
 						}}
 					>
 						<ChapterSidebar
@@ -148,6 +159,7 @@ class Reader extends Component {
 							loadPreviousChapter={this.switchChapterBy(getPreviousChapterIndex)}
 							hasNextChapter={this.hasNextChapter()}
 							hasPrevioushapter={this.hasPrevioushapter()}
+							zoomRate={this.props.zoomRate}
 						/>
 					</div>
 				</div>
@@ -159,9 +171,10 @@ class Reader extends Component {
 export default connect(state => {
 	/* map state to props */
 	return {
-		...state.comics
+		...state.comics,
+		zoomRate: state.uiState.zoomRate
 	};
 }, dispatch => {
 	/* map dispatch to props */
-	return({...bindActionCreators(ChapterActions, dispatch), dispatch});
+	return({...bindActionCreators(ChapterActions, dispatch), ...bindActionCreators(UIActions, dispatch), dispatch});
 })(Reader);

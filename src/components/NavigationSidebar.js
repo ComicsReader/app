@@ -64,7 +64,11 @@ class NavigationSidebar extends Component {
 							iconName="insert_photo"
 							style={styles.iconStyle}
 							onClick={this.navigateTo(`/reader/dm5/${comicManagers.dm5.getChapterID(readingCID)}`)}
-						/> : null
+						/> :
+						<Icon
+							iconName="insert_photo"
+							style={styles.iconStyle}
+						/>
 				}
 				<Icon
 					iconName="search"
