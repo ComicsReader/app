@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import DocumentTitle from 'react-document-title';
 
 import { grey800 } from 'material-ui/styles/colors';
-import { AppBar, Dialog, FlatButton, RaisedButton } from 'material-ui';
+import { Dialog, FlatButton, RaisedButton } from 'material-ui';
 import { Tabs, Tab } from 'material-ui/Tabs';
 
 import NavigationSidebar from 'components/NavigationSidebar';
@@ -101,14 +101,7 @@ class Collection extends Component {
 	render() {
 		return(
 			<DocumentTitle title={this.getDocumentTitle()}>
-				<div style={{height: '100%', overflow: 'hidden'}}>
-					<AppBar
-						title="Collection"
-						style={{backgroundColor: grey800, position: 'fixed'}}
-						onLeftIconButtonTouchTap={this.onLeftIconButtonTouchTap}
-					>
-					</AppBar>
-
+				<div style={{height: '100%', overflow: 'hidden', paddingLeft: 60}}>
 					<NavigationSidebar />
 
 					<Dialog
@@ -124,7 +117,7 @@ class Collection extends Component {
 					<Tabs
 						value={this.props.tabValue}
 						onChange={this.handleChange}
-						style={{padding: '80px 20px 0'}}
+						style={{padding: '10px 20px 0'}}
 					>
 						<Tab
 							label="Collection"

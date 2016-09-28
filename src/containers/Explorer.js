@@ -8,9 +8,6 @@ import { bindActionCreators } from 'redux';
 
 import Radium from 'radium';
 
-import { grey800 } from 'material-ui/styles/colors';
-import { AppBar} from 'material-ui';
-
 import DocumentTitle from 'react-document-title';
 
 import SearchBar from 'components/SearchBar';
@@ -72,16 +69,12 @@ class Explorer extends Component {
 
 		return(
 			<DocumentTitle title={this.getDocumentTitle()}>
-				<div style={{height: '100%', overflow: 'hidden'}}>
-					<AppBar
-						title="Explore"
-						style={{backgroundColor: grey800, position: 'fixed'}}
-						onLeftIconButtonTouchTap={this.onLeftIconButtonTouchTap}
-					>
-						<SearchBar onSubmit={this.onSubmit}/>
-					</AppBar>
-
+				<div style={{height: '100%', overflow: 'hidden', paddingLeft: 60}}>
 					<NavigationSidebar />
+
+					<div style={{padding: '10px 0'}}>
+						<SearchBar onSubmit={this.onSubmit} containerStyle={{display: 'block', margin: '10px auto 0'}}/>
+					</div>
 
 					<ComicBookShelf
 						comics={comics}

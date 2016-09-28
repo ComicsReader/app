@@ -11,9 +11,9 @@ import ComicBook from 'components/ComicBook';
 import LoadIndicator from 'components/LoadIndicator';
 
 const styles = {
-	padding: '80px 20px 0',
+	padding: '20px 20px 0',
 	textAlign: 'center',
-	height: 'calc(100% - 80px)'
+	height: 'calc(100% - 20px)'
 };
 
 @Radium

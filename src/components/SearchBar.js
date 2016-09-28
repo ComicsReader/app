@@ -3,11 +3,14 @@ import {
 	PropTypes
 } from 'react';
 
+import Radium from 'radium';
+
 const style = {
 	container: {
 		marginTop: 13,
 		height: 38,
-		width: 200,
+		width: 400,
+		maxWidth: '80%',
 		display: 'inline-block',
 		boxShadow: '0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2)',
 		backgroundColor: 'rgba(255,255,255,0.12)',
@@ -24,9 +27,11 @@ const style = {
 	}
 };
 
+@Radium
 export default class SearhBar extends Component {
 	static propTypes = {
-		onSubmit: PropTypes.func
+		onSubmit: PropTypes.func,
+		containerStyle: PropTypes.object
 	}
 
 	handleKeyPress = e => {
@@ -44,7 +49,7 @@ export default class SearhBar extends Component {
 
 	render() {
 		return(
-			<div style={style.container}>
+			<div style={[style.container, this.props.containerStyle]}>
 				<input type="text" style={style.input} placeholder="搜尋漫畫..." onKeyPress={this.handleKeyPress} onChange={this.onChange}/>
 			</div>
 		);

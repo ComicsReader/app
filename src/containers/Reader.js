@@ -5,9 +5,6 @@ import { bindActionCreators } from 'redux';
 
 import Radium from 'radium';
 
-import { AppBar } from 'material-ui';
-import { grey800 } from 'material-ui/styles/colors';
-
 import DocumentTitle from 'react-document-title';
 
 import Icon from 'components/Icon';
@@ -52,7 +49,7 @@ class Reader extends Component {
 	componentWillReceiveProps(nextProps) {
 		const { site: nextSite, chapter: nextChapter } = nextProps.params;
 		const { site, chapter } = this.props.params;
-		const {comicManager, chapters, switchChapter} = this.props;
+		const { comicManager, chapters, switchChapter } = this.props;
 
 		if (nextSite !== site) {
 			this.init();
@@ -118,29 +115,20 @@ class Reader extends Component {
 	render() {
 		const {
 			readingImages,
-			chapters,
-			appBarTitle
+			chapters
 		} = this.props;
 
 		return(
 			<DocumentTitle title={this.getDocumentTitle()}>
-				<div style={{overflow: 'hidden'}}>
-					<AppBar
-						title={appBarTitle}
-						style={{backgroundColor: grey800, position: 'fixed'}}
-						// iconElementRight={<Link to="/"><FlatButton label="收藏" /></Link>}
-						// iconElementRight={ <i className="material-icons md-36">face</i> }
-						onLeftIconButtonTouchTap={this.onLeftIconButtonTouchTap}
-					/>
+				<div style={{overflow: 'hidden', paddingLeft: 60}}>
 					<NavigationSidebar />
 					<div
 						ref="scrollContainer"
 						style={{
-							marginTop: 70,
+							marginTop: 25,
 							overflow: 'auto',
-							position: 'absolute',
 							height: 'calc(100% - 70px)',
-							width: 'calc(100% - 35px)'
+							width: '100%'
 						}}
 					>
 						<div className='switchArea' onClick={this.switchChapterBy(getPreviousChapterIndex)}>
