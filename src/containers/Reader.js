@@ -11,6 +11,7 @@ import Icon from 'components/Icon';
 import ComicListView from 'components/ComicListView';
 import ChapterSidebar from 'components/ChapterSidebar';
 import NavigationSidebar from 'components/NavigationSidebar';
+import ToolBar from 'components/ToolBar';
 
 import * as ChapterActions from 'actions/ChapterActions';
 import { toggleAppDrawer } from 'actions/UIActions';
@@ -122,6 +123,10 @@ class Reader extends Component {
 			<DocumentTitle title={this.getDocumentTitle()}>
 				<div style={{overflow: 'hidden', paddingLeft: 60}}>
 					<NavigationSidebar />
+					<ToolBar
+						loadNextChapter={this.switchChapterBy(getNextChapterIndex)}
+						loadPreviousChapter={this.switchChapterBy(getPreviousChapterIndex)}
+					/>
 					<div
 						ref="scrollContainer"
 						style={{
