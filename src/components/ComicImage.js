@@ -8,7 +8,7 @@ const styles = {
 		},
 		active: {
 			opacity: 1,
-			height: 'auto'
+			height: '100%'
 		}
 	},
 	containerStyle: {
