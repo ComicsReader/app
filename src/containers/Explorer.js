@@ -70,7 +70,7 @@ class Explorer extends Component {
 		return(
 			<DocumentTitle title={this.getDocumentTitle()}>
 				<div style={{height: '100%', overflow: 'hidden', paddingLeft: 60}}>
-					<NavigationSidebar />
+					<NavigationSidebar highlightTag="search" />
 
 					<div style={{padding: '10px 0'}}>
 						<SearchBar onSubmit={this.onSubmit} containerStyle={{display: 'block', margin: '10px auto 0'}}/>

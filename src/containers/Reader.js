@@ -130,7 +130,7 @@ class Reader extends Component {
 		return(
 			<DocumentTitle title={this.getDocumentTitle()}>
 				<div style={{overflow: 'hidden', paddingLeft: 60}}>
-					<NavigationSidebar />
+					<NavigationSidebar highlightTag="reader" />
 					<ToolBar
 						loadNextChapter={this.switchChapterBy(getNextChapterIndex)}
 						loadPreviousChapter={this.switchChapterBy(getPreviousChapterIndex)}

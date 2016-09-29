@@ -102,7 +102,7 @@ class Collection extends Component {
 		return(
 			<DocumentTitle title={this.getDocumentTitle()}>
 				<div style={{height: '100%', overflow: 'hidden', paddingLeft: 60}}>
-					<NavigationSidebar />
+					<NavigationSidebar highlightTag="collection" />
 
 					<Dialog
 						title="Remove Collection?"

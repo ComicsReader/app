@@ -2,10 +2,10 @@ import {
 	Component,
 	PropTypes
 } from 'react';
-
 import { connect } from 'react-redux';
+import Radium from 'radium';
 
-import { grey800, grey50, grey500, grey400 } from 'material-ui/styles/colors';
+import { grey800, grey50, grey500 } from 'material-ui/styles/colors';
 
 import Icon from 'components/Icon';
 
@@ -14,7 +14,16 @@ import * as t from 'constants/ActionTypes';
 import { comicManagers } from 'services';
 
 const styles = {
-	iconStyle: {fontSize: '1.8em', verticalAlign: 'middle', margin: '20% auto', color: grey400, cursor: 'pointer'},
+	iconStyle: {
+		fontSize: '1.8em',
+		verticalAlign: 'middle',
+		margin: '20% auto',
+		color: grey500,
+		cursor: 'pointer'
+	},
+	iconHighlighted: {
+		color: 'white'
+	},
 	menuItem: {color: grey50, paddingLeft: 10, lineHeight: '60px'},
 	seperator: {
 		color: grey500,
@@ -34,12 +43,15 @@ const styles = {
 	}
 };
 
+@Radium
 class NavigationSidebar extends Component {
 	static propTypes = {
 		/* injected by redux */
 		drawerOpen: PropTypes.bool,
 		readingCID: PropTypes.string,
-		dispatch: PropTypes.func
+		dispatch: PropTypes.func,
+
+		highlightTag: PropTypes.string
 	}
 
 	navigateTo = (pathname) => {
@@ -53,6 +65,12 @@ class NavigationSidebar extends Component {
 		dispatch({type: t.CHANGE_DRAWER_STATE, drawerOpen});
 	}
 
+	highlightStyle = (tag) => {
+		const { highlightTag } = this.props;
+
+		return tag === highlightTag ? styles.iconHighlighted : null;
+	}
+
 	render() {
 		const { readingCID } = this.props;
 
@@ -62,22 +80,22 @@ class NavigationSidebar extends Component {
 					(typeof readingCID !== 'undefined' && readingCID) ?
 						<Icon
 							iconName="insert_photo"
-							style={styles.iconStyle}
+							style={[styles.iconStyle, this.highlightStyle('reader')]}
 							onClick={this.navigateTo(`/reader/dm5/${comicManagers.dm5.getChapterID(readingCID)}`)}
 						/> :
 						<Icon
 							iconName="insert_photo"
-							style={styles.iconStyle}
+							style={[styles.iconStyle, this.highlightStyle('reader')]}
 						/>
 				}
 				<Icon
 					iconName="search"
-					style={styles.iconStyle}
+					style={[styles.iconStyle, this.highlightStyle('search')]}
 					onClick={this.navigateTo('/explore')}
 				/>
 				<Icon
 					iconName="library_books"
-					style={styles.iconStyle}
+					style={[styles.iconStyle, this.highlightStyle('collection')]}
 					onClick={this.navigateTo('/collection?tab=collection')}
 				/>
 				<Icon iconName="info" style={styles.iconStyle} />
