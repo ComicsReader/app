@@ -1,0 +1,108 @@
+---
+---
+
+body {
+	background-color: #fdfdfd;
+}
+
+section {
+	padding: 0.5em 0;
+}
+
+.download-block {
+	text-align: center;
+}
+
+#head {
+	padding: 3em 0;
+	text-align: center;
+
+	.logo img {
+		width: 7em;
+	}
+
+	.title {
+		margin-top: .5em;
+		font-size: 2em;
+	}
+
+	.description {
+		margin: 0 auto;
+		color: #101010;
+		font-size: 1.2em;
+	}
+
+	a {
+		text-decoration: none;
+		.download-button {
+			margin: 0 auto;
+		}
+	}
+
+	.slogan {
+		margin-top: .5em;
+		font-size: 3.4em;
+
+		@media (max-width: 870px) {
+			font-size: 2.8em;
+		}
+
+		img {
+			max-width: 100%;
+		}
+	}
+}
+
+#feature {
+	color: white;
+
+	img {
+		max-width: 100%;
+	}
+
+	.feature-block {
+		background-image: url(../images/congruent_outline.png);
+		background-repeat: repeat;
+
+		padding: 2em 3em;
+
+		.feature-list {
+			padding: 3em 1em;
+
+			li {
+				font-size: 1.5em;
+
+				&.in-progress {
+					color: rgb(47.2%, 47.2%, 47.2%);
+
+					&:after {
+						content: '開發中';
+						font-size: 16px;
+						font-style: italic;
+						margin: -2px 12px 0;
+						color: #ccd5f9;
+					}
+				}
+
+			}
+		}
+
+		.feature-image {
+			padding: 3em 1em;
+		}
+	}
+}
+
+#contribution {
+	.button-block {
+		margin: 0 auto;
+		a {
+			text-decoration: none;
+		}
+	}
+}
+
+footer {
+	text-align: center;
+	padding: 1em;
+}
