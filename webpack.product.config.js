@@ -61,6 +61,7 @@ module.exports = [
 			new webpack.DefinePlugin({
 				PLATFORM: JSON.stringify('electron')
 			})
-		]
+		],
+		target: 'node'
 	})
 ];
