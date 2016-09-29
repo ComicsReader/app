@@ -2,38 +2,61 @@ import {
 	Component,
 	PropTypes
 } from 'react';
-
 import { connect } from 'react-redux';
+import Radium from 'radium';
 
-import { Drawer, MenuItem } from 'material-ui';
 import { grey800, grey50, grey500 } from 'material-ui/styles/colors';
 
 import Icon from 'components/Icon';
 
 import * as t from 'constants/ActionTypes';
-import {toggleAppDrawer} from 'actions/UIActions';
+
+import { comicManagers } from 'services';
 
 const styles = {
-	iconStyle: {fontSize: 22, verticalAlign: 'middle', marginRight: 30},
+	iconStyle: {
+		fontSize: '1.8em',
+		verticalAlign: 'middle',
+		margin: '20% auto',
+		color: grey500,
+		cursor: 'pointer'
+	},
+	iconHighlighted: {
+		color: 'white'
+	},
 	menuItem: {color: grey50, paddingLeft: 10, lineHeight: '60px'},
 	seperator: {
 		color: grey500,
 		border: 'solid 0.5px',
 		borderBottomWidth: '0px'
+	},
+	navigationSidebar: {
+		position: 'fixed',
+		height: '100%',
+		width: 60,
+		left: 0,
+		backgroundColor: grey800,
+		display: 'flex',
+		paddingTop: '1em',
+		flexDirection: 'column',
+		zIndex: 9999
 	}
 };
 
+@Radium
 class NavigationSidebar extends Component {
 	static propTypes = {
 		/* injected by redux */
 		drawerOpen: PropTypes.bool,
-		dispatch: PropTypes.func
+		readingCID: PropTypes.string,
+		dispatch: PropTypes.func,
+
+		highlightTag: PropTypes.string
 	}
 
 	navigateTo = (pathname) => {
 		return () => {
 			this.props.dispatch({type: t.NAVIGATE, pathname: pathname});
-			this.props.dispatch(toggleAppDrawer());
 		};
 	}
 
@@ -42,53 +65,47 @@ class NavigationSidebar extends Component {
 		dispatch({type: t.CHANGE_DRAWER_STATE, drawerOpen});
 	}
 
+	highlightStyle = (tag) => {
+		const { highlightTag } = this.props;
+
+		return tag === highlightTag ? styles.iconHighlighted : null;
+	}
+
 	render() {
-		const { drawerOpen } = this.props;
+		const { readingCID } = this.props;
 
 		return(
-			<Drawer
-				open={drawerOpen}
-				containerStyle={{backgroundColor: grey800}}
-				width={300}
-				docked={false}
-				onRequestChange={this.onRequestChange}
-				overlayStyle={{backgroundColor: 'transparent'}}
-				style={{color: grey50}}
-			>
-				<MenuItem
-					style={styles.menuItem}
+			<div style={styles.navigationSidebar}>
+				{
+					(typeof readingCID !== 'undefined' && readingCID) ?
+						<Icon
+							iconName="insert_photo"
+							style={[styles.iconStyle, this.highlightStyle('reader')]}
+							onClick={this.navigateTo(`/reader/dm5/${comicManagers.dm5.getChapterID(readingCID)}`)}
+						/> :
+						<Icon
+							iconName="insert_photo"
+							style={[styles.iconStyle, this.highlightStyle('reader')]}
+						/>
+				}
+				<Icon
+					iconName="search"
+					style={[styles.iconStyle, this.highlightStyle('search')]}
 					onClick={this.navigateTo('/explore')}
-				>
-					<Icon iconName="search" style={styles.iconStyle} />
-						Search
-				</MenuItem>
-				<MenuItem
-					style={styles.menuItem}
+				/>
+				<Icon
+					iconName="library_books"
+					style={[styles.iconStyle, this.highlightStyle('collection')]}
 					onClick={this.navigateTo('/collection?tab=collection')}
-				>
-					<Icon iconName="library_books" style={styles.iconStyle} />
-						Collection & Recents
-				</MenuItem>
-				<div style={styles.seperator} />
-				<MenuItem
-					style={styles.menuItem}
-					// onClick={null}
-				>
-					<Icon iconName="settings" style={styles.iconStyle} />
-						Setting
-				</MenuItem>
-				<MenuItem
-					style={styles.menuItem}
-					// onClick={null}
-				>
-					<Icon iconName="info" style={styles.iconStyle} />
-						About
-				</MenuItem>
-			</Drawer>
+				/>
+				<Icon iconName="info" style={styles.iconStyle} />
+			</div>
 		);
 	}
 }
 
 export default connect(state => {
-	return {drawerOpen: state.uiState.drawerOpen};
+	return({
+		readingCID: state.comics.readingCID
+	});
 })(NavigationSidebar);

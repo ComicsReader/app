@@ -23,6 +23,9 @@ export const CLEAR_SEARCH_RESULT        = 'CLEAR_SEARCH_RESULT';
 /* UI actions */
 export const TOGGLE_APP_DRAWER          = 'TOGGLE_APP_DRAWER';
 export const CHANGE_DRAWER_STATE        = 'CHANGE_DRAWER_STATE';
+export const INCREASE_ZOOM_RATE         = 'INCREASE_ZOOM_RATE';
+export const DECREASE_ZOOM_RATE         = 'DECREASE_ZOOM_RATE';
+export const RESET_ZOOM_RATE            = 'RESET_ZOOM_RATE';
 
 /* Collections */
 export const FETCH_ALL_COLLECTION       = 'FETCH_ALL_COLLECTION';

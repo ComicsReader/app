@@ -1,4 +1,5 @@
 import { Component, PropTypes } from 'react';
+import Radium from 'radium';
 
 const styles = {
 	imageStyle: {
@@ -7,8 +8,7 @@ const styles = {
 		},
 		active: {
 			opacity: 1,
-			height: 'auto',
-			width: 'auto'
+			height: 'auto'
 		}
 	},
 	containerStyle: {
@@ -27,10 +27,12 @@ const styles = {
 	}
 };
 
+@Radium
 export default class ComicImage extends Component {
 	static propTypes = {
 		src: PropTypes.string,
-		style: PropTypes.object
+		style: PropTypes.object,
+		zoomRate: PropTypes.number
 	}
 
 	constructor(props) {
@@ -71,7 +73,12 @@ export default class ComicImage extends Component {
 	}
 
 	render() {
-		const { src, style } = this.props;
+		const { src, style, zoomRate } = this.props;
+
+		const zoomProperty = {
+			width: `${100 + zoomRate}%`,
+			maxWidth: `${100 + zoomRate}%`
+		};
 
 		return(
 			<div style={{
@@ -82,15 +89,14 @@ export default class ComicImage extends Component {
 				<img
 					src={src}
 					ref='image'
-					style={{
+					className="comic-image"
+					style={[{
 						display: 'block',
 						zIndex: 2,
 						margin: '0 auto 16px',
 						maxWidth: '100%',
-						transition: 'opacity .25s',
-						...this.state.style,
-						...style
-					}}
+						transition: 'opacity .25s'
+					}, this.state.style, zoomProperty, style]}
 					onLoad={this.onImageLoad}
 				/>
 			</div>

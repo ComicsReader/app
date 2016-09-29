@@ -16,23 +16,28 @@ export default class ComicListView extends Component {
 		loadNextChapter: PropTypes.func,
 		loadPreviousChapter: PropTypes.func,
 		hasNextChapter: PropTypes.bool,
-		hasPrevioushapter: PropTypes.bool
+		hasPrevioushapter: PropTypes.bool,
+		zoomRate: PropTypes.number
 	}
 
 	renderChapterComics = (chapterImages) => {
 		if (chapterImages.length == 0) {
 			return(<LoadIndicator />);
 		} else {
-			const { loadNextChapter, hasNextChapter, loadPreviousChapter, hasPrevioushapter } = this.props;
+			const {
+				loadNextChapter,
+				hasNextChapter,
+				zoomRate
+			} = this.props;
 
 			return(
 				<div>
 					{
 						chapterImages.map(image => {
-							return(<ComicImage key={image} src={image} />);
+							return(<ComicImage key={image} src={image} zoomRate={zoomRate} />);
 						})
 					}
-					{ hasNextChapter ? <RaisedButton label="載入下一章" fullWidth={true} onClick={loadNextChapter} backgroundColor={grey900} labelColor={grey50} /> : null }
+					{ hasNextChapter ? <RaisedButton label="載入下一章" fullWidth={true} onClick={loadNextChapter} backgroundColor={grey900} labelColor={grey50} labelStyle={{fontSize: '1.3em'}} style={{height: '2.2em'}}/> : null }
 				</div>
 			);
 		}

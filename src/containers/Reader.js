@@ -5,18 +5,17 @@ import { bindActionCreators } from 'redux';
 
 import Radium from 'radium';
 
-import { AppBar } from 'material-ui';
-import { grey800 } from 'material-ui/styles/colors';
-
 import DocumentTitle from 'react-document-title';
 
 import Icon from 'components/Icon';
 import ComicListView from 'components/ComicListView';
 import ChapterSidebar from 'components/ChapterSidebar';
 import NavigationSidebar from 'components/NavigationSidebar';
+import ToolBar from 'components/ToolBar';
 
 import * as ChapterActions from 'actions/ChapterActions';
 import { toggleAppDrawer } from 'actions/UIActions';
+import * as UIActions from 'actions/UIActions';
 import { getNextChapterIndex, getPreviousChapterIndex } from 'reducers/selectors';
 
 import 'styles/SwitchArea.scss';
@@ -31,6 +30,7 @@ class Reader extends Component {
 		chapters: PropTypes.array,
 		appBarTitle: PropTypes.string.isRequired,
 		comicName: PropTypes.string,
+		zoomRate: PropTypes.number,
 
 		/* chapter actions */
 		switchChapter: PropTypes.func,
@@ -38,6 +38,12 @@ class Reader extends Component {
 		switchChapterRequest: PropTypes.object,
 		initComicManager: PropTypes.func,
 		params: PropTypes.object,
+
+		/* ui actions */
+		increaseZoomRate: PropTypes.func,
+		decreaseZoomRate: PropTypes.func,
+		resetZoomRate: PropTypes.func,
+
 		dispatch: PropTypes.func
 	}
 
@@ -52,7 +58,7 @@ class Reader extends Component {
 	componentWillReceiveProps(nextProps) {
 		const { site: nextSite, chapter: nextChapter } = nextProps.params;
 		const { site, chapter } = this.props.params;
-		const {comicManager, chapters, switchChapter} = this.props;
+		const { comicManager, chapters, switchChapter } = this.props;
 
 		if (nextSite !== site) {
 			this.init();
@@ -118,37 +124,29 @@ class Reader extends Component {
 	render() {
 		const {
 			readingImages,
-			chapters,
-			appBarTitle
+			chapters
 		} = this.props;
 
 		return(
 			<DocumentTitle title={this.getDocumentTitle()}>
-				<div style={{overflow: 'hidden'}}>
-					<AppBar
-						title={appBarTitle}
-						style={{backgroundColor: grey800, position: 'fixed'}}
-						// iconElementRight={<Link to="/"><FlatButton label="收藏" /></Link>}
-						// iconElementRight={ <i className="material-icons md-36">face</i> }
-						onLeftIconButtonTouchTap={this.onLeftIconButtonTouchTap}
+				<div style={{overflow: 'hidden', paddingLeft: 60}}>
+					<NavigationSidebar highlightTag="reader" />
+					<ToolBar
+						loadNextChapter={this.switchChapterBy(getNextChapterIndex)}
+						loadPreviousChapter={this.switchChapterBy(getPreviousChapterIndex)}
+						increaseZoomRate={this.props.increaseZoomRate}
+						decreaseZoomRate={this.props.decreaseZoomRate}
+						resetZoomRate={this.props.resetZoomRate}
 					/>
-					<NavigationSidebar />
 					<div
 						ref="scrollContainer"
 						style={{
-							marginTop: 70,
+							marginTop: 25,
 							overflow: 'auto',
-							position: 'absolute',
 							height: 'calc(100% - 70px)',
-							width: 'calc(100% - 35px)'
+							width: 'calc(100% - 38px)'
 						}}
 					>
-						<div className='switchArea' onClick={this.switchChapterBy(getPreviousChapterIndex)}>
-							<Icon iconName='navigate_before'/>
-						</div>
-						<div className='switchArea right' onClick={this.switchChapterBy(getNextChapterIndex)}>
-							<Icon iconName='navigate_next'/>
-						</div>
 						<ChapterSidebar
 							chapters={chapters}
 							onChapterItemClick={this.handleChapterClick}
@@ -161,6 +159,7 @@ class Reader extends Component {
 							loadPreviousChapter={this.switchChapterBy(getPreviousChapterIndex)}
 							hasNextChapter={this.hasNextChapter()}
 							hasPrevioushapter={this.hasPrevioushapter()}
+							zoomRate={this.props.zoomRate}
 						/>
 					</div>
 				</div>
@@ -172,9 +171,10 @@ class Reader extends Component {
 export default connect(state => {
 	/* map state to props */
 	return {
-		...state.comics
+		...state.comics,
+		zoomRate: state.uiState.zoomRate
 	};
 }, dispatch => {
 	/* map dispatch to props */
-	return({...bindActionCreators(ChapterActions, dispatch), dispatch});
+	return({...bindActionCreators(ChapterActions, dispatch), ...bindActionCreators(UIActions, dispatch), dispatch});
 })(Reader);
