@@ -4,16 +4,7 @@ import { addRecentComic } from 'actions/ConfigActions';
 
 export const initComicManager = ({site, chapterID}) => {
 	return dispatch => {
-		let comicManager = null;
-
-		switch(site) {
-		case 'dm5':
-			comicManager = comicManagers.dm5;
-			break;
-		default:
-			comicManager = comicManagers.dm5;
-			break;
-		}
+		let comicManager = comicManagers.selectComicManager(site);
 
 		dispatch({type: t.CLEAR_COMIC_IMAGES});
 
