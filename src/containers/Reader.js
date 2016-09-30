@@ -23,7 +23,6 @@ import 'styles/SwitchArea.scss';
 class Reader extends Component {
 	static propTypes = {
 		/* injected by redux */
-		readingComicID: PropTypes.string,
 		readingChapterID: PropTypes.string,
 		readingImages: PropTypes.array,
 		chapters: PropTypes.array,

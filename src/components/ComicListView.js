@@ -31,7 +31,7 @@ export default class ComicListView extends Component {
 			} = this.props;
 
 			return(
-				<div key={index}>
+				<div key={`chapters_comics_${index}`}>
 					{
 						chapterImages.map(image => {
 							return(<ComicImage key={image} src={image} zoomRate={zoomRate} />);
