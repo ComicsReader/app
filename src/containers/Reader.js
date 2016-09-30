@@ -17,8 +17,6 @@ import { toggleAppDrawer } from 'actions/UIActions';
 import * as UIActions from 'actions/UIActions';
 import { getNextChapterIndex, getPreviousChapterIndex } from 'reducers/selectors';
 
-import 'styles/SwitchArea.scss';
-
 @Radium
 class Reader extends Component {
 	static propTypes = {
