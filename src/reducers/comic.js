@@ -34,7 +34,7 @@ const initialState = {
 	 ]
 	 */
 	readingChapters: [],
-	readingCID: null,
+	readingChapterID: null,
 	readingComicID: null,
 	/*
 	 * readingImages is an array of array
@@ -81,7 +81,7 @@ export default function comics(state = initialState, action) {
 			readingChapters: action.readingChapters,
 			readingImages: action.readingImages,
 			appBarTitle: action.appBarTitle,
-			readingCID: action.readingCID
+			readingChapterID: action.readingChapterID
 			// flattenReadingImages: flatten
 		};
 
@@ -89,7 +89,7 @@ export default function comics(state = initialState, action) {
 		return {
 			...state,
 			readingImages: [],
-			readingCID: null,
+			readingChapterID: null,
 			appBarTitle: 'Loading...'
 		};
 

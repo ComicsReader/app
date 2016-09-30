@@ -32,13 +32,14 @@ export const initComicManager = ({site, chapterID}) => {
 			});
 
 			comicManager.getChapterImages(chapterID).then(images => {
-				let chapterItem = chapters.find(chap => chap.chapterID == chapterID);
+				let chapterItem = chapters.find(item => item.chapterID == chapterID);
+
 				dispatch({
 					type: t.SWITCH_CHAPTER,
 					readingChapters: [chapterItem],
 					readingImages: [images],
 					appBarTitle: chapterItem.title,
-					readingCID: chapterItem.cid
+					readingChapterID: chapterID
 				});
 			});
 		});

@@ -48,7 +48,7 @@ class NavigationSidebar extends Component {
 	static propTypes = {
 		/* injected by redux */
 		drawerOpen: PropTypes.bool,
-		readingCID: PropTypes.string,
+		readingChapterID: PropTypes.string,
 		dispatch: PropTypes.func,
 
 		highlightTag: PropTypes.string
@@ -72,16 +72,16 @@ class NavigationSidebar extends Component {
 	}
 
 	render() {
-		const { readingCID } = this.props;
+		const { readingChapterID } = this.props;
 
 		return(
 			<div style={styles.navigationSidebar}>
 				{
-					(typeof readingCID !== 'undefined' && readingCID) ?
+					(typeof readingChapterID !== 'undefined' && readingChapterID) ?
 						<Icon
 							iconName="insert_photo"
 							style={[styles.iconStyle, this.highlightStyle('reader')]}
-							onClick={this.navigateTo(`/reader/dm5/${comicManagers.dm5.getChapterID(readingCID)}`)}
+							onClick={this.navigateTo(`/reader/dm5/${readingChapterID}`)}
 						/> :
 						<Icon
 							iconName="insert_photo"
@@ -106,6 +106,6 @@ class NavigationSidebar extends Component {
 
 export default connect(state => {
 	return({
-		readingCID: state.comics.readingCID
+		readingChapterID: state.comics.readingChapterID
 	});
 })(NavigationSidebar);

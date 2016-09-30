@@ -24,7 +24,7 @@ class Reader extends Component {
 	static propTypes = {
 		/* injected by redux */
 		readingComicID: PropTypes.string,
-		readingCID: PropTypes.string,
+		readingChapterID: PropTypes.string,
 		readingImages: PropTypes.array,
 		chapters: PropTypes.array,
 		appBarTitle: PropTypes.string.isRequired,
@@ -83,8 +83,8 @@ class Reader extends Component {
 
 	switchChapterBy = (getterFunction) => {
 		return () => {
-			const { chapters, readingCID, switchChapter } = this.props;
-			let index = getterFunction(chapters, readingCID);
+			const { chapters, readingChapterID, switchChapter } = this.props;
+			let index = getterFunction(chapters, readingChapterID);
 			if ( index != -1 ) {
 				switchChapter(chapters[index]);
 			}
@@ -92,15 +92,15 @@ class Reader extends Component {
 	}
 
 	hasNextChapter = () => {
-		return getNextChapterIndex(this.props.chapters, this.props.readingCID) !== -1;
+		return getNextChapterIndex(this.props.chapters, this.props.readingChapterID) !== -1;
 	}
 
 	hasPrevioushapter = () => {
-		return getPreviousChapterIndex(this.props.chapters, this.props.readingCID) !== -1;
+		return getPreviousChapterIndex(this.props.chapters, this.props.readingChapterID) !== -1;
 	}
 
 	sidebarIsSelected = (chapterItem) => {
-		return this.props.readingCID == chapterItem.cid;
+		return this.props.readingChapterID == chapterItem.chapterID;
 	}
 
 	onLeftIconButtonTouchTap = () => {
