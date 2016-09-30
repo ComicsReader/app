@@ -12,41 +12,14 @@ export const chapterCache     = {};
 
 export const siteName = 'dm5';
 
-export function getChapters(comicID) {
-	return new Promise((resolve) => {
-		getComicInfo(comicID, 'chapters').then(chapters => resolve(chapters)).catch(error => ({error}));
-	});
-}
-
-export function getComicName(comicID) {
-	return new Promise((resolve) => {
-		getComicInfo(comicID, 'comicName').then(comicName => resolve(comicName)).catch(error => ({error}));
-	});
-}
-
-export function getComicCoverImage(comicID) {
-	return new Promise((resolve) => {
-		getComicInfo(comicID, 'coverImage').then(comicName => resolve(comicName)).catch(error => ({error}));
-	});
-}
-
-export function getComicInfo(comicID, type=null) {
+export function getComicInfo(comicID) {
 	return new Promise((resolve, reject) => {
-		if (typeof chapterCache[comicID] === 'undefined') {
+		if (typeof chapterCache[comicID] === 'undefined' || chapterCache[comicID] === null) {
 			// initialize the cache item
 			fetchComicsInfo(comicID).then(info => {
 				chapterCache[comicID] = {...info};
-
-				if (type === null) {
-					resolve(chapterCache[comicID]);
-				} else {
-					resolve(chapterCache[comicID][type]);
-				}
+				resolve(chapterCache[comicID]);
 			}).catch(error => (reject({error})));
-
-		} else if (type && chapterCache[comicID].hasOwnProperty(type)) {
-			resolve(chapterCache[comicID][type]);
-
 		} else {
 			resolve(chapterCache[comicID]);
 		}
@@ -108,7 +81,7 @@ export function search(keyword, page=1) {
 				});
 			});
 
-			var pages = $html.find('.pager a').toArray().map(a => $(a).attr('href')).map(href => parseInt(href.match(/page=(\d+)/)[1]))
+			var pages = $html.find('.pager a').toArray().map(a => $(a).attr('href')).map(href => parseInt(href.match(/page=(\d+)/)[1]));
 
 			var total = Math.max(...pages);
 
