@@ -1,9 +1,10 @@
 import { take, put, call, fork, select } from 'redux-saga/effects';
 import { takeLatest } from 'redux-saga';
 import * as t from 'constants/ActionTypes';
-import { getComicManager, getSearchState } from 'reducers/selectors';
+import { getComicManager, getSearchState, getComicID } from 'reducers/selectors';
 import { comicManagers } from 'services';
 import { push } from 'react-router-redux';
+import { updateReadingRecord } from 'actions/ConfigActions';
 
 // default comics service
 const DM5 = comicManagers.dm5;
@@ -11,21 +12,26 @@ const DM5 = comicManagers.dm5;
 function* switchChapter(action) {
 	const { chapterItem } = action;
 	const comicManager = yield select(getComicManager);
+	const comicID = yield select(getComicID);
 
-	let pathname = `/reader/${comicManager.siteName}/${chapterItem.chapterID}`;
+	let { chapterID } = chapterItem;
+
+	updateReadingRecord({comicID, chapterID});
+
+	let pathname = `/reader/${comicManager.siteName}/${chapterID}`;
 
 	yield put({type: t.CLEAR_COMIC_IMAGES});
 	yield put({type: t.NAVIGATE, pathname});
 
 	// may failed...
-	const images = yield call(comicManager.getChapterImages, chapterItem.chapterID);
+	const images = yield call(comicManager.getChapterImages, chapterID);
 
 	yield put({
 		type: t.SWITCH_CHAPTER,
 		readingImages: [images],
 		appBarTitle: chapterItem.title,
 		siteName: comicManager.siteName,
-		readingChapterID: chapterItem.chapterID
+		readingChapterID: chapterID
 	});
 }
 

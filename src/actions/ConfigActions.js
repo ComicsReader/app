@@ -5,9 +5,12 @@ import store from 'store';
 
 let deviceID = store.get('device_id');
 
-const Collection = firebaseApp.database().ref(`users/${deviceID}/collections/`);
-const RecentComic = firebaseApp.database().ref(`users/${deviceID}/recentComics/`);
+export const resourceBaseUrl = `users/${deviceID}`;
+export const Collection = firebaseApp.database().ref(`${resourceBaseUrl}/collections/`);
+export const RecentComic = firebaseApp.database().ref(`${resourceBaseUrl}/recentComics/`);
+export const ReadingRecord = firebaseApp.database().ref(`${resourceBaseUrl}/readingRecord`);
 
+/* Collection Resource */
 export const fetchCollections = () => {
 	return dispatch => {
 		Collection.on('value', snapshot => {
@@ -24,7 +27,7 @@ export const turnOffFetchCollectionCallback = () => {
 };
 
 export const addCollection = (comic) => {
-	return dispatch => firebaseApp.database().ref(`users/${deviceID}/collections/${comic.comicID}`).set({...comic, created_at: new Date().getTime()});
+	return dispatch => firebaseApp.database().ref(`${resourceBaseUrl}/collections/${comic.comicID}`).set({...comic, created_at: new Date().getTime()});
 };
 
 export const removeCollection = (key, callback=null) => {
@@ -34,6 +37,7 @@ export const removeCollection = (key, callback=null) => {
 	};
 };
 
+/* RecentComic Resource */
 export const fetchRecentComic = () => {
 	return dispatch => {
 		RecentComic.on('value', snapshot => {
@@ -50,7 +54,7 @@ export const turnOffFetchRecentComicCallback = () => {
 };
 
 export const addRecentComic = (comic) => {
-	return dispatch => firebaseApp.database().ref(`users/${deviceID}/recentComics/${comic.comicID}`).set({...comic, last_read_at: new Date().getTime()});
+	return dispatch => firebaseApp.database().ref(`${resourceBaseUrl}/recentComics/${comic.comicID}`).set({...comic, last_read_at: new Date().getTime()});
 };
 
 export const removeRecentComic = (key, callback=null) => {
@@ -58,5 +62,13 @@ export const removeRecentComic = (key, callback=null) => {
 		RecentComic.child(key).remove();
 		if (callback) callback();
 	};
+};
+
+/* Reading Resource */
+export const updateReadingRecord = ({comicID, chapterID}) => {
+	let ref = firebaseApp.database().ref(`${resourceBaseUrl}/readingRecord/${comicID}`);
+	ref.once('value').then(snapshot => {
+		ref.update({...snapshot.val(), [chapterID]: new Date().getTime()});
+	});
 };
 
