@@ -11,8 +11,6 @@ import Icon from 'components/Icon';
 
 import * as t from 'constants/ActionTypes';
 
-import { comicManagers } from 'services';
-
 const styles = {
 	iconStyle: {
 		fontSize: '1.8em',

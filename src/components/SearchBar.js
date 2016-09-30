@@ -55,4 +55,3 @@ export default class SearhBar extends Component {
 		);
 	}
 }
-

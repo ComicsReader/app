@@ -1,11 +1,16 @@
 import {
-	Component
+	Component,
+	PropTypes
 } from 'react';
 
 import Radium from 'radium';
 
 @Radium
 export default class LoadIndicator extends Component {
+	static propTypes = {
+		style: PropTypes.object
+	}
+
 	render() {
 		return(
 			<div
