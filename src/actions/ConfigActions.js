@@ -2,14 +2,8 @@ import { firebaseApp } from 'utils/firebase';
 import * as t from 'constants/ActionTypes';
 
 import store from 'store';
-import uuid from 'node-uuid';
 
 let deviceID = store.get('device_id');
-
-if (!deviceID) {
-	deviceID = uuid.v4();
-	store.set('device_id', deviceID);
-}
 
 const Collection = firebaseApp.database().ref(`users/${deviceID}/collections/`);
 const RecentComic = firebaseApp.database().ref(`users/${deviceID}/recentComics/`);
