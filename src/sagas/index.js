@@ -12,20 +12,20 @@ function* switchChapter(action) {
 	const { chapterItem } = action;
 	const comicManager = yield select(getComicManager);
 
-	let pathname = `/reader/${comicManager.siteName}/${comicManager.getChapterID(chapterItem.cid)}`;
+	let pathname = `/reader/${comicManager.siteName}/${chapterItem.chapterID}`;
 
 	yield put({type: t.CLEAR_COMIC_IMAGES});
 	yield put({type: t.NAVIGATE, pathname});
 
 	// may failed...
-	const images = yield call(comicManager.getChapterImages, chapterItem.cid);
+	const images = yield call(comicManager.getChapterImages, chapterItem.chapterID);
 
 	yield put({
 		type: t.SWITCH_CHAPTER,
 		readingImages: [images],
 		appBarTitle: chapterItem.title,
 		siteName: comicManager.siteName,
-		readingCID: chapterItem.cid
+		readingChapterID: chapterItem.chapterID
 	});
 }
 

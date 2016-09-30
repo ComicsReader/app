@@ -58,7 +58,7 @@ export default class ChapterSidebar extends Component {
 				</MenuItem>
 				<div style={{height: 'calc(100% - 65px)', overflowY: 'scroll', overflowX: 'hidden'}}>
 					{
-						chapters.map((chapterItem) => {
+						chapters.map((chapterItem, index) => {
 
 							var style = isSelected(chapterItem) ? { backgroundColor: 'rgba(0, 0, 0, 0.098)' } : {};
 							return(
@@ -66,7 +66,7 @@ export default class ChapterSidebar extends Component {
 									onClick={this.onChapterItemClick(chapterItem)}
 									style={style}
 									innerDivStyle={{paddingLeft: 37}}
-									key={`chapter_item_${chapterItem.cid}`}
+									key={`chapter_item_${chapterItem.chapterID}_${index}`}
 								>
 									{chapterItem.title}
 								</MenuItem>

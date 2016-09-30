@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
 
 import { grey800, grey900 } from 'material-ui/styles/colors';
 

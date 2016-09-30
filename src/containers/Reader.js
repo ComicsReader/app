@@ -7,7 +7,6 @@ import Radium from 'radium';
 
 import DocumentTitle from 'react-document-title';
 
-import Icon from 'components/Icon';
 import ComicListView from 'components/ComicListView';
 import ChapterSidebar from 'components/ChapterSidebar';
 import NavigationSidebar from 'components/NavigationSidebar';
@@ -25,7 +24,7 @@ class Reader extends Component {
 	static propTypes = {
 		/* injected by redux */
 		readingComicID: PropTypes.string,
-		readingCID: PropTypes.string,
+		readingChapterID: PropTypes.string,
 		readingImages: PropTypes.array,
 		chapters: PropTypes.array,
 		appBarTitle: PropTypes.string.isRequired,
@@ -58,12 +57,12 @@ class Reader extends Component {
 	componentWillReceiveProps(nextProps) {
 		const { site: nextSite, chapter: nextChapter } = nextProps.params;
 		const { site, chapter } = this.props.params;
-		const { comicManager, chapters, switchChapter } = this.props;
+		const { chapters, switchChapter } = this.props;
 
 		if (nextSite !== site) {
 			this.init();
 		} else if (nextChapter !== chapter) {
-			let chapterItem = chapters.find(c => c.cid == comicManager.getCID(nextChapter));
+			let chapterItem = chapters.find(c => c.chapterID == nextChapter);
 			switchChapter(chapterItem);
 		}
 	}
@@ -84,8 +83,8 @@ class Reader extends Component {
 
 	switchChapterBy = (getterFunction) => {
 		return () => {
-			const { chapters, readingCID, switchChapter } = this.props;
-			let index = getterFunction(chapters, readingCID);
+			const { chapters, readingChapterID, switchChapter } = this.props;
+			let index = getterFunction(chapters, readingChapterID);
 			if ( index != -1 ) {
 				switchChapter(chapters[index]);
 			}
@@ -93,15 +92,15 @@ class Reader extends Component {
 	}
 
 	hasNextChapter = () => {
-		return getNextChapterIndex(this.props.chapters, this.props.readingCID) !== -1;
+		return getNextChapterIndex(this.props.chapters, this.props.readingChapterID) !== -1;
 	}
 
 	hasPrevioushapter = () => {
-		return getPreviousChapterIndex(this.props.chapters, this.props.readingCID) !== -1;
+		return getPreviousChapterIndex(this.props.chapters, this.props.readingChapterID) !== -1;
 	}
 
 	sidebarIsSelected = (chapterItem) => {
-		return this.props.readingCID == chapterItem.cid;
+		return this.props.readingChapterID == chapterItem.chapterID;
 	}
 
 	onLeftIconButtonTouchTap = () => {

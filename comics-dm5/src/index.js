@@ -12,49 +12,39 @@ export const chapterCache     = {};
 
 export const siteName = 'dm5';
 
-export function getChapters(comicID) {
-	return new Promise((resolve) => {
-		getComicInfo(comicID, 'chapters').then(chapters => resolve(chapters)).catch(error => ({error}));
-	});
-}
+const comicIDRegex = /^manhua\-\w+$/;
+const chapterIDRegex = /^m\d+$/;
+const cidRegex = /^\d+$/;
 
-export function getComicName(comicID) {
-	return new Promise((resolve) => {
-		getComicInfo(comicID, 'comicName').then(comicName => resolve(comicName)).catch(error => ({error}));
-	});
-}
-
-export function getComicCoverImage(comicID) {
-	return new Promise((resolve) => {
-		getComicInfo(comicID, 'coverImage').then(comicName => resolve(comicName)).catch(error => ({error}));
-	});
-}
-
-export function getComicInfo(comicID, type=null) {
-	return new Promise((resolve) => {
-		if (typeof chapterCache[comicID] === 'undefined') {
-			chapterCache[comicID] = {};
-		} else if (chapterCache[comicID].hasOwnProperty(type)) {
-			resolve(chapterCache[comicID][type]);
-			return;
-		} else if (type === null && chapterCache[comicID] !== {}) {
-			resolve(chapterCache[comicID]);
-			return;
-		}
-
-		fetchComicsInfo(comicID).then(info => {
-			chapterCache[comicID].chapters      = info.chapters;
-			chapterCache[comicID].comicName     = info.comicName;
-			chapterCache[comicID].coverImage    = info.coverImage;
-			chapterCache[comicID].latestChapter = info.latestChapter;
-
-			if (type === null) {
+export function getComicInfo(comicID) {
+	return new Promise((resolve, reject) => {
+		if (typeof chapterCache[comicID] === 'undefined' || chapterCache[comicID] === null) {
+			// initialize the cache item
+			fetchComicsInfo(comicID).then(info => {
+				chapterCache[comicID] = {...info, comicID: comicID};
 				resolve(chapterCache[comicID]);
-				return;
-			}
+			}).catch(error => (reject({error})));
+		} else {
+			resolve(chapterCache[comicID]);
+		}
+	});
+}
 
-			resolve(chapterCache[comicID][type]);
-		}).catch(error => ({error}));
+export function getComic(whateverID) {
+	let chapterID = null;
+
+	if (whateverID.match(comicIDRegex)) {
+		return getComicInfo(whateverID);
+	} else if (whateverID.match(chapterIDRegex)) {
+		chapterID = whateverID;
+	} else if (whateverID.match(cidRegex)) {
+		chapterID = getChapterID(whateverID);
+	} else {
+		throw 'Invalid ID';
+	}
+
+	return new Promise((resolve) => {
+		fetchComicIDbyChapterID(chapterID).then(comicID => resolve(getComicInfo(comicID)));
 	});
 }
 
@@ -113,7 +103,7 @@ export function search(keyword, page=1) {
 				});
 			});
 
-			var pages = $html.find('.pager a').toArray().map(a => $(a).attr('href')).map(href => parseInt(href.match(/page=(\d+)/)[1]))
+			var pages = $html.find('.pager a').toArray().map(a => $(a).attr('href')).map(href => parseInt(href.match(/page=(\d+)/)[1]));
 
 			var total = Math.max(...pages);
 
@@ -139,13 +129,15 @@ export function fetchComicsInfo(comicID) {
 				}
 			}
 		).then(r => r.text()).then(response => {
-			var comicIndex = $(response);
-			var chapterInfos = comicIndex.find('.nr6.lan2 a.tg').toArray().map(a => {
-				var _rawID = $(a).attr('href');
+			let comicIndex = $(response);
+			let chapterInfos = comicIndex.find('.nr6.lan2 a.tg').toArray().map(a => {
+				let _rawID = $(a).attr('href');
+				let cid = /^\/m(\d+)/.exec(_rawID)[1];
 				return({
 					title: $(a).attr('title'),
 					link: joinBaseUrl(_rawID),
-					cid: /^\/m(\d+)/.exec(_rawID)[1]
+					cid: cid,
+					chapterID: `m${cid}`
 				});
 			});
 
@@ -159,8 +151,8 @@ export function fetchComicsInfo(comicID) {
 	});
 }
 
-export function getChapterImages(cid) {
-	if (cid[0] === 'm') { cid = cid.slice(1, cid.length); }
+export function getChapterImages(chapterID) {
+	let cid = getCID(chapterID);
 	// images comes in pairs, we only concat them in odd
 	// [12] 23 [34] 45 [56] 67 [78] 89 [9]
 	// [12] 23 [34] 45 [56] 67 [78] 89 [910] 10
