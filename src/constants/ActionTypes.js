@@ -30,3 +30,4 @@ export const RESET_ZOOM_RATE            = 'RESET_ZOOM_RATE';
 /* Collections */
 export const FETCH_ALL_COLLECTION       = 'FETCH_ALL_COLLECTION';
 export const FETCH_RECENT_COMICS        = 'FETCH_RECENT_COMICS';
+export const FETCH_READING_RECORD       = 'FETCH_READING_RECORD';

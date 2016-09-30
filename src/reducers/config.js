@@ -2,7 +2,8 @@ import * as t from 'constants/ActionTypes';
 
 const initialState = {
 	collections: {},
-	recentComics: {}
+	recentComics: {},
+	readingRecord: {}
 };
 
 export default function config(state = initialState , action) {
@@ -16,6 +17,11 @@ export default function config(state = initialState , action) {
 		return {
 			...state,
 			recentComics: action.recentComics
+		};
+	case t.FETCH_READING_RECORD:
+		return {
+			...state,
+			readingRecord: action.readingRecord
 		};
 	default:
 		return state;

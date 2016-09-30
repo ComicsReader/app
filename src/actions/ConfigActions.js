@@ -65,10 +65,20 @@ export const removeRecentComic = (key, callback=null) => {
 };
 
 /* Reading Resource */
+export const fetchReadingRecord = () => {
+	return dispatch => {
+		ReadingRecord.on('value', snapshot => {
+			dispatch({
+				type: t.FETCH_READING_RECORD,
+				readingRecord: snapshot.val() || {}
+			});
+		});
+	};
+};
+
 export const updateReadingRecord = ({comicID, chapterID}) => {
 	let ref = firebaseApp.database().ref(`${resourceBaseUrl}/readingRecord/${comicID}`);
 	ref.once('value').then(snapshot => {
 		ref.update({...snapshot.val(), [chapterID]: new Date().getTime()});
 	});
 };
-
