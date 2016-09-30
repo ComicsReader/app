@@ -31,30 +31,25 @@ export function getComicCoverImage(comicID) {
 }
 
 export function getComicInfo(comicID, type=null) {
-	return new Promise((resolve) => {
+	return new Promise((resolve, reject) => {
 		if (typeof chapterCache[comicID] === 'undefined') {
-			chapterCache[comicID] = {};
-		} else if (chapterCache[comicID].hasOwnProperty(type)) {
+			// initialize the cache item
+			fetchComicsInfo(comicID).then(info => {
+				chapterCache[comicID] = {...info};
+
+				if (type === null) {
+					resolve(chapterCache[comicID]);
+				} else {
+					resolve(chapterCache[comicID][type]);
+				}
+			}).catch(error => (reject({error})));
+
+		} else if (type && chapterCache[comicID].hasOwnProperty(type)) {
 			resolve(chapterCache[comicID][type]);
-			return;
-		} else if (type === null && chapterCache[comicID] !== {}) {
+
+		} else {
 			resolve(chapterCache[comicID]);
-			return;
 		}
-
-		fetchComicsInfo(comicID).then(info => {
-			chapterCache[comicID].chapters      = info.chapters;
-			chapterCache[comicID].comicName     = info.comicName;
-			chapterCache[comicID].coverImage    = info.coverImage;
-			chapterCache[comicID].latestChapter = info.latestChapter;
-
-			if (type === null) {
-				resolve(chapterCache[comicID]);
-				return;
-			}
-
-			resolve(chapterCache[comicID][type]);
-		}).catch(error => ({error}));
 	});
 }
 
