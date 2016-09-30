@@ -18,7 +18,7 @@ function* switchChapter(action) {
 	yield put({type: t.NAVIGATE, pathname});
 
 	// may failed...
-	const images = yield call(comicManager.getChapterImages, chapterItem.cid);
+	const images = yield call(comicManager.getChapterImages, chapterItem.chapterID);
 
 	yield put({
 		type: t.SWITCH_CHAPTER,

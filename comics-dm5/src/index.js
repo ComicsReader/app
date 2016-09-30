@@ -151,8 +151,8 @@ export function fetchComicsInfo(comicID) {
 	});
 }
 
-export function getChapterImages(cid) {
-	if (cid[0] === 'm') { cid = cid.slice(1, cid.length); }
+export function getChapterImages(chapterID) {
+	let cid = getCID(chapterID);
 	// images comes in pairs, we only concat them in odd
 	// [12] 23 [34] 45 [56] 67 [78] 89 [9]
 	// [12] 23 [34] 45 [56] 67 [78] 89 [910] 10
