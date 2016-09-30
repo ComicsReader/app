@@ -3,6 +3,7 @@ import {
 	PropTypes
 } from 'react';
 import { connect } from 'react-redux';
+import { goBack } from 'react-router-redux';
 import Radium from 'radium';
 
 import { grey800, grey50, grey500 } from 'material-ui/styles/colors';
@@ -17,7 +18,10 @@ const styles = {
 		verticalAlign: 'middle',
 		margin: '20% auto',
 		color: grey500,
-		cursor: 'pointer'
+		cursor: 'pointer',
+		':hover': {
+			color: 'white'
+		}
 	},
 	iconHighlighted: {
 		color: 'white'
@@ -25,8 +29,10 @@ const styles = {
 	menuItem: {color: grey50, paddingLeft: 10, lineHeight: '60px'},
 	seperator: {
 		color: grey500,
-		border: 'solid 0.5px',
-		borderBottomWidth: '0px'
+		border: 'solid 1px',
+		borderBottomWidth: '0px',
+		width: '80%',
+		margin: '12px auto'
 	},
 	navigationSidebar: {
 		position: 'fixed',
@@ -69,6 +75,10 @@ class NavigationSidebar extends Component {
 		return tag === highlightTag ? styles.iconHighlighted : null;
 	}
 
+	navigateBack = () => {
+		this.props.dispatch(goBack());
+	}
+
 	render() {
 		const { readingChapterID } = this.props;
 
@@ -97,6 +107,12 @@ class NavigationSidebar extends Component {
 					onClick={this.navigateTo('/collection?tab=collection')}
 				/>
 				<Icon iconName="info" style={styles.iconStyle} />
+				<div style={styles.seperator} />
+				<Icon
+					iconName="keyboard_backspace"
+					style={styles.iconStyle}
+					onClick={this.navigateBack}
+				/>
 			</div>
 		);
 	}

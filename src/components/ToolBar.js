@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-import { grey800, grey900 } from 'material-ui/styles/colors';
+import { grey800, grey900, grey500 } from 'material-ui/styles/colors';
 
 import Icon from 'components/Icon';
 
@@ -20,9 +20,12 @@ const styles = {
 	},
 	iconStyle: {
 		margin: '0 0.06em',
-		color: 'white',
+		color: grey500,
 		cursor: 'pointer',
-		fontSize: '2em'
+		fontSize: '2em',
+		':hover': {
+			color: 'white'
+		}
 	}
 };
 
