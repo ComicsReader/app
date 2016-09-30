@@ -33,7 +33,6 @@ class Reader extends Component {
 
 		/* chapter actions */
 		switchChapter: PropTypes.func,
-		comicManager: PropTypes.object,
 		switchChapterRequest: PropTypes.object,
 		initComicManager: PropTypes.func,
 		params: PropTypes.object,
@@ -69,9 +68,9 @@ class Reader extends Component {
 
 	init = () => {
 		const { site, chapter } = this.props.params;
-		const { initComicManager } = this.props;
+		const { initComicManager, readingChapterID } = this.props;
 
-		initComicManager({site, chapterID: chapter});
+		initComicManager({site, chapterID: chapter, readingChapterID});
 	}
 
 	handleChapterClick = (chapterItem) => {

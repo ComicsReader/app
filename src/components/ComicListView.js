@@ -20,7 +20,7 @@ export default class ComicListView extends Component {
 		zoomRate: PropTypes.number
 	}
 
-	renderChapterComics = (chapterImages) => {
+	renderChapterComics = (chapterImages, index) => {
 		if (chapterImages.length == 0) {
 			return(<LoadIndicator />);
 		} else {
@@ -31,7 +31,7 @@ export default class ComicListView extends Component {
 			} = this.props;
 
 			return(
-				<div>
+				<div key={index}>
 					{
 						chapterImages.map(image => {
 							return(<ComicImage key={image} src={image} zoomRate={zoomRate} />);
