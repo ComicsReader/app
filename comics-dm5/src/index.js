@@ -12,17 +12,39 @@ export const chapterCache     = {};
 
 export const siteName = 'dm5';
 
+const comicIDRegex = /^manhua\-\w+$/;
+const chapterIDRegex = /^m\d+$/;
+const cidRegex = /^\d+$/;
+
 export function getComicInfo(comicID) {
 	return new Promise((resolve, reject) => {
 		if (typeof chapterCache[comicID] === 'undefined' || chapterCache[comicID] === null) {
 			// initialize the cache item
 			fetchComicsInfo(comicID).then(info => {
-				chapterCache[comicID] = {...info};
+				chapterCache[comicID] = {...info, comicID: comicID};
 				resolve(chapterCache[comicID]);
 			}).catch(error => (reject({error})));
 		} else {
 			resolve(chapterCache[comicID]);
 		}
+	});
+}
+
+export function getComic(whateverID) {
+	let chapterID = null;
+
+	if (whateverID.match(comicIDRegex)) {
+		return getComicInfo(whateverID);
+	} else if (whateverID.match(chapterIDRegex)) {
+		chapterID = whateverID;
+	} else if (whateverID.match(cidRegex)) {
+		chapterID = getChapterID(whateverID);
+	} else {
+		throw 'Invalid ID';
+	}
+
+	return new Promise((resolve) => {
+		fetchComicIDbyChapterID(chapterID).then(comicID => resolve(getComicInfo(comicID)));
 	});
 }
 
