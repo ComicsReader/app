@@ -94,6 +94,13 @@ section {
 }
 
 #contribution {
+	max-width: 50em;
+	padding-top: 2em;
+
+	p {
+		margin-top: 1em;
+	}
+
 	.button-block {
 		margin: 0 auto;
 		a {
