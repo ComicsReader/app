@@ -7,7 +7,6 @@ import Radium from 'radium';
 
 import DocumentTitle from 'react-document-title';
 
-import Icon from 'components/Icon';
 import ComicListView from 'components/ComicListView';
 import ChapterSidebar from 'components/ChapterSidebar';
 import NavigationSidebar from 'components/NavigationSidebar';
@@ -58,12 +57,12 @@ class Reader extends Component {
 	componentWillReceiveProps(nextProps) {
 		const { site: nextSite, chapter: nextChapter } = nextProps.params;
 		const { site, chapter } = this.props.params;
-		const { comicManager, chapters, switchChapter } = this.props;
+		const { chapters, switchChapter } = this.props;
 
 		if (nextSite !== site) {
 			this.init();
 		} else if (nextChapter !== chapter) {
-			let chapterItem = chapters.find(c => c.cid == comicManager.getCID(nextChapter));
+			let chapterItem = chapters.find(c => c.chapterID == nextChapter);
 			switchChapter(chapterItem);
 		}
 	}

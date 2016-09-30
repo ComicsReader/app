@@ -32,7 +32,7 @@ export const initComicManager = ({site, chapterID}) => {
 			});
 
 			comicManager.getChapterImages(comicManager.getCID(chapterID)).then(images => {
-				let chapterItem = chapters.find(chap => chap.cid == comicManager.getCID(chapterID));
+				let chapterItem = chapters.find(chap => chap.chapterID == chapterID);
 				dispatch({
 					type: t.SWITCH_CHAPTER,
 					readingChapters: [chapterItem],

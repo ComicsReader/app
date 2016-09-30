@@ -129,13 +129,15 @@ export function fetchComicsInfo(comicID) {
 				}
 			}
 		).then(r => r.text()).then(response => {
-			var comicIndex = $(response);
-			var chapterInfos = comicIndex.find('.nr6.lan2 a.tg').toArray().map(a => {
-				var _rawID = $(a).attr('href');
+			let comicIndex = $(response);
+			let chapterInfos = comicIndex.find('.nr6.lan2 a.tg').toArray().map(a => {
+				let _rawID = $(a).attr('href');
+				let cid = /^\/m(\d+)/.exec(_rawID)[1];
 				return({
 					title: $(a).attr('title'),
 					link: joinBaseUrl(_rawID),
-					cid: /^\/m(\d+)/.exec(_rawID)[1]
+					cid: cid,
+					chapterID: `m${cid}`
 				});
 			});
 
