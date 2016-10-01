@@ -23,6 +23,7 @@ const styles = {
 	link: {
 		color: 'white',
 		fontSize: 16,
+		width: 195,
 		textDecoration: 'none'
 	},
 	image: {
