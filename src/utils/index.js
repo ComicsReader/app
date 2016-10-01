@@ -2,6 +2,8 @@ import store from 'store';
 import uuid from 'node-uuid';
 import later from 'later';
 
+let worker;
+
 function initDeviceID() {
 	let deviceID = store.get('device_id');
 	if (!deviceID) {
@@ -17,7 +19,9 @@ function setupWorker() {
 
 function runWorker() {
 	var deviceID = store.get('device_id');
-	let worker = new Worker('./js/worker.js');
+
+	if (typeof worker !== 'undefined') { worker.terminate(); }
+	worker = new Worker('./js/worker.js');
 
 	worker.onmessage = (e) => {
 		// TODO: update update records
