@@ -23,6 +23,11 @@ export default function config(state = initialState , action) {
 			...state,
 			readingRecord: action.readingRecord
 		};
+	case t.FETCH_CHAPTER_CACHE:
+		return {
+			...state,
+			chapterCache: action.chapterCache
+		};
 	default:
 		return state;
 	}

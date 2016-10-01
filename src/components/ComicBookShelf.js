@@ -30,9 +30,9 @@ class ComicBookShelf extends Component {
 		removeCollection: PropTypes.func,
 		fetchCollections: PropTypes.func,
 		turnOffFetchCollectionCallback: PropTypes.func,
-
 		fetchRecentComic: PropTypes.func,
 		turnOffFetchRecentComicCallback: PropTypes.func,
+		fetchChapterCache: PropTypes.func,
 
 		/* control whether LoadIndicator would show */
 		isLoading: PropTypes.bool,
@@ -49,6 +49,7 @@ class ComicBookShelf extends Component {
 	componentDidMount() {
 		this.props.fetchCollections();
 		this.props.fetchRecentComic();
+		this.props.fetchChapterCache();
 	}
 
 	componentWillUnmount() {

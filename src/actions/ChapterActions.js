@@ -1,6 +1,6 @@
 import * as t from 'constants/ActionTypes';
 import { comicManagers } from 'services';
-import { addRecentComic, updateReadingRecord } from 'actions/ConfigActions';
+import { addRecentComic, updateReadingRecord, replaceChapterCache } from 'actions/ConfigActions';
 
 export const initComicManager = ({site, chapterID, readingChapterID}) => {
 	return dispatch => {
@@ -23,6 +23,7 @@ export const initComicManager = ({site, chapterID, readingChapterID}) => {
 
 			addRecentComic({comicID, coverImage, comicName, latestChapter})(dispatch);
 			updateReadingRecord({comicID, chapterID});
+			replaceChapterCache({comicID, chapters});
 
 			dispatch({
 				type: t.SET_COMIC_NAME,

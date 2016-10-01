@@ -8,7 +8,8 @@ let deviceID = store.get('device_id');
 export const resourceBaseUrl = `users/${deviceID}`;
 export const Collection = firebaseApp.database().ref(`${resourceBaseUrl}/collections/`);
 export const RecentComic = firebaseApp.database().ref(`${resourceBaseUrl}/recentComics/`);
-export const ReadingRecord = firebaseApp.database().ref(`${resourceBaseUrl}/readingRecord`);
+export const ReadingRecord = firebaseApp.database().ref(`${resourceBaseUrl}/readingRecord/`);
+export const ChapterCache = firebaseApp.database().ref(`${resourceBaseUrl}/chapterCache/`);
 
 /* Collection Resource */
 export const fetchCollections = () => {
@@ -80,5 +81,24 @@ export const updateReadingRecord = ({comicID, chapterID}) => {
 	let ref = firebaseApp.database().ref(`${resourceBaseUrl}/readingRecord/${comicID}`);
 	ref.once('value').then(snapshot => {
 		ref.update({...snapshot.val(), [chapterID]: new Date().getTime()});
+	});
+};
+
+/* ChapterCache Resource */
+export const fetchChapterCache = () => {
+	return dispatch => {
+		ChapterCache.on('value', snapshot => {
+			dispatch({
+				type: t.FETCH_CHAPTER_CACHE,
+				chapterCache: snapshot.val() || {}
+			});
+		});
+	};
+};
+
+export const replaceChapterCache = ({comicID, chapters}) => {
+	let ref = firebaseApp.database().ref(`${resourceBaseUrl}/chapterCache/${comicID}`);
+	ref.once('value').then(() => {
+		ref.update(chapters);
 	});
 };
