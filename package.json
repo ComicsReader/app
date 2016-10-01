@@ -54,7 +54,7 @@
   "dependencies": {
     "bluebird": "^3.4.0",
     "cheerio": "^0.22.0",
-    "comics-dm5": "^0.0.8",
+    "comics-dm5": "^0.0.10",
     "echo-js": "^1.7.3",
     "electron-window-state": "^3.0.4",
     "firebase": "^3.0.3",

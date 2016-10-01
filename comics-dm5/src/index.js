@@ -12,7 +12,7 @@ export const chapterCache     = {};
 
 export const siteName = 'dm5';
 
-const comicIDRegex = /^manhua\-\w+$/;
+const comicIDRegex = /^manhua\-[\w\-]+$/;
 const chapterIDRegex = /^m\d+$/;
 const cidRegex = /^\d+$/;
 
