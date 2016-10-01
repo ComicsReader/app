@@ -15,6 +15,7 @@ import ToolBar from 'components/ToolBar';
 import * as ChapterActions from 'actions/ChapterActions';
 import { toggleAppDrawer } from 'actions/UIActions';
 import * as UIActions from 'actions/UIActions';
+import { fetchReadingRecord } from 'actions/ConfigActions';
 import { getNextChapterIndex, getPreviousChapterIndex } from 'reducers/selectors';
 
 @Radium
@@ -27,6 +28,8 @@ class Reader extends Component {
 		appBarTitle: PropTypes.string.isRequired,
 		comicName: PropTypes.string,
 		zoomRate: PropTypes.number,
+		readingRecord: PropTypes.object,
+		comicID: PropTypes.string,
 
 		/* chapter actions */
 		switchChapter: PropTypes.func,
@@ -65,8 +68,9 @@ class Reader extends Component {
 
 	init = () => {
 		const { site, chapter } = this.props.params;
-		const { initComicManager, readingChapterID } = this.props;
+		const { initComicManager, readingChapterID, dispatch } = this.props;
 
+		fetchReadingRecord()(dispatch);
 		initComicManager({site, chapterID: chapter, readingChapterID});
 	}
 
@@ -116,6 +120,13 @@ class Reader extends Component {
 		}
 	}
 
+	isChapterUnread = (chapterItem) => {
+		const { readingRecord, comicID } = this.props;
+		return typeof readingRecord[comicID] == 'undefined' ||
+						typeof readingRecord[comicID][chapterItem.chapterID] ==='undefined' ||
+						!readingRecord[comicID][chapterItem.chapterID];
+	}
+
 	render() {
 		const {
 			readingImages,
@@ -147,6 +158,7 @@ class Reader extends Component {
 							onChapterItemClick={this.handleChapterClick}
 							drawerAutoClose={true}
 							isSelected={this.sidebarIsSelected}
+							isUnread={this.isChapterUnread}
 						/>
 						<ComicListView
 							comicImages={readingImages}
@@ -167,9 +179,15 @@ export default connect(state => {
 	/* map state to props */
 	return {
 		...state.comics,
-		zoomRate: state.uiState.zoomRate
+		zoomRate: state.uiState.zoomRate,
+		readingRecord: state.config.readingRecord,
+		comicID: state.comics.comicID
 	};
 }, dispatch => {
 	/* map dispatch to props */
-	return({...bindActionCreators(ChapterActions, dispatch), ...bindActionCreators(UIActions, dispatch), dispatch});
+	return({
+		...bindActionCreators(ChapterActions, dispatch),
+		...bindActionCreators(UIActions, dispatch),
+		dispatch
+	});
 })(Reader);

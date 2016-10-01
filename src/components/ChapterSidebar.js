@@ -3,15 +3,21 @@ import React, {
 	PropTypes
 } from 'react';
 
+import Radium from 'radium';
+
 import { MenuItem, Drawer } from 'material-ui';
 import { grey800, grey50 } from 'material-ui/styles/colors';
 
+import 'styles/UnreadDot.scss';
+
+@Radium
 export default class ChapterSidebar extends Component {
 	static propTypes = {
 		onChapterItemClick: PropTypes.func,
 		chapters: PropTypes.array,
 		drawerAutoClose: PropTypes.bool,
-		isSelected: PropTypes.func
+		isSelected: PropTypes.func,
+		isUnread: PropTypes.func
 	}
 
 	static defaultProps = {
@@ -39,7 +45,7 @@ export default class ChapterSidebar extends Component {
 	}
 
 	render() {
-		const { chapters, isSelected } = this.props;
+		const { chapters, isSelected, isUnread } = this.props;
 
 		return(
 			<Drawer
@@ -59,15 +65,17 @@ export default class ChapterSidebar extends Component {
 				<div style={{height: 'calc(100% - 65px)', overflowY: 'scroll', overflowX: 'hidden'}}>
 					{
 						chapters.map((chapterItem, index) => {
-
 							var style = isSelected(chapterItem) ? { backgroundColor: 'rgba(0, 0, 0, 0.098)' } : {};
+							var dotStyle = isUnread(chapterItem) ? { color: '#ababab', background: '#ababab' } : {};
+
 							return(
 								<MenuItem
 									onClick={this.onChapterItemClick(chapterItem)}
 									style={style}
-									innerDivStyle={{paddingLeft: 37}}
+									innerDivStyle={{paddingLeft: 17}}
 									key={`chapter_item_${chapterItem.chapterID}_${index}`}
 								>
+									<div className="unread-dot" style={dotStyle} />
 									{chapterItem.title}
 								</MenuItem>
 							);
