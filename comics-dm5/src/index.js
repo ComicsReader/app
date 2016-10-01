@@ -1,5 +1,5 @@
 import 'fetch-everywhere';
-import $ from 'isomorphic-parse';
+import $ from 'cheerio';
 
 const queryString = require('query-string');
 
