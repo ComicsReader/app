@@ -65,7 +65,7 @@ export function updateCollection({deviceID, afterEachCallback}) {
 
 	Collection.once('value').then(snapshot => {
 		if (snapshot && snapshot.val()) {
-			for (let comicID of Object.keys(snapshot.val()).slice(7, 10)) {
+			for (let comicID of Object.keys(snapshot.val())) {
 				getUnreadChapters({comicID, deviceID}).then(data => {
 					afterEachCallback({comicID, ...data});
 				});
