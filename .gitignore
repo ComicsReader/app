@@ -13,9 +13,6 @@ electron/js/
 electron/dist
 electron/Comics Reader-linux-ia32
 
-# other npm modules
-comics-dm5/dist
-
 server/.env
 
 # ignore jekyll build
