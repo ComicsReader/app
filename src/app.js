@@ -48,4 +48,4 @@ initializeApp({callback: () => {
 		</Provider>,
 		document.getElementById('app')
 	);
-}});
+}, store});

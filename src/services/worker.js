@@ -7,7 +7,7 @@ function getUnreadChapters({comicID, deviceID}) {
 
 	return new Promise((resolve) => {
 		comicManagers.dm5.getComic(comicID).then(comicInfo => {
-			const { chapters } = comicInfo;
+			const { chapters, coverImage, comicName } = comicInfo;
 
 			ReadingRecord.once('value').then(snapeshot => {
 				let readingRecord = snapeshot.val();
@@ -17,38 +17,39 @@ function getUnreadChapters({comicID, deviceID}) {
 				};
 
 				ChapterCache.once('value').then(snapeshot => {
-					let chapterCache = snapeshot.val();
+					let chapterCache = {...snapeshot.val()};
+					ChapterCache.set(chapters);
 
 					if (typeof chapterCache === 'undefined' || !chapterCache) {
 						if (typeof readingRecord === 'undefined' || !readingRecord) {
 							// haven't read it yet, just report the latest chapter
-							resolve(chapters.slice(0, 1));
+							resolve({unreadChapters: chapters.slice(0, 1), comicName, coverImage});
 						} else {
 							// no chapterCache yet, my happen on upgrade version
-							resolve(chapters.slice(0, 1).filter(notificationSent));
+							resolve({unreadChapters: chapters.slice(0, 1).filter(notificationSent), comicName, coverImage});
 						}
 					} else {
 						if (typeof readingRecord === 'undefined' || !readingRecord) {
 							// haven't read it yet, just report the latest chapter
-							resolve(chapters.slice(0, 1));
+							resolve({unreadChapters: chapters.slice(0, 1), coverImage, comicName});
 						} else {
 							if (chapters.length > chapterCache.length) {
 								// has update chapters! Let's report them
 								let index = chapters.findIndex(chapter => chapter.chapterID === chapterCache[0].chapterID);
 
 								if (index != -1 && index > 0) {
-									resolve(chapters.slice(0, index).filter(notificationSent));
+									resolve({unreadChapters: chapters.slice(0, index).filter(notificationSent), coverImage, comicName});
 								} else {
 									// some problem, still report latest chapter
-									resolve(chapters.slice(0, 1).filter(notificationSent));
+									resolve({unreadChapters: chapters.slice(0, 1).filter(notificationSent), coverImage, comicName});
 								}
 							} else {
 								if (chapters[0].chapterID === chapterCache[0].chapterID) {
 									// no updates!
-									resolve([]);
+									resolve({unreadChapters: [], coverImage, comicName});
 								} else {
 									// some problem, still report latest chapter
-									resolve(chapters.slice(0, 1).filter(notificationSent));
+									resolve({unreadChapters: chapters.slice(0, 1).filter(notificationSent), coverImage, comicName});
 								}
 							}
 						}
@@ -65,9 +66,9 @@ onmessage = (e) => {
 
 	Collection.once('value').then(snapshot => {
 		if (snapshot && snapshot.val()) {
-			for (let comicID of Object.keys(snapshot.val())) {
-				getUnreadChapters({comicID, deviceID}).then(unreadChapters => {
-					postMessage({comicID, unreadChapters});
+			for (let comicID of Object.keys(snapshot.val()).slice(7, 10)) {
+				getUnreadChapters({comicID, deviceID}).then(data => {
+					postMessage({comicID, ...data});
 				});
 			}
 		}

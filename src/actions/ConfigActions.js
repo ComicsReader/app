@@ -84,6 +84,13 @@ export const updateReadingRecord = ({comicID, chapterID}) => {
 	});
 };
 
+export const markNotificationSent = ({comicID, chapterID}) => {
+	let ref = firebaseApp.database().ref(`${resourceBaseUrl}/readingRecord/${comicID}`);
+	ref.once('value').then(snapshot => {
+		ref.update({...snapshot.val(), [chapterID]: 'notification_sent'});
+	});
+};
+
 /* ChapterCache Resource */
 export const fetchChapterCache = () => {
 	return dispatch => {
@@ -98,7 +105,5 @@ export const fetchChapterCache = () => {
 
 export const replaceChapterCache = ({comicID, chapters}) => {
 	let ref = firebaseApp.database().ref(`${resourceBaseUrl}/chapterCache/${comicID}`);
-	ref.once('value').then(() => {
-		ref.update(chapters);
-	});
+	ref.set(chapters);
 };

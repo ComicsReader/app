@@ -1,8 +1,11 @@
 import store from 'store';
 import uuid from 'node-uuid';
 import later from 'later';
+import * as t from 'constants/ActionTypes';
+import { markNotificationSent } from 'actions/ConfigActions';
 
 let worker;
+let applicationStore; // save redux store  reference
 
 function initDeviceID() {
 	let deviceID = store.get('device_id');
@@ -12,8 +15,8 @@ function initDeviceID() {
 }
 
 function setupWorker() {
-	// var sched = later.parse.cron('1/1 * * * *');
-	var sched = later.parse.cron('0,30 * * * *');
+	// var sched = later.parse.cron('1/1 * * * *'); // test only, scheduled every minute
+	var sched = later.parse.cron('1/15 * * * *');
 	later.setInterval(runWorker, sched);
 }
 
@@ -24,22 +27,23 @@ function runWorker() {
 	worker = new Worker('./js/worker.js');
 
 	worker.onmessage = (e) => {
-		// TODO: update update records
-		const { unreadChapters, comicID } = e.data;
-		// console.log(unreadChapters.length);
+		const { unreadChapters, comicName, comicID, coverImage } = e.data;
 
-		switch(window.PLATFORM) {
-		case 'electron':
-			// TODO: create native notification
-			// var { ipcRenderer } = require('electron');
+		for (let chapter of unreadChapters) {
+			let title = chapter.title.replace(new RegExp(`${comicName}`), '');
+			let notification = new Notification('漫畫更新', {
+				body: `${comicName} ${title} 更新了，點此閱讀`,
+				icon: coverImage
+			});
 
-			break;
-		case 'chrome_extension':
-			// TODO create chrome notification
+			notification.onclick = () => {
+				let pathname = `/reader/dm5/${chapter.chapterID}`;
 
-			break;
-		default:
-			throw 'Unsupported Platform';
+				applicationStore.dispatch({type: t.CLEAR_COMIC_IMAGES});
+				applicationStore.dispatch({type: t.NAVIGATE, pathname});
+			};
+
+			markNotificationSent({comicID, chapterID: chapter.chapterID});
 		}
 	};
 
@@ -47,7 +51,9 @@ function runWorker() {
 	worker.postMessage({deviceID});
 }
 
-export function initializeApp({callback}) {
+export function initializeApp({callback, store}) {
+	applicationStore = store;
+
 	initDeviceID();
 	setupWorker();
 
