@@ -1,9 +1,11 @@
 /* global chrome */
 import {comicManagers} from 'services';
 const { dm5 } = comicManagers;
+import { initializeUpdater } from './updater.js';
 
 let windowID;
 
+initializeUpdater(createOrUpdateUrl);
 
 function createOrUpdateUrl(url, options={}) {
 	if (windowID) {

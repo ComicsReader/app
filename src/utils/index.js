@@ -64,11 +64,28 @@ function runWorker() {
 	worker.postMessage({deviceID});
 }
 
+function setupChromeListener() {
+	chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+		switch(request.eventType) {
+		case 'content_url_changed':
+			window.location.href = request.url;
+			break;
+		default:
+			break;
+		}
+	});
+}
+
 export function initializeApp({callback, store}) {
 	applicationStore = store;
 
 	initDeviceID();
-	setupWorker();
+
+	if (typeof chrome !== 'undefined') {
+		setupChromeListener();
+	} else {
+		setupWorker(runWorker);
+	}
 
 	callback();
 }
