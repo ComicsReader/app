@@ -31,6 +31,10 @@ function sendNotification({ unreadChapters, comicName, comicID, coverImage, onCl
 		notification.onclick = () => {
 			onClick(chapter)();
 			notification.close();
+
+			if (typeof chrome !== 'undefined') {
+				chrome.runtime.sendMessage({eventType: 'notification_clicked'});
+			}
 		};
 
 		markNotificationSent({comicID, chapterID: chapter.chapterID});

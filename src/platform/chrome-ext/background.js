@@ -64,10 +64,12 @@ chrome.webNavigation.onCommitted.addListener(function(details) {
 				...windowRect()
 			});
 		} else {
-			windowID = chrome.windows.create({
+			chrome.windows.create({
 				type: 'popup',
 				url: url,
 				...windowRect()
+			}, (createdWindow) => {
+				windowID = createdWindow.id;
 			});
 		}
 	}
@@ -86,6 +88,8 @@ chrome.browserAction.onClicked.addListener(() => {
 		type: 'popup',
 		url: `${chrome.extension.getURL('index.html')}#/explore`,
 		...windowRect()
+	}, (createdWindow) => {
+		windowID = createdWindow.id;
 	});
 });
 
@@ -96,5 +100,11 @@ chrome.contextMenus.create({
 		chrome.tabs.create({
 			url: `${chrome.extension.getURL('index.html')}#/explore`
 		});
+	}
+});
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+	if (request.eventType == 'notification_clicked') {
+		chrome.windows.update(windowID, {focused: true});
 	}
 });
