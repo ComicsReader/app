@@ -1,8 +1,31 @@
 /* global chrome */
 import {comicManagers} from 'services';
 const { dm5 } = comicManagers;
+import { initializeUpdater } from './updater.js';
 
 let windowID;
+
+initializeUpdater(createOrUpdateUrl);
+
+function createOrUpdateUrl(url, options={}) {
+	if (windowID) {
+		if (options.replace) {
+			chrome.runtime.sendMessage({eventType: 'content_url_changed', url: url});
+		}
+		chrome.windows.update(windowID, {
+			focused: true,
+			...windowRect()
+		});
+	} else {
+		chrome.windows.create({
+			type: 'popup',
+			url: url,
+			...windowRect()
+		}, (createdWindow) => {
+			windowID = createdWindow.id;
+		});
+	}
+}
 
 let chapterfunhandler = function(details) {
 	details.requestHeaders.push({
@@ -57,21 +80,7 @@ chrome.webNavigation.onCommitted.addListener(function(details) {
 
 		let url = chrome.extension.getURL('index.html') + `#/reader/dm5/${chapter.replace(/\//g, '')}`;
 
-		if (windowID) {
-			chrome.windows.update(windowID, {
-				type: 'popup',
-				url: url,
-				...windowRect()
-			});
-		} else {
-			chrome.windows.create({
-				type: 'popup',
-				url: url,
-				...windowRect()
-			}, (createdWindow) => {
-				windowID = createdWindow.id;
-			});
-		}
+		createOrUpdateUrl(url, {replace: true});
 	}
 }, {
 	url: [{
@@ -84,13 +93,7 @@ chrome.webNavigation.onCommitted.addListener(function(details) {
 });
 
 chrome.browserAction.onClicked.addListener(() => {
-	chrome.windows.create({
-		type: 'popup',
-		url: `${chrome.extension.getURL('index.html')}#/explore`,
-		...windowRect()
-	}, (createdWindow) => {
-		windowID = createdWindow.id;
-	});
+	createOrUpdateUrl(`${chrome.extension.getURL('index.html')}#/explore`);
 });
 
 chrome.contextMenus.create({
@@ -101,6 +104,10 @@ chrome.contextMenus.create({
 			url: `${chrome.extension.getURL('index.html')}#/explore`
 		});
 	}
+});
+
+chrome.windows.onRemoved.addListener(() => {
+	windowID = null;
 });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
