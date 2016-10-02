@@ -7,20 +7,20 @@ import { markNotificationSent } from 'actions';
 let worker;
 let applicationStore; // save redux store  reference
 
-function initDeviceID() {
+export function initDeviceID() {
 	let deviceID = store.get('device_id');
 	if (!deviceID) {
 		store.set('device_id', uuid.v4());
 	}
 }
 
-function setupWorker() {
+export function setupWorker(workerFunction) {
 	// var sched = later.parse.cron('1/1 * * * *'); // test only, scheduled every minute
 	var sched = later.parse.cron('1/15 * * * *');
-	later.setInterval(runWorker, sched);
+	later.setInterval(workerFunction, sched);
 }
 
-function sendNotification({ unreadChapters, comicName, comicID, coverImage, onClick }) {
+export function sendNotification({ unreadChapters, comicName, comicID, coverImage, onClick }) {
 	for (let chapter of unreadChapters) {
 		let title = chapter.title.replace(new RegExp(`${comicName}`), '');
 		let notification = new Notification('漫畫更新', {
