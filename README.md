@@ -2,9 +2,7 @@
 
 <img src="http://i.imgur.com/tHWdF5a.png" width="200">
 
-fork 自 [zeroshine/ComicsScroller](https://github.com/zeroshine/ComicsScroller)，重建架構作為 React/Redux 練習。預計作為 electron app 發佈。
-
-目前進度詳見專案 [GitHub Issue #1](https://github.com/Yukaii/ComicsReader/issues/1)。
+以 React/Redux/Firebase 架構打造的漫畫閱讀器，可在各平臺（Windows/macOS/Linux/Chrome）使用。
 
 ## Preview
 
@@ -20,6 +18,11 @@ fork 自 [zeroshine/ComicsScroller](https://github.com/zeroshine/ComicsScroller)
 * 使用Firebase 作為使用者資訊（收藏啦、最近閱讀啦）儲存。
 
 其它文件陸續誕生中 😅
+
+## Credits
+
+fork 自 [zeroshine/ComicsScroller](https://github.com/zeroshine/ComicsScroller，以此專案為基底打造。
+
 
 ## LICENSE
 
