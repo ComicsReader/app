@@ -26,7 +26,11 @@ const baseConfig = Object.assign(require('./baseConfig'), {
 				'NODE_ENV': JSON.stringify('production')
 			}
 		})
-	]
+	],
+	resolve: {
+		root: path.resolve('./src'),
+		extensions: ['', '.js']
+	}
 });
 
 module.exports = [
@@ -34,8 +38,7 @@ module.exports = [
 		name: 'chrome',
 		entry: {
 			app:'./src/app.js',
-			background:'./src/platform/chrome-ext/background.js',
-			worker: './src/platform/chrome-ext/worker.js'
+			background:'./src/platform/chrome-ext/background.js'
 		},
 		output: {
 			path: path.join(__dirname, 'extension_chrome/js'),
@@ -52,8 +55,7 @@ module.exports = [
 		name: 'electron',
 		entry: {
 			app:'./src/app.js',
-			main:'./src/platform/electron/main.js',
-			worker:'./src/platform/electron/worker.js'
+			main:'./src/platform/electron/main.js'
 		},
 		output: {
 			path: path.join(__dirname, 'electron/js'),
