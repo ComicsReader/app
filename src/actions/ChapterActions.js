@@ -1,6 +1,7 @@
 import * as t from 'constants/ActionTypes';
 import { comicManagers } from 'services';
-import { addRecentComic, updateReadingRecord, replaceChapterCache } from 'actions/ConfigActions';
+import { addRecentComic } from 'actions/ConfigActions';
+import { updateReadingRecord, replaceChapterCache } from 'actions';
 
 export const initComicManager = ({site, chapterID, readingChapterID}) => {
 	return dispatch => {

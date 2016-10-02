@@ -4,7 +4,7 @@ import * as t from 'constants/ActionTypes';
 import { getComicManager, getSearchState, getComicID } from 'reducers/selectors';
 import { comicManagers } from 'services';
 import { push } from 'react-router-redux';
-import { updateReadingRecord } from 'actions/ConfigActions';
+import { updateReadingRecord } from 'actions';
 
 // default comics service
 const DM5 = comicManagers.dm5;

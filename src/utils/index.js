@@ -2,7 +2,7 @@ import store from 'store';
 import uuid from 'node-uuid';
 import later from 'later';
 import * as t from 'constants/ActionTypes';
-import { markNotificationSent } from 'actions/ConfigActions';
+import { markNotificationSent } from 'actions';
 
 let worker;
 let applicationStore; // save redux store  reference
