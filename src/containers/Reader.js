@@ -50,19 +50,34 @@ class Reader extends Component {
 	}
 
 	componentDidMount() {
-		this.init();
+		const { site, chapter } = this.props.params;
+		const { initComicManager, readingChapterID, dispatch } = this.props;
+
+		fetchReadingRecord()(dispatch);
+		initComicManager({site, chapterID: chapter, readingChapterID});
 	}
 
 	componentWillReceiveProps(nextProps) {
 		const { site: nextSite, chapter: nextChapter } = nextProps.params;
 		const { site, chapter } = this.props.params;
-		const { chapters, switchChapter } = this.props;
+		const { chapters, switchChapter, readingChapterID, initComicManager } = this.props;
 
-		if (nextSite !== site) {
-			this.init();
-		} else if (nextChapter !== chapter) {
+		if (nextSite !== site ) {
+			// TODO: currently we only implement dm5
+			initComicManager({site, chapterID: chapter, readingChapterID});
+		} else {
 			let chapterItem = chapters.find(c => c.chapterID == nextChapter);
-			switchChapter(chapterItem);
+
+			if (nextChapter !== chapter) {
+				if (typeof chapterItem !== 'undefined') {
+					switchChapter(chapterItem);
+				} else {
+					initComicManager({site, chapterID: nextChapter, readingChapterID});
+				}
+			} else {
+				// do nothing, chapter is the same
+				return;
+			}
 		}
 	}
 
