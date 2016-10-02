@@ -6,6 +6,7 @@ const {app, session, BrowserWindow} = electron;
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+let isQuitting = false;
 
 function createWindow () {
 	let mainWindowState = windowStateKeeper({
@@ -19,12 +20,14 @@ function createWindow () {
 		height: mainWindowState.height,
 		x: mainWindowState.x,
 		y: mainWindowState.y,
-		icon: __dirname + '/Icon.ico'
+		icon: __dirname + '/Icon.ico',
+		darkTheme: true,
+		autoHideMenuBar: true
 	});
 
-  // Let us register listeners on the window, so we can update the state
-  // automatically (the listeners will be removed when the window is closed)
-  // and restore the maximized or full screen state
+	// Let us register listeners on the window, so we can update the state
+	// automatically (the listeners will be removed when the window is closed)
+	// and restore the maximized or full screen state
 	mainWindowState.manage(mainWindow);
 
 	// and load the index.html of the app.
@@ -32,6 +35,17 @@ function createWindow () {
 
 	// Open the DevTools.
 	// mainWindow.webContents.openDevTools();
+	mainWindow.on('close', e => {
+		if (!isQuitting) {
+			e.preventDefault();
+
+			if (process.platform === 'darwin') {
+				app.hide();
+			} else {
+				mainWindow.hide();
+			}
+		}
+	});
 
 	// Emitted when the window is closed.
 	mainWindow.on('closed', function () {
@@ -65,7 +79,9 @@ app.on('ready', createWindow);
 app.on('window-all-closed', function () {
 	// On OS X it is common for applications and their menu bar
 	// to stay active until the user quits explicitly with Cmd + Q
-	app.quit();
+	if (process.platform !== 'darwin') {
+		app.quit();
+	}
 });
 
 app.on('activate', function () {
@@ -74,6 +90,10 @@ app.on('activate', function () {
 	if (mainWindow === null) {
 		createWindow();
 	}
+});
+
+app.on('before-quit', () => {
+	isQuitting = true;
 });
 
 // In this file you can include the rest of your app's specific main process
