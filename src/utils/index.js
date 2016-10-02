@@ -20,6 +20,27 @@ function setupWorker() {
 	later.setInterval(runWorker, sched);
 }
 
+function sendNotification({ unreadChapters, comicName, comicID, coverImage, onClick }) {
+	for (let chapter of unreadChapters) {
+		let title = chapter.title.replace(new RegExp(`${comicName}`), '');
+		let notification = new Notification('漫畫更新', {
+			body: `${comicName} ${title} 更新了，點此閱讀`,
+			icon: coverImage
+		});
+
+		notification.onclick = () => {
+			onClick(chapter)();
+			notification.close();
+
+			if (typeof chrome !== 'undefined') {
+				chrome.runtime.sendMessage({eventType: 'notification_clicked'});
+			}
+		};
+
+		markNotificationSent({comicID, chapterID: chapter.chapterID});
+	}
+}
+
 function runWorker() {
 	var deviceID = store.get('device_id');
 
@@ -27,24 +48,16 @@ function runWorker() {
 	worker = new Worker('./js/worker.js');
 
 	worker.onmessage = (e) => {
-		const { unreadChapters, comicName, comicID, coverImage } = e.data;
+		sendNotification({...e.data, onClick: (chapter) => {
+			let pathname = `/reader/dm5/${chapter.chapterID}`;
 
-		for (let chapter of unreadChapters) {
-			let title = chapter.title.replace(new RegExp(`${comicName}`), '');
-			let notification = new Notification('漫畫更新', {
-				body: `${comicName} ${title} 更新了，點此閱讀`,
-				icon: coverImage
-			});
-
-			notification.onclick = () => {
-				let pathname = `/reader/dm5/${chapter.chapterID}`;
-
+			return () => {
 				applicationStore.dispatch({type: t.CLEAR_COMIC_IMAGES});
 				applicationStore.dispatch({type: t.NAVIGATE, pathname});
 			};
+		}});
 
-			markNotificationSent({comicID, chapterID: chapter.chapterID});
-		}
+		e.data;
 	};
 
 	// start worker

@@ -60,18 +60,24 @@ function getUnreadChapters({comicID, deviceID}) {
 	});
 }
 
-onmessage = (e) => {
-	const { deviceID } = e.data;
+export function updateCollection({deviceID, afterEachCallback}) {
 	const Collection = firebaseApp.database().ref(`users/${deviceID}/collections/`);
 
 	Collection.once('value').then(snapshot => {
 		if (snapshot && snapshot.val()) {
-			for (let comicID of Object.keys(snapshot.val()).slice(7, 10)) {
+			for (let comicID of Object.keys(snapshot.val())) {
 				getUnreadChapters({comicID, deviceID}).then(data => {
-					postMessage({comicID, ...data});
+					afterEachCallback({comicID, ...data});
 				});
 			}
 		}
-		// TODO collect all promise and #close when all done
 	});
+}
+
+onmessage = (e) => {
+	const { deviceID } = e.data;
+
+	updateCollection({deviceID, afterEachCallback: (data) => {
+		postMessage(data);
+	}});
 };

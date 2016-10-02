@@ -56,7 +56,7 @@ module.exports = [
 			worker: './src/services/worker.js'
 		},
 		output: {
-			path: path.join(__dirname, 'electron/js'),
+			path: path.join(__dirname, 'extension_chrome/js'),
 			filename: '[name].js'
 		},
 		target: 'webworker'
