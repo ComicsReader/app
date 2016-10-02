@@ -5,7 +5,7 @@
 * [comics-dm5](https://www.npmjs.com/package/comics-dm5)
 * [isomorphic-parse](https://www.npmjs.com/package/isomorphic-parse)
 
-ComicsReader 使用 React+Redux 架構，另有 [comics-reader-server](https://github.com/Yukaii/ComicsReader/blob/master/server/README.md) 作為 API Proxy Server。
+ComicsReader 使用 React+Redux 架構，另有 [comics-reader-server](https://github.com/ComicsReader/reader/blob/master/server/README.md) 作為 API Proxy Server。
 
 ## Proxy Server
 

@@ -12,7 +12,7 @@
     "dist": "build --mac"
   },
   "author": "Yukai Huang <yukaihuangtw@gmail.com> (https://yukaii.tw)",
-  "homepage": "https://github.com/Yukaii/ComicsReader",
+  "homepage": "https://github.com/ComicsReader/reader",
   "license": "MIT",
   "devDependencies": {
     "electron-builder": "^7.9.0",
@@ -23,7 +23,7 @@
     "appId": "tds.comics.reader",
     "app-category-type": "fun",
     "win": {
-      "iconUrl": "https://github.com/Yukaii/ComicsReader/blob/master/electron/build/icon.ico?raw=true"
+      "iconUrl": "https://github.com/ComicsReader/reader/blob/master/electron/build/icon.ico?raw=true"
     }
   }
 }

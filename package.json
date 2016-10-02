@@ -4,7 +4,7 @@
   "description": "a comic reader app for dm5",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Yukaii/ComicsReader.git"
+    "url": "https://github.com/ComicsReader/reader.git"
   },
   "author": "Yukai Huang",
   "license": "MIT",
