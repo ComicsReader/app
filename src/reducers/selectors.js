@@ -1,5 +1,6 @@
 export const getComicManager = (state) => state.comics.comicManager;
 export const getChapters = (state) => state.comics.chapters;
+export const getComicID = (state) => state.comics.comicID;
 
 export const getNextChapterIndex = (chapters, chapterID) => {
 	var index = chapters.findIndex(item => item.chapterID == chapterID);

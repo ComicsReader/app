@@ -18,7 +18,7 @@ import Reader from 'containers/Reader';
 import Collection from 'containers/Collection';
 import Explorer from 'containers/Explorer';
 
-import { initializeDeviceId } from 'utils';
+import { initializeApp } from 'utils';
 
 import 'styles/main.scss';
 
@@ -41,11 +41,11 @@ const App = () => (
 	</MuiThemeProvider>
 );
 
-initializeDeviceId({callback: () => {
+initializeApp({callback: () => {
 	ReactDOM.render(
 		<Provider store={ store }>
 			<App />
 		</Provider>,
 		document.getElementById('app')
 	);
-}});
+}, store});

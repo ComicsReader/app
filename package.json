@@ -54,10 +54,11 @@
   "dependencies": {
     "bluebird": "^3.4.0",
     "cheerio": "^0.22.0",
-    "comics-dm5": "^0.0.8",
+    "comics-dm5": "^0.0.10",
     "echo-js": "^1.7.3",
     "electron-window-state": "^3.0.4",
     "firebase": "^3.0.3",
+    "later": "^1.2.0",
     "lodash": "^4.12.0",
     "material-ui": "^0.15.4",
     "node-uuid": "^1.4.7",

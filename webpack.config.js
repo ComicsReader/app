@@ -47,6 +47,30 @@ module.exports = [
 				PLATFORM: JSON.stringify('electron')
 			})
 		],
-		target: 'node'
+		target: 'electron'
+	}),
+
+	Object.assign({}, baseConfig, {
+		name: 'worker',
+		entry: {
+			worker: './src/services/worker.js'
+		},
+		output: {
+			path: path.join(__dirname, 'electron/js'),
+			filename: '[name].js'
+		},
+		target: 'webworker'
+	}),
+
+	Object.assign({}, baseConfig, {
+		name: 'worker',
+		entry: {
+			worker:'./src/services/worker.js'
+		},
+		output: {
+			path: path.join(__dirname, 'electron/js'),
+			filename: '[name].js'
+		},
+		target: 'webworker'
 	})
 ];

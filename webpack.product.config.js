@@ -34,7 +34,8 @@ module.exports = [
 		name: 'chrome',
 		entry: {
 			app:'./src/app.js',
-			background:'./src/platform/chrome-ext/background.js'
+			background:'./src/platform/chrome-ext/background.js',
+			worker: './src/platform/chrome-ext/worker.js'
 		},
 		output: {
 			path: path.join(__dirname, 'extension_chrome/js'),
@@ -51,7 +52,8 @@ module.exports = [
 		name: 'electron',
 		entry: {
 			app:'./src/app.js',
-			main:'./src/platform/electron/main.js'
+			main:'./src/platform/electron/main.js',
+			worker:'./src/platform/electron/worker.js'
 		},
 		output: {
 			path: path.join(__dirname, 'electron/js'),
@@ -63,5 +65,29 @@ module.exports = [
 			})
 		],
 		target: 'node'
+	}),
+
+	Object.assign({}, baseConfig, {
+		name: 'worker',
+		entry: {
+			worker: './src/services/worker.js'
+		},
+		output: {
+			path: path.join(__dirname, 'electron/js'),
+			filename: '[name].js'
+		},
+		target: 'webworker'
+	}),
+
+	Object.assign({}, baseConfig, {
+		name: 'worker',
+		entry: {
+			worker:'./src/services/worker.js'
+		},
+		output: {
+			path: path.join(__dirname, 'electron/js'),
+			filename: '[name].js'
+		},
+		target: 'webworker'
 	})
 ];
