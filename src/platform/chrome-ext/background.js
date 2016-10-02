@@ -104,6 +104,10 @@ chrome.contextMenus.create({
 	}
 });
 
+chrome.windows.onRemoved.addListener(() => {
+	windowID = null;
+});
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	if (request.eventType == 'notification_clicked') {
 		chrome.windows.update(windowID, {focused: true});
