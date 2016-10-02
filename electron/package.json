@@ -8,7 +8,7 @@
     "start": "electron .",
     "package": "electron-packager . --all",
     "postinstall": "install-app-deps",
-    "build": "build --mac --win --linux --x64",
+    "build": "build --mac --win --linux deb --x64",
     "dist": "build --mac"
   },
   "author": "Yukai Huang <yukaihuangtw@gmail.com> (https://yukaii.tw)",
