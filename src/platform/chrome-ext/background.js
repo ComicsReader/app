@@ -64,7 +64,7 @@ chrome.webRequest.onBeforeSendHeaders.addListener(mhandler, {
 // TODO: save last state when closing window
 const windowRect = () => {
 	let width  = 1280;
-	let height = 900;
+	let height = 800;
 	let left   = (screen.width/2)-(width/2);
 	let top    = (screen.height/2)-(height/2);
 
@@ -106,8 +106,10 @@ chrome.contextMenus.create({
 	}
 });
 
-chrome.windows.onRemoved.addListener(() => {
-	windowID = null;
+chrome.windows.onRemoved.addListener(closingId => {
+	if (closingId == windowID) {
+		windowID = null;
+	}
 });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
