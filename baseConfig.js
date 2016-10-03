@@ -5,7 +5,7 @@ module.exports = {
 	module:{
 		loaders: [
 			{
-				test: /\.json?$/,
+				test: /\.json$/,
 				loader: 'json-loader'
 			},{
 				test: /\.jsx?$/,
@@ -29,26 +29,9 @@ module.exports = {
 			},
 			{ test: /\.(ttf|eot|svg)$/,
 				loader: 'url-loader?limit=100000'
-			},
-			{
-				test: /cheerio\/package$/,
-				loader: 'json'
 			}
 		]
 	},
-	externals: [
-		(function () {
-			var IGNORES = [
-				'electron'
-			];
-			return function (context, request, callback) {
-				if (IGNORES.indexOf(request) >= 0) {
-					return callback(null, `require('${request}')`);
-				}
-				return callback();
-			};
-		})()
-	],
 	resolve: {
 		root: path.resolve('./src'),
 		extensions: ['', '.js']

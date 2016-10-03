@@ -48,13 +48,13 @@
     "sass-loader": "^4.0.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack": "^1.13.1",
+    "webpack": "^1.13.2",
     "webpack-livereload-plugin": "^0.8.1"
   },
   "dependencies": {
     "bluebird": "^3.4.0",
     "cheerio": "^0.22.0",
-    "comics-dm5": "^0.0.10",
+    "comics-dm5": "^0.0.11",
     "echo-js": "^1.7.3",
     "electron-window-state": "^3.0.4",
     "firebase": "^3.0.3",

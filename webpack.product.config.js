@@ -3,7 +3,7 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 
-const baseConfig = Object.assign(require('./baseConfig'), {
+const baseConfig = Object.assign({}, require('./baseConfig'), {
 	plugins: [
 		new ExtractTextPlugin('css/[name].css'),
 		new webpack.optimize.UglifyJsPlugin({
@@ -26,11 +26,7 @@ const baseConfig = Object.assign(require('./baseConfig'), {
 				'NODE_ENV': JSON.stringify('production')
 			}
 		})
-	],
-	resolve: {
-		root: path.resolve('./src'),
-		extensions: ['', '.js']
-	}
+	]
 });
 
 module.exports = [

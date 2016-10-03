@@ -3,15 +3,11 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 
-const baseConfig = Object.assign(require('./baseConfig'), {
+const baseConfig = Object.assign({}, require('./baseConfig'), {
 	plugins: [
 		new ExtractTextPlugin('css/[name].css')
 	],
-	devtool: '#inline-source-map',
-	resolve: {
-		root: path.resolve('./src'),
-		extensions: ['', '.js']
-	}
+	devtool: '#inline-source-map'
 });
 
 module.exports = [
