@@ -21,7 +21,7 @@
 
 ## Credits
 
-fork 自 [zeroshine/ComicsScroller](https://github.com/zeroshine/ComicsScroller，以此專案為基底打造。
+fork 自 [zeroshine/ComicsScroller](https://github.com/zeroshine/ComicsScroller)，以此專案為基底打造。
 
 
 ## LICENSE
