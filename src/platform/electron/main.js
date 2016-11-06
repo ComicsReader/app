@@ -22,7 +22,8 @@ function createWindow () {
 		y: mainWindowState.y,
 		icon: __dirname + '/Icon.ico',
 		darkTheme: true,
-		autoHideMenuBar: true
+		autoHideMenuBar: true,
+		titleBarStyle: 'hidden-inset'
 	});
 
 	// Let us register listeners on the window, so we can update the state

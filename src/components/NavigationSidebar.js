@@ -43,7 +43,8 @@ const styles = {
 		display: 'flex',
 		paddingTop: '1em',
 		flexDirection: 'column',
-		zIndex: 9999
+		zIndex: 9999,
+		WebkitAppRegion: 'drag'
 	}
 };
 
@@ -82,8 +83,14 @@ class NavigationSidebar extends Component {
 	render() {
 		const { readingChapterID } = this.props;
 
+		const navigationStyle = process.platform === 'darwin' ? {
+			...styles.navigationSidebar,
+			paddingTop: '2em',
+			width: 75
+		} : styles.navigationSidebar;
+
 		return(
-			<div style={styles.navigationSidebar}>
+			<div style={navigationStyle}>
 				{
 					(typeof readingChapterID !== 'undefined' && readingChapterID) ?
 						<Icon
