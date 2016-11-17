@@ -19,6 +19,41 @@
 
 其它文件陸續誕生中 😅
 
+## Development
+
+先把專案 clone 下來：
+
+```bash
+git clone https://github.com/ComicsReader/app
+cd app
+
+cp src/config.js.sample src/config.js
+```
+
+去 Firebase 申請一個帳號，然後填入 `src/config.js` 相應的欄位。
+
+```bash
+npm install
+npm run dev # webpack watch build
+
+# in a seperate tab
+cd electron
+npm install
+npm run dev
+```
+
+## Build
+
+```bash
+npm install
+npm run product
+
+# in electron directory
+cd electron
+npm install
+npm run dist
+```
+
 ## Credits
 
 fork 自 [zeroshine/ComicsScroller](https://github.com/zeroshine/ComicsScroller)，以此專案為基底打造。
