@@ -8,8 +8,8 @@
     "start": "electron .",
     "package": "electron-packager . --all",
     "postinstall": "install-app-deps",
-    "build": "build --mac --win --linux deb --x64",
-    "dist": "build --mac"
+    "dist": "build --mac --win --linux deb --x64",
+    "build:mac": "build --mac --dir"
   },
   "author": "Yukai Huang <yukaihuangtw@gmail.com> (https://yukaii.tw)",
   "homepage": "https://github.com/ComicsReader/reader",
@@ -21,7 +21,7 @@
   },
   "build": {
     "appId": "tds.comics.reader",
-    "app-category-type": "fun",
+    "app-category-type": "public.app-category.entertainment",
     "win": {
       "iconUrl": "https://github.com/ComicsReader/reader/blob/master/electron/build/icon.ico?raw=true"
     }
