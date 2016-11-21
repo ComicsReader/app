@@ -1,10 +1,9 @@
 import { take, put, call, fork, select } from 'redux-saga/effects';
 import { takeLatest } from 'redux-saga';
 import * as t from 'constants/ActionTypes';
-import { getComicManager, getSearchState, getComicID } from 'reducers/selectors';
+import { getComicManager, getSearchState } from 'reducers/selectors';
 import { comicManagers } from 'services';
 import { push } from 'react-router-redux';
-import { updateReadingRecord } from 'actions';
 
 // default comics service
 const DM5 = comicManagers.dm5;
@@ -12,11 +11,8 @@ const DM5 = comicManagers.dm5;
 function* switchChapter(action) {
 	const { chapterItem } = action;
 	const comicManager = yield select(getComicManager);
-	const comicID = yield select(getComicID);
 
 	let { chapterID } = chapterItem;
-
-	updateReadingRecord({comicID, chapterID});
 
 	let pathname = `/reader/${comicManager.siteName}/${chapterID}`;
 

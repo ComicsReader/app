@@ -1,21 +1,5 @@
 import { ReadingRecord, ChapterCache } from 'actions/ConfigActions';
 
-export const updateReadingRecord = async ({comicID, chapterID}) => {
-	try {
-		const readingRecord = await ReadingRecord.get(comicID);
-		ReadingRecord.put({
-			...readingRecord,
-			[chapterID]: new Date().getTime()
-		});
-	} catch(err) {
-		ReadingRecord.put({
-			_id: comicID,
-			[chapterID]: new Date().getTime()
-		});
-	}
-
-};
-
 export const markNotificationSent = async ({comicID, chapterID}) => {
 	try {
 		const readingRecord = await ReadingRecord.get(comicID);

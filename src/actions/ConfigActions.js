@@ -110,19 +110,49 @@ export const removeRecentComic = (key, callback=null) => {
 };
 
 /* Reading Resource */
-export const fetchReadingRecord = () => {
-	return dispatch => {
+export const fetchReadingAction = () => {
+	return new Promise(resolve => {
 		ReadingRecord.allDocs({
 			include_docs: true
 		}).then(({rows: data}) => {
 			const readingRecord = data.reduce((prev, cur) => {
-				return {...prev, [cur.doc.comicID]: cur.doc};
+				return {...prev, [cur.doc._id]: cur.doc};
 			}, {}) || {};
-			dispatch({
+
+			resolve({
 				type: t.FETCH_READING_RECORD,
 				readingRecord
 			});
 		});
+	});
+
+};
+
+export const fetchReadingRecord = () => {
+	return dispatch => {
+		fetchReadingAction().then(action => {
+			dispatch(action);
+		});
+	};
+};
+
+export const updateReadingRecord = ({comicID, chapterID}) => {
+	return async dispatch => {
+		try {
+			const readingRecord = await ReadingRecord.get(comicID);
+			await ReadingRecord.put({
+				_id: comicID,
+				...readingRecord,
+				[chapterID]: new Date().getTime()
+			});
+		} catch(err) {
+			await ReadingRecord.put({
+				_id: comicID,
+				[chapterID]: new Date().getTime()
+			});
+		}
+
+		fetchReadingRecord()(dispatch);
 	};
 };
 
