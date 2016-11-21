@@ -44,7 +44,11 @@ const styles = {
 		paddingTop: '1em',
 		flexDirection: 'column',
 		zIndex: 9999,
-		WebkitAppRegion: 'drag'
+		WebkitAppRegion: 'drag',
+		WebkitUserSelect: 'none',
+		borderStyle: 'solid',
+		borderWidth: '0 1px 0 0',
+		borderColor: '#505050'
 	}
 };
 

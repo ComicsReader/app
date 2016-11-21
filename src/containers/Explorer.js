@@ -72,13 +72,14 @@ class Explorer extends Component {
 				<div style={{height: '100%', overflow: 'hidden', paddingLeft: 60}}>
 					<NavigationSidebar highlightTag="search" />
 
-					<div style={{padding: '10px 0'}}>
+					<div style={{padding: '10px 0', position: 'fixed', width: '100%', backgroundColor: '#2a2a2a', zIndex: 1}}>
 						<SearchBar onSubmit={this.onSubmit} containerStyle={{display: 'block', margin: '10px auto 0'}}/>
 					</div>
 
 					<ComicBookShelf
 						comics={comics}
 						isLoading={isLoading}
+						style={{padding: '65px 20px 0 20px'}}
 					/>
 
 				</div>

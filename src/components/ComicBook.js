@@ -88,7 +88,7 @@ export default class ComicBook extends Component {
 		} = this.props;
 
 		return(
-			<div style={styles.container}>
+			<div style={{...styles.container, WebkitUserSelect: 'none'}}>
 				<div style={styles.starButtonContainer}>
 					{ showStarButton ? this.renderStarButton() : null }
 				</div>
