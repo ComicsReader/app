@@ -1,7 +1,7 @@
 {
   "name": "comics-reader-electron",
   "productName": "Comics Reader",
-  "version": "0.9.10",
+  "version": "0.9.11",
   "description": "a comic reader app for dm5",
   "main": "js/main.js",
   "scripts": {
