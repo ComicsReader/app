@@ -3,7 +3,8 @@ import * as t from 'constants/ActionTypes';
 const initialState = {
 	collections: {},
 	recentComics: {},
-	readingRecord: {}
+	readingRecord: {},
+	chapterCache: {}
 };
 
 export default function config(state = initialState , action) {

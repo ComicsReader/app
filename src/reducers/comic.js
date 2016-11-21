@@ -18,8 +18,6 @@ const initialState = {
 	 * }
 	 */
 	comics: {},
-
-	chapterCache: {},
 	chapters: [],
 
 	/*
