@@ -6,7 +6,6 @@ import configureStore from './store/configureStore';
 
 import rootSaga from './sagas';
 
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import { Router, Route } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { history } from './services';
@@ -27,8 +26,6 @@ window.React = React;
 
 let store = configureStore();
 store.runSaga(rootSaga);
-
-injectTapEventPlugin();
 
 const App = () => (
 	<MuiThemeProvider muiTheme={getMuiTheme()}>
