@@ -2,7 +2,7 @@
 
 <img src="http://i.imgur.com/tHWdF5a.png" width="200">
 
-以 React/Redux/Firebase 架構打造的漫畫閱讀器，可在各平臺（Windows/macOS/Linux/Chrome）使用。
+以 React/Redux/Electron 架構打造的漫畫閱讀器，可在各平臺（Windows/macOS/Linux/Chrome）使用。
 
 ## Preview
 
@@ -15,7 +15,7 @@
 ## Backend
 
 * 漫畫源為[動漫屋](http://www.dm5.com)
-* 使用Firebase 作為使用者資訊（收藏啦、最近閱讀啦）儲存。
+* 你知道的 [Electron](http://electron.atom.io/)
 
 其它文件陸續誕生中 😅
 
