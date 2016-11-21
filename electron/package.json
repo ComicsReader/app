@@ -5,7 +5,7 @@
   "description": "a comic reader app for dm5",
   "main": "js/main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "cross-env NODE_ENV=development electron .",
     "package": "electron-packager . --all",
     "postinstall": "install-app-deps",
     "dist": "build --mac --win --linux deb --x64",
@@ -15,6 +15,7 @@
   "homepage": "https://github.com/ComicsReader/reader",
   "license": "MIT",
   "devDependencies": {
+    "cross-env": "^3.1.3",
     "electron-builder": "^7.9.0",
     "electron-packager": "^8.0.0",
     "electron-prebuilt": "^1.4.1"
