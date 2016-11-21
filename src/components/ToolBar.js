@@ -16,7 +16,8 @@ const styles = {
 		bottom: '1em',
 		marginLeft: '1em',
 		padding: 1,
-		zIndex: 9999
+		zIndex: 9999,
+		WebkitUserSelect: 'none'
 	},
 	iconStyle: {
 		margin: '0 0.06em',

@@ -52,7 +52,7 @@ export default class ChapterSidebar extends Component {
 				open={this.state.drawerOpen}
 				docked={true}
 				openSecondary={true}
-				containerStyle={{marginTop: 80, height: 'calc(100% - 96px)', width: 300}}
+				containerStyle={{marginTop: 80, height: 'calc(100% - 96px)', width: 300, WebkitUserSelect: 'none'}}
 			>
 				<MenuItem
 					style={{backgroundColor: grey800, color: grey50, height: 64, fontSize: 24, paddingTop: '.5rem'}}
