@@ -30,8 +30,6 @@ cd app
 cp src/config.js.sample src/config.js
 ```
 
-去 Firebase 申請一個帳號，然後填入 `src/config.js` 相應的欄位。
-
 ```bash
 npm install
 npm run dev # webpack watch build
