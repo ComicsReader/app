@@ -26,7 +26,10 @@ function createWindow () {
 		icon: __dirname + '/Icon.ico',
 		darkTheme: true,
 		autoHideMenuBar: true,
-		titleBarStyle: 'hidden-inset'
+		titleBarStyle: 'hidden-inset',
+		webPreferences: {
+			webSecurity: false
+		}
 	});
 
 	// Let us register listeners on the window, so we can update the state
