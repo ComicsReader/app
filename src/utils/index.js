@@ -85,6 +85,7 @@ export function initializeApp({callback, store}) {
 		setupChromeListener();
 	} else {
 		setupWorker(runWorker);
+		runWorker();
 	}
 
 	callback();

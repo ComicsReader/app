@@ -10,6 +10,7 @@ export function initializeUpdater(callback) {
 
 	notificationCallback = callback;
 	setupWorker(runWorker);
+	runWorker();
 }
 
 function sendNotification({ unreadChapters, comicName, comicID, coverImage, onClick }) {
