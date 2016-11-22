@@ -34,15 +34,19 @@ function createWindow () {
 	// and restore the maximized or full screen state
 	mainWindowState.manage(mainWindow);
 
-	// and load the index.html of the app.
-	mainWindow.loadURL(`file://${app.getAppPath()}/index.html`);
 
 	if (process.env.NODE_ENV === 'development') {
+		// and load the index.html of the app.
+		mainWindow.loadURL('http://localhost:8080');
+
 		installExtension(REACT_DEVELOPER_TOOLS).then(() => {
 			installExtension(REDUX_DEVTOOLS).then(() => {
 				mainWindow.openDevTools();
 			});
 		});
+	} else {
+		// and load the index.html of the app.
+		mainWindow.loadURL(`file://${app.getAppPath()}/index.html`);
 	}
 
 	// Open the DevTools.

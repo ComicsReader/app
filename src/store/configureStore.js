@@ -6,20 +6,27 @@ import createLogger from 'redux-logger';
 import { history } from 'services';
 import { routerMiddleware } from 'react-router-redux';
 import { persistStore, autoRehydrate } from 'redux-persist';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 const logger = createLogger();
 
 export default function configureStore(initialState) {
 	const sagaMiddleware = createSagaMiddleware();
 
-	const createStoreWithMiddleware = applyMiddleware(
-		sagaMiddleware,
-		thunk,
-		logger,
-		routerMiddleware(history)
-	)(createStore);
+	const store = createStore(
+		reducer,
+		initialState,
+		composeWithDevTools(
+			applyMiddleware(
+				sagaMiddleware,
+				thunk,
+				logger,
+				routerMiddleware(history)
+			),
+			autoRehydrate()
+		)
+	);
 
-	const store = createStoreWithMiddleware(reducer, initialState, autoRehydrate());
 	persistStore(store);
 
 	store.runSaga = sagaMiddleware.run;
