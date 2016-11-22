@@ -31,8 +31,7 @@ module.exports = [
 	Object.assign({}, baseConfig, {
 		name: 'electron',
 		entry: {
-			app:'./src/app.js',
-			main:'./src/platform/electron/main.js'
+			app:'./src/app.js'
 		},
 		output: {
 			path: path.join(__dirname, 'electron/js'),
