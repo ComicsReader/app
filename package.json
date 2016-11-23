@@ -11,7 +11,7 @@
   "scripts": {
     "product": "webpack --config webpack.product.config.js --progress --colors --watch",
     "dev": "webpack --config webpack.config.js --progress --colors --watch",
-    "dev:electron": "webpack-dev-server --content-base electron/",
+    "dev:electron": "webpack-dev-server --content-base electron/ --inline --hot --colors",
     "zip": "zip extension_chrome.zip -r ./extension_chrome/ -x \"*/.*\""
   },
   "devDependencies": {
