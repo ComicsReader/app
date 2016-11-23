@@ -11,6 +11,7 @@
   "scripts": {
     "product": "webpack --config webpack.product.config.js --progress --colors --watch",
     "dev": "webpack --config webpack.config.js --progress --colors --watch",
+    "dev:electron": "webpack-dev-server --content-base electron/ --inline --hot --colors",
     "zip": "zip extension_chrome.zip -r ./extension_chrome/ -x \"*/.*\""
   },
   "devDependencies": {
@@ -45,6 +46,7 @@
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.16.2",
     "webpack-livereload-plugin": "^0.8.1"
   },
   "dependencies": {
@@ -68,6 +70,7 @@
     "react-router-redux": "^4.0.5",
     "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.5.2",
+    "redux-devtools-extension": "^1.0.0",
     "redux-logger": "^2.6.1",
     "redux-persist": "^4.0.0-alpha5",
     "redux-saga": "^0.11.1",

@@ -9,7 +9,8 @@ extension_chrome/js/
 extension_chrome/css/
 extension_chrome.zip
 
-electron/js/
+electron/js/*
+!electron/js/main.js
 electron/dist
 electron/Comics Reader-linux-ia32
 

@@ -3,6 +3,9 @@ const electron = require('electron');
 const windowStateKeeper = require('electron-window-state');
 const {app, session, BrowserWindow} = electron;
 
+const installExtension = require('electron-devtools-installer').default;
+const { REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer');
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -23,7 +26,10 @@ function createWindow () {
 		icon: __dirname + '/Icon.ico',
 		darkTheme: true,
 		autoHideMenuBar: true,
-		titleBarStyle: 'hidden-inset'
+		titleBarStyle: 'hidden-inset',
+		webPreferences: {
+			webSecurity: false
+		}
 	});
 
 	// Let us register listeners on the window, so we can update the state
@@ -31,8 +37,20 @@ function createWindow () {
 	// and restore the maximized or full screen state
 	mainWindowState.manage(mainWindow);
 
-	// and load the index.html of the app.
-	mainWindow.loadURL(`file://${app.getAppPath()}/index.html`);
+
+	if (process.env.NODE_ENV === 'development') {
+		// and load the index.html of the app.
+		mainWindow.loadURL('http://localhost:8080');
+
+		installExtension(REACT_DEVELOPER_TOOLS).then(() => {
+			installExtension(REDUX_DEVTOOLS).then(() => {
+				mainWindow.openDevTools();
+			});
+		});
+	} else {
+		// and load the index.html of the app.
+		mainWindow.loadURL(`file://${app.getAppPath()}/index.html`);
+	}
 
 	// Open the DevTools.
 	// mainWindow.webContents.openDevTools();
