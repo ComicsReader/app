@@ -42,7 +42,7 @@ module.exports = [
 				PLATFORM: JSON.stringify('electron')
 			})
 		],
-		target: 'electron'
+		target: 'electron-renderer'
 	}),
 
 	Object.assign({}, baseConfig, {
