@@ -18,3 +18,5 @@ server/.env
 
 # ignore jekyll build
 docs/_site
+
+dll/*

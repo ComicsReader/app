@@ -41,25 +41,11 @@ if (process.env.NODE_ENV === 'development') {
 	});
 }
 
-const vendorPackages = [
-	'react',
-	'react-dom',
-	'react-router',
-	'redux',
-	'material-ui',
-	'radium',
-	'pouchdb',
-	'lodash',
-	'cheerio',
-	'bluebird'
-];
-
 module.exports = [
 	/* Chrome extension build */
 	Object.assign({}, baseConfig, {
 		name: 'chrome',
 		entry: {
-			vendor: vendorPackages,
 			app:'./src/app.js',
 			background:'./src/platform/chrome-ext/background.js'
 		},
@@ -71,7 +57,10 @@ module.exports = [
 			new webpack.DefinePlugin({
 				PLATFORM: JSON.stringify('chrome')
 			}),
-			new webpack.optimize.CommonsChunkPlugin(/* chunkName= */'vendor', /* filename= */'vendor.js')
+			new webpack.DllReferencePlugin({
+				context: path.join(__dirname, 'src'),
+				manifest: require('./dll/vendor-manifest.json')
+			})
 		]
 	}),
 
@@ -79,7 +68,6 @@ module.exports = [
 	Object.assign({}, baseConfig, {
 		name: 'electron',
 		entry: {
-			vendor: vendorPackages,
 			app:'./src/app.js'
 		},
 		output: {
@@ -90,7 +78,10 @@ module.exports = [
 			new webpack.DefinePlugin({
 				PLATFORM: JSON.stringify('electron')
 			}),
-			new webpack.optimize.CommonsChunkPlugin(/* chunkName= */'vendor', /* filename= */'vendor.js')
+			new webpack.DllReferencePlugin({
+				context: path.join(__dirname, 'src'),
+				manifest: require('./dll/vendor-manifest.json')
+			})
 		],
 		target: 'electron-renderer'
 	}),
