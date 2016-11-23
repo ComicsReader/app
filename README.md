@@ -32,19 +32,21 @@ cp src/config.js.sample src/config.js
 
 ```bash
 npm install
-npm run dev # webpack watch build
+npm run build:dll
+npm run dev-server
 
 # in a seperate tab
 cd electron
 npm install
-npm run dev
+npm run start:dev
 ```
 
 ## Build
 
 ```bash
 npm install
-npm run product
+npm run build:dll
+npm run build:prod
 
 # in electron directory
 cd electron

@@ -5,7 +5,8 @@
   "description": "a comic reader app for dm5",
   "main": "js/main.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development electron .",
+    "start:dev": "cross-env NODE_ENV=development electron .",
+    "start": "electron .",
     "package": "electron-packager . --all",
     "postinstall": "install-app-deps",
     "dist": "build --mac --win --linux deb --x64",

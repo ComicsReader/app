@@ -9,10 +9,11 @@
   "author": "Yukai Huang",
   "license": "MIT",
   "scripts": {
-    "product": "webpack --config webpack.product.config.js --progress --colors --watch",
-    "dev": "webpack --config webpack.config.js --progress --colors --watch",
-    "dev:electron": "webpack-dev-server --content-base electron/ --inline --hot --colors",
-    "zip": "zip extension_chrome.zip -r ./extension_chrome/ -x \"*/.*\""
+    "build:dev": "cross-env NODE_ENV=development webpack --config webpack.config.js --progress --colors --watch",
+    "build:prod": "cross-env NODE_ENV=production webpack --config webpack.config.js --progress --colors --watch",
+    "build:dll": "webpack --config webpack.dll.js",
+    "dev-server": "webpack-dev-server --content-base electron/ --inline --hot --colors",
+    "zip:chrome-ext": "zip extension_chrome.zip -r ./extension_chrome/ -x \"*/.*\""
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
@@ -30,6 +31,7 @@
     "babel-polyfill": "^6.13.0",
     "babel-preset-es2015": "^6.14.0",
     "babel-preset-stage-0": "^6.5.0",
+    "cross-env": "^3.1.3",
     "css-loader": "^0.23.1",
     "eslint": "^2.13.1",
     "eslint-plugin-react": "^5.1.1",
