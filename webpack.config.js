@@ -3,7 +3,7 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 
-const baseConfig = Object.assign({}, require('./baseConfig'), {
+const baseConfig = Object.assign({}, require('./webpackBaseConfig'), {
 	plugins: [
 		new ExtractTextPlugin('css/[name].css')
 	],
