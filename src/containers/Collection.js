@@ -117,7 +117,7 @@ class Collection extends Component {
 					<Tabs
 						value={this.props.tabValue}
 						onChange={this.handleChange}
-						contentContainerStyle={{position: 'fixed', height: 'calc(100% - 48px)', overflowY: 'scroll', width: '100%'}}
+						contentContainerStyle={{position: 'fixed', height: 'calc(100% - 48px)', overflowY: 'scroll', width: 'calc(100% - 75px)', right: 0}}
 						tabItemContainerStyle={{WebkitAppRegion: 'drag', WebkitUserSelect: 'none'}}
 					>
 						<Tab

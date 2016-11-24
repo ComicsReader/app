@@ -11,7 +11,7 @@ import ComicBook from 'components/ComicBook';
 import LoadIndicator from 'components/LoadIndicator';
 
 const styles = {
-	padding: '20px 20px 0',
+	padding: '20px 10px 0',
 	textAlign: 'center',
 	height: 'calc(100% - 20px)'
 };
