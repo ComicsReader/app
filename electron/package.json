@@ -27,5 +27,8 @@
     "win": {
       "iconUrl": "https://github.com/ComicsReader/reader/blob/master/electron/build/icon.ico?raw=true"
     }
+  },
+  "dependencies": {
+    "electron-window-state": "^4.0.0"
   }
 }

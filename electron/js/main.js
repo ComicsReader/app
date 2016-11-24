@@ -3,9 +3,6 @@ const electron = require('electron');
 const windowStateKeeper = require('electron-window-state');
 const {app, session, BrowserWindow} = electron;
 
-const installExtension = require('electron-devtools-installer').default;
-const { REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer');
-
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -41,6 +38,9 @@ function createWindow () {
 	if (process.env.NODE_ENV === 'development') {
 		// and load the index.html of the app.
 		mainWindow.loadURL('http://localhost:8080');
+
+		const installExtension = require('electron-devtools-installer').default;
+		const { REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer');
 
 		installExtension(REACT_DEVELOPER_TOOLS).then(() => {
 			installExtension(REDUX_DEVTOOLS).then(() => {
