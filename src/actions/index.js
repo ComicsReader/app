@@ -18,7 +18,7 @@ export const markNotificationSent = async ({comicID, chapterID}) => {
 export const replaceChapterCache = async ({comicID, chapters}) => {
 	try {
 		const chapterCache = await ChapterCache.get(comicID);
-		ReadingRecord.put({
+		ChapterCache.put({
 			...chapterCache,
 			chapters
 		});
