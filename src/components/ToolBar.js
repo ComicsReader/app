@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-
+import Draggable from 'react-draggable';
 import { grey800, grey900, grey500 } from 'material-ui/styles/colors';
 
 import Icon from 'components/Icon';
@@ -14,7 +14,6 @@ const styles = {
 		borderWidth: '.5px',
 		display: 'flex',
 		bottom: '1em',
-		marginLeft: '1em',
 		padding: 1,
 		zIndex: 9999,
 		WebkitUserSelect: 'none'
@@ -50,33 +49,39 @@ export default class ToolBar extends Component {
 		} = this.props;
 
 		return(
-			<div className="toolbar" style={styles.container}>
-				<Icon
-					iconName="navigate_before"
-					style={styles.iconStyle}
-					onClick={loadPreviousChapter}
-				/>
-				<Icon
-					iconName="navigate_next"
-					style={styles.iconStyle}
-					onClick={loadNextChapter}
-				/>
-				<Icon
-					iconName="zoom_in"
-					style={styles.iconStyle}
-					onClick={increaseZoomRate}
-				/>
-				<Icon
-					iconName="zoom_out"
-					style={styles.iconStyle}
-					onClick={decreaseZoomRate}
-				/>
-				<Icon
-					iconName="aspect_ratio"
-					style={styles.iconStyle}
-					onClick={resetZoomRate}
-				/>
-			</div>
+			<Draggable>
+				<div className="toolbar" style={styles.container}>
+					<Icon
+						iconName="navigate_before"
+						style={styles.iconStyle}
+						onClick={loadPreviousChapter}
+					/>
+					<Icon
+						iconName="navigate_next"
+						style={styles.iconStyle}
+						onClick={loadNextChapter}
+					/>
+					<Icon
+						iconName="zoom_in"
+						style={styles.iconStyle}
+						onClick={increaseZoomRate}
+					/>
+					<Icon
+						iconName="zoom_out"
+						style={styles.iconStyle}
+						onClick={decreaseZoomRate}
+					/>
+					<Icon
+						iconName="aspect_ratio"
+						style={styles.iconStyle}
+						onClick={resetZoomRate}
+					/>
+					<Icon
+						iconName="open_with"
+						style={[styles.iconStyle]}
+					/>
+				</div>
+			</Draggable>
 		);
 	}
 }
