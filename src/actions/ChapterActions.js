@@ -21,9 +21,6 @@ export const initComicManager = ({site, chapterID, readingChapterID}) => {
 			}
 
 			dispatch({type: t.CLEAR_COMIC_IMAGES});
-
-			addRecentComic({comicID, coverImage, comicName, latestChapter})(dispatch);
-			updateReadingRecord({comicID, chapterID})(dispatch);
 			replaceChapterCache({comicID, chapters});
 
 			dispatch({
@@ -47,11 +44,18 @@ export const initComicManager = ({site, chapterID, readingChapterID}) => {
 					return {...prev, [readingComicRecord[cur]]: cur};
 				}, {});
 				const lastChapterID = reverseRecordMap[Math.max(...Object.keys(reverseRecordMap))];
+
 				chapterID = lastChapterID;
+			} else {
+				// start from first chapter
+				chapterID = chapters[chapters.length-1].chapterID;
 			}
 
 			comicManager.getChapterImages(chapterID).then(images => {
 				let chapterItem = chapters.find(item => item.chapterID == chapterID);
+
+				updateReadingRecord({comicID, chapterID})(dispatch);
+				addRecentComic({comicID, coverImage, comicName, latestChapter})(dispatch);
 
 				dispatch({
 					type: t.SWITCH_CHAPTER,
