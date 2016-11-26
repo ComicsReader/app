@@ -48,7 +48,8 @@ const styles = {
 		WebkitUserSelect: 'none',
 		borderStyle: 'solid',
 		borderWidth: '0 1px 0 0',
-		borderColor: '#505050'
+		borderColor: '#505050',
+		boxShadow: '1px 1px 30px rgba(31, 31, 31, 0.48)'
 	}
 };
 

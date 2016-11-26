@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Draggable from 'react-draggable';
-import { grey800, grey900, grey500 } from 'material-ui/styles/colors';
+import { grey800, grey500 } from 'material-ui/styles/colors';
 
 import Icon from 'components/Icon';
 
@@ -9,13 +9,14 @@ const styles = {
 		position: 'fixed',
 		backgroundColor: grey800,
 		maxWidth: 500,
-		borderColor: grey900,
+		borderColor: '#505050',
 		borderStyle: 'solid',
 		borderWidth: '.5px',
 		display: 'flex',
 		bottom: '1em',
 		padding: 1,
 		zIndex: 9999,
+		boxShadow: '1px 1px 1em rgba(0, 0, 0, 0.45)',
 		WebkitUserSelect: 'none'
 	},
 	iconStyle: {
