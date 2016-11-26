@@ -26,7 +26,7 @@ import 'styles/main.scss';
 window.React = React;
 
 let store = configureStore();
-store.runSaga(rootSaga);
+store.runSaga(rootSaga, store.dispatch);
 
 injectTapEventPlugin();
 

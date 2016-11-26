@@ -15,7 +15,7 @@ import ToolBar from 'components/ToolBar';
 import * as ChapterActions from 'actions/ChapterActions';
 import { toggleAppDrawer } from 'actions/UIActions';
 import * as UIActions from 'actions/UIActions';
-import { fetchReadingRecord, updateReadingRecord } from 'actions/ConfigActions';
+import { fetchReadingRecord } from 'actions/ConfigActions';
 import { getNextChapterIndex, getPreviousChapterIndex } from 'reducers/selectors';
 
 @Radium
@@ -71,7 +71,6 @@ class Reader extends Component {
 			if (nextChapter !== chapter) {
 				if (typeof chapterItem !== 'undefined') {
 					switchChapter(chapterItem);
-					updateReadingRecord({comicID, chapterID: chapterItem.chapterID})(dispatch);
 				} else {
 					initComicManager({site, chapterID: nextChapter, readingChapterID});
 				}

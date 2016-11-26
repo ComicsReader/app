@@ -1,16 +1,20 @@
 import { take, put, call, fork, select } from 'redux-saga/effects';
 import { takeLatest } from 'redux-saga';
 import * as t from 'constants/ActionTypes';
-import { getComicManager, getSearchState } from 'reducers/selectors';
+import { getComicManager, getSearchState, getComicID } from 'reducers/selectors';
 import { comicManagers } from 'services';
 import { push } from 'react-router-redux';
+import { updateReadingRecord } from 'actions/ConfigActions';
 
 // default comics service
 const DM5 = comicManagers.dm5;
 
+let dispatch;
+
 function* switchChapter(action) {
 	const { chapterItem } = action;
 	const comicManager = yield select(getComicManager);
+	const comicID = yield select(getComicID);
 
 	let { chapterID } = chapterItem;
 
@@ -18,6 +22,9 @@ function* switchChapter(action) {
 
 	yield put({type: t.CLEAR_COMIC_IMAGES});
 	yield put({type: t.NAVIGATE, pathname});
+
+	console.log('updateReadingRecord in switchChapter');
+	updateReadingRecord({comicID, chapterID})(dispatch);
 
 	// may failed...
 	const images = yield call(comicManager.getChapterImages, chapterID);
@@ -80,7 +87,8 @@ function* watchNavigate() {
 	}
 }
 
-export default function* root() {
+export default function* root(dis) {
+	dispatch = dis;
 	yield [
 		fork(watchSwitchChapter),
 		fork(watchNavigate),
