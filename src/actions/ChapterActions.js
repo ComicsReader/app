@@ -43,7 +43,7 @@ export const initComicManager = ({site, chapterID, readingChapterID}) => {
 				const reverseRecordMap = Object.keys(readingComicRecord).reduce((prev, cur) => {
 					return {...prev, [readingComicRecord[cur]]: cur};
 				}, {});
-				const lastChapterID = reverseRecordMap[Math.max(...Object.keys(reverseRecordMap))];
+				const lastChapterID = reverseRecordMap[Math.max(...Object.keys(reverseRecordMap).map(Number).filter(Number.isInteger))];
 
 				chapterID = lastChapterID;
 			} else {
