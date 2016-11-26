@@ -146,7 +146,7 @@ class Collection extends Component {
 										.map(comicID => this.props.recentComics[comicID])
 										.sort((a, b) => b.last_read_at - a.last_read_at)
 									}
-								showStarButton={false}
+								showStarButton={true}
 								style={{padding: '20px 20px 0'}}
 							/>
 						</Tab>
