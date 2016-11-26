@@ -84,6 +84,7 @@ export default class ComicImage extends Component {
 			<div style={{
 				background: 'url(http://i.imgur.com/ybQEnOQ.gif) 50% no-repeat',
 				margin: '0 auto 16px',
+				WebkitAppRegion: 'drag',
 				...this.state.containerStyle
 			}}>
 				<img
@@ -92,6 +93,8 @@ export default class ComicImage extends Component {
 					className="comic-image"
 					style={[{
 						display: 'block',
+						position: 'relative',
+						WebkitAppRegion: 'no-drag',
 						zIndex: 2,
 						margin: '0 auto 16px',
 						maxWidth: '100%',

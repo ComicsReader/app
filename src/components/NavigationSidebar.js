@@ -18,7 +18,7 @@ const styles = {
 		verticalAlign: 'middle',
 		margin: '20% auto',
 		color: grey500,
-		cursor: 'pointer',
+		cursor: 'default',
 		':hover': {
 			color: 'white'
 		}
@@ -65,6 +65,7 @@ class NavigationSidebar extends Component {
 		drawerOpen: PropTypes.bool,
 		readingChapterID: PropTypes.string,
 		dispatch: PropTypes.func,
+		location: PropTypes.string,
 
 		highlightTag: PropTypes.string
 	}
@@ -93,6 +94,10 @@ class NavigationSidebar extends Component {
 
 	navigateBack = () => {
 		this.props.dispatch(goBack());
+	}
+
+	isReaderMode = () => {
+		return !!location.toString().match(/\/reader\//);
 	}
 
 	render() {
@@ -138,13 +143,17 @@ class NavigationSidebar extends Component {
 						onClick={this.navigateBack}
 					/>
 				</div>
-				<div style={styles.navigationGroup}>
-					<Icon
-						iconName="input"
-						style={styles.iconStyle}
-						onClick={this.toggleToolbar}
-					/>
-				</div>
+				{
+					this.isReaderMode() ?
+						<div style={styles.navigationGroup}>
+							<Icon
+								iconName="input"
+								style={styles.iconStyle}
+								onClick={this.toggleToolbar}
+							/>
+						</div>
+						: null
+				}
 			</div>
 		);
 	}

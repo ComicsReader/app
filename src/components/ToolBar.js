@@ -18,7 +18,8 @@ const styles = {
 		padding: 1,
 		zIndex: 9999,
 		boxShadow: '1px 1px 1em rgba(0, 0, 0, 0.45)',
-		WebkitUserSelect: 'none'
+		WebkitUserSelect: 'none',
+		WebkitAppRegion: 'no-drag'
 	},
 	iconStyle: {
 		margin: '0 0.06em',

@@ -13,7 +13,8 @@ import { Link } from 'react-router';
 const styles = {
 	container: {
 		display: 'inline-block',
-		padding: 10
+		padding: 10,
+		WebkitAppRegion: 'no-drag'
 	},
 	book: {
 		display: 'flex',

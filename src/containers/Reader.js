@@ -171,7 +171,8 @@ class Reader extends Component {
 							overflow: 'auto',
 							height: 'calc(100% - 70px)',
 							width: 'calc(100% - 38px)',
-							WebkitUserSelect: 'none'
+							WebkitUserSelect: 'none',
+							WebkitAppRegion: 'drag'
 						}}
 					>
 						<ChapterSidebar
