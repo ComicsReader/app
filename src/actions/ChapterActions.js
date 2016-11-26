@@ -4,7 +4,7 @@ import { addRecentComic, updateReadingRecord } from 'actions/ConfigActions';
 import { replaceChapterCache } from 'actions';
 
 export const initComicManager = ({site, chapterID, readingChapterID}) => {
-	return dispatch => {
+	return (dispatch, getState) => {
 		let comicManager = comicManagers.selectComicManager(site);
 
 		comicManager.getComic(chapterID).then(comicInfo => {
@@ -37,6 +37,18 @@ export const initComicManager = ({site, chapterID, readingChapterID}) => {
 				chapters: chapters,
 				comicID: comicID
 			});
+
+			const { readingRecord } = getState().config;
+
+			/* load last read chapter */
+			if (typeof readingRecord[comicID] !== 'undefined') {
+				const { _id, _rev, ...readingComicRecord } = readingRecord[comicID];
+				const reverseRecordMap = Object.keys(readingComicRecord).reduce((prev, cur) => {
+					return {...prev, [readingComicRecord[cur]]: cur};
+				}, {});
+				const lastChapterID = reverseRecordMap[Math.max(...Object.keys(reverseRecordMap))];
+				chapterID = lastChapterID;
+			}
 
 			comicManager.getChapterImages(chapterID).then(images => {
 				let chapterItem = chapters.find(item => item.chapterID == chapterID);
