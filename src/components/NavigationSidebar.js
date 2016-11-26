@@ -43,6 +43,7 @@ const styles = {
 		display: 'flex',
 		paddingTop: '1em',
 		flexDirection: 'column',
+		justifyContent: 'space-between',
 		zIndex: 9999,
 		WebkitAppRegion: 'drag',
 		WebkitUserSelect: 'none',
@@ -50,6 +51,10 @@ const styles = {
 		borderWidth: '0 1px 0 0',
 		borderColor: '#505050',
 		boxShadow: '1px 1px 30px rgba(31, 31, 31, 0.48)'
+	},
+	navigationGroup: {
+		display: 'flex',
+		flexDirection: 'column'
 	}
 };
 
@@ -81,6 +86,11 @@ class NavigationSidebar extends Component {
 		return tag === highlightTag ? styles.iconHighlighted : null;
 	}
 
+	toggleToolbar = () => {
+		this.props.dispatch({type: t.TOGGLE_TOOLBAR});
+		this.props.dispatch({type: t.RESET_TOOLBAR_POSITION});
+	}
+
 	navigateBack = () => {
 		this.props.dispatch(goBack());
 	}
@@ -91,40 +101,50 @@ class NavigationSidebar extends Component {
 		const navigationStyle = process.platform === 'darwin' ? {
 			...styles.navigationSidebar,
 			paddingTop: '2em',
+			height: 'calc(100% - 2em)',
 			width: 75
 		} : styles.navigationSidebar;
 
 		return(
 			<div style={navigationStyle}>
-				{
-					(typeof readingChapterID !== 'undefined' && readingChapterID) ?
-						<Icon
-							iconName="insert_photo"
-							style={[styles.iconStyle, this.highlightStyle('reader')]}
-							onClick={this.navigateTo(`/reader/dm5/${readingChapterID}`)}
-						/> :
-						<Icon
-							iconName="insert_photo"
-							style={[styles.iconStyle, this.highlightStyle('reader')]}
-						/>
-				}
-				<Icon
-					iconName="search"
-					style={[styles.iconStyle, this.highlightStyle('search')]}
-					onClick={this.navigateTo('/explore')}
-				/>
-				<Icon
-					iconName="library_books"
-					style={[styles.iconStyle, this.highlightStyle('collection')]}
-					onClick={this.navigateTo('/collection?tab=collection')}
-				/>
-				<Icon iconName="info" style={styles.iconStyle} />
-				<div style={styles.seperator} />
-				<Icon
-					iconName="keyboard_backspace"
-					style={styles.iconStyle}
-					onClick={this.navigateBack}
-				/>
+				<div style={styles.navigationGroup}>
+					{
+						(typeof readingChapterID !== 'undefined' && readingChapterID) ?
+							<Icon
+								iconName="insert_photo"
+								style={[styles.iconStyle, this.highlightStyle('reader')]}
+								onClick={this.navigateTo(`/reader/dm5/${readingChapterID}`)}
+							/> :
+							<Icon
+								iconName="insert_photo"
+								style={[styles.iconStyle, this.highlightStyle('reader')]}
+							/>
+					}
+					<Icon
+						iconName="search"
+						style={[styles.iconStyle, this.highlightStyle('search')]}
+						onClick={this.navigateTo('/explore')}
+					/>
+					<Icon
+						iconName="library_books"
+						style={[styles.iconStyle, this.highlightStyle('collection')]}
+						onClick={this.navigateTo('/collection?tab=collection')}
+					/>
+					<Icon iconName="info" style={styles.iconStyle} />
+					<div style={styles.seperator} />
+					<Icon
+						iconName="keyboard_backspace"
+						style={styles.iconStyle}
+						onClick={this.navigateBack}
+					/>
+				</div>
+				<div style={styles.navigationGroup}>
+					<Icon
+						iconName="input"
+						style={styles.iconStyle}
+						onClick={this.toggleToolbar}
+					/>
+				</div>
 			</div>
 		);
 	}

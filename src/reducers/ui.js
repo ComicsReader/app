@@ -2,7 +2,9 @@ import * as t from 'constants/ActionTypes';
 
 const initialState = {
 	drawerOpen: false,
-	zommRate: 0
+	zommRate: 0,
+	showToolbar: true,
+	toolbarPosition: null
 };
 
 export default function ui(state = initialState, action) {
@@ -35,6 +37,18 @@ export default function ui(state = initialState, action) {
 		return {
 			...state,
 			zoomRate: 0
+		};
+
+	case t.TOGGLE_TOOLBAR:
+		return {
+			...state,
+			showToolbar: !state.showToolbar
+		};
+
+	case t.RESET_TOOLBAR_POSITION:
+		return {
+			...state,
+			toolbarPosition: {x: 0, y: 0}
 		};
 
 	default:

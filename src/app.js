@@ -28,6 +28,12 @@ window.React = React;
 let store = configureStore();
 store.runSaga(rootSaga, store.dispatch);
 
+if (window.PLATFORM === 'electron') {
+	const { webFrame } = require('electron');
+	webFrame.setZoomFactor(1);
+	webFrame.setZoomLevelLimits(1, 1);
+}
+
 injectTapEventPlugin();
 
 const App = () => (

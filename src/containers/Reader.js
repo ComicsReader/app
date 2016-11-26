@@ -30,6 +30,8 @@ class Reader extends Component {
 		zoomRate: PropTypes.number,
 		readingRecord: PropTypes.object,
 		comicID: PropTypes.string,
+		showToolbar: PropTypes.bool,
+		toolbarPosition: PropTypes.object,
 
 		/* chapter actions */
 		switchChapter: PropTypes.func,
@@ -41,6 +43,7 @@ class Reader extends Component {
 		increaseZoomRate: PropTypes.func,
 		decreaseZoomRate: PropTypes.func,
 		resetZoomRate: PropTypes.func,
+		toggleToolbar: PropTypes.func,
 
 		dispatch: PropTypes.func
 	}
@@ -158,6 +161,8 @@ class Reader extends Component {
 						increaseZoomRate={this.props.increaseZoomRate}
 						decreaseZoomRate={this.props.decreaseZoomRate}
 						resetZoomRate={this.props.resetZoomRate}
+						show={this.props.showToolbar}
+						position={this.props.toolbarPosition}
 					/>
 					<div
 						ref="scrollContainer"
@@ -165,7 +170,8 @@ class Reader extends Component {
 							marginTop: 25,
 							overflow: 'auto',
 							height: 'calc(100% - 70px)',
-							width: 'calc(100% - 38px)'
+							width: 'calc(100% - 38px)',
+							WebkitUserSelect: 'none'
 						}}
 					>
 						<ChapterSidebar
@@ -196,7 +202,9 @@ export default connect(state => {
 		...state.comics,
 		zoomRate: state.uiState.zoomRate,
 		readingRecord: state.config.readingRecord,
-		comicID: state.comics.comicID
+		comicID: state.comics.comicID,
+		showToolbar: state.uiState.showToolbar,
+		toolbarPosition: state.uiState.toolbarPosition
 	};
 }, dispatch => {
 	/* map dispatch to props */

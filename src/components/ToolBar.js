@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Radium from 'radium';
 import Draggable from 'react-draggable';
 import { grey800, grey500 } from 'material-ui/styles/colors';
 
@@ -30,6 +31,7 @@ const styles = {
 	}
 };
 
+@Radium
 export default class ToolBar extends Component {
 	static propTypes = {
 		loadNextChapter: PropTypes.func,
@@ -37,7 +39,41 @@ export default class ToolBar extends Component {
 
 		increaseZoomRate: PropTypes.func,
 		decreaseZoomRate: PropTypes.func,
-		resetZoomRate: PropTypes.func
+		resetZoomRate: PropTypes.func,
+
+		position: PropTypes.object,
+		show: PropTypes.bool
+	}
+
+	static defaultProps = {
+		show: true
+	}
+
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			position: null
+		};
+	}
+
+	componentWillReceiveProps(nextProps) {
+		const { position } = nextProps;
+
+		if (position) {
+			this.setState({
+				position: position
+			});
+		}
+	}
+
+	onDrag = (e, data) => {
+		this.setState({
+			position: {
+				x: data.x,
+				y: data.y
+			}
+		});
 	}
 
 	render() {
@@ -46,12 +82,20 @@ export default class ToolBar extends Component {
 			loadNextChapter,
 			increaseZoomRate,
 			decreaseZoomRate,
-			resetZoomRate
+			resetZoomRate,
+			show
 		} = this.props;
 
+		const displayStyle = show ? {} : {
+			display: 'none'
+		};
+
 		return(
-			<Draggable>
-				<div className="toolbar" style={styles.container}>
+			<Draggable
+				position={this.state.position}
+				onDrag={this.onDrag}
+			>
+				<div className="toolbar" style={[styles.container, displayStyle]}>
 					<Icon
 						iconName="navigate_before"
 						style={styles.iconStyle}

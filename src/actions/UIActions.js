@@ -15,3 +15,7 @@ export function decreaseZoomRate() {
 export function resetZoomRate() {
 	return {type: t.RESET_ZOOM_RATE};
 }
+
+export function toggleToolbar() {
+	return {type: t.TOGGLE_TOOLBAR};
+}

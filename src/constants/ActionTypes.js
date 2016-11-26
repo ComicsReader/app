@@ -26,6 +26,8 @@ export const CHANGE_DRAWER_STATE        = 'CHANGE_DRAWER_STATE';
 export const INCREASE_ZOOM_RATE         = 'INCREASE_ZOOM_RATE';
 export const DECREASE_ZOOM_RATE         = 'DECREASE_ZOOM_RATE';
 export const RESET_ZOOM_RATE            = 'RESET_ZOOM_RATE';
+export const TOGGLE_TOOLBAR             = 'TOGGLE_TOOLBAR';
+export const RESET_TOOLBAR_POSITION     = 'RESET_TOOLBAR_POSITION';
 
 /* Collections */
 export const FETCH_ALL_COLLECTION       = 'FETCH_ALL_COLLECTION';
