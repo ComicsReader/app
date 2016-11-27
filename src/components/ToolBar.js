@@ -41,6 +41,7 @@ export default class ToolBar extends Component {
 		increaseZoomRate: PropTypes.func,
 		decreaseZoomRate: PropTypes.func,
 		resetZoomRate: PropTypes.func,
+		savePosition: PropTypes.func.isRequired,
 
 		position: PropTypes.object,
 		show: PropTypes.bool
@@ -54,21 +55,25 @@ export default class ToolBar extends Component {
 		super(props);
 
 		this.state = {
-			position: null
+			position: props.position || null
 		};
 	}
 
 	componentWillReceiveProps(nextProps) {
 		const { position } = nextProps;
 
-		if (position) {
+		if (position && position.x === 0 && position.y === 0) {
 			this.setState({
 				position: position
 			});
 		}
 	}
 
-	onDrag = (e, data) => {
+	componentWillUnmount() {
+		this.props.savePosition && this.props.savePosition(this.state.position);
+	}
+
+	onDragStop = (e, data) => {
 		this.setState({
 			position: {
 				x: data.x,
@@ -94,7 +99,7 @@ export default class ToolBar extends Component {
 		return(
 			<Draggable
 				position={this.state.position}
-				onDrag={this.onDrag}
+				onStop={this.onDragStop}
 			>
 				<div className="toolbar" style={[styles.container, displayStyle]}>
 					<Icon

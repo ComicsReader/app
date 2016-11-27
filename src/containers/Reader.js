@@ -12,6 +12,7 @@ import ChapterSidebar from 'components/ChapterSidebar';
 import NavigationSidebar from 'components/NavigationSidebar';
 import ToolBar from 'components/ToolBar';
 
+import * as t from 'constants/ActionTypes';
 import * as ChapterActions from 'actions/ChapterActions';
 import { toggleAppDrawer } from 'actions/UIActions';
 import * as UIActions from 'actions/UIActions';
@@ -145,6 +146,10 @@ class Reader extends Component {
 						!readingRecord[comicID][chapterItem.chapterID];
 	}
 
+	saveToolBarPosition = (position) => {
+		this.props.dispatch({type: t.UPDATE_TOOLBAR_POSITION, toolbarPosition: position});
+	}
+
 	render() {
 		const {
 			readingImages,
@@ -163,6 +168,7 @@ class Reader extends Component {
 						resetZoomRate={this.props.resetZoomRate}
 						show={this.props.showToolbar}
 						position={this.props.toolbarPosition}
+						savePosition={this.saveToolBarPosition}
 					/>
 					<div
 						ref="scrollContainer"

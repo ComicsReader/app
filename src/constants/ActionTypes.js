@@ -29,6 +29,7 @@ export const DECREASE_ZOOM_RATE         = 'DECREASE_ZOOM_RATE';
 export const RESET_ZOOM_RATE            = 'RESET_ZOOM_RATE';
 export const TOGGLE_TOOLBAR             = 'TOGGLE_TOOLBAR';
 export const RESET_TOOLBAR_POSITION     = 'RESET_TOOLBAR_POSITION';
+export const UPDATE_TOOLBAR_POSITION    = 'UPDATE_TOOLBAR_POSITION';
 
 /* Collections */
 export const FETCH_ALL_COLLECTION       = 'FETCH_ALL_COLLECTION';

@@ -67,6 +67,7 @@ class NavigationSidebar extends Component {
 		readingChapterID: PropTypes.string,
 		dispatch: PropTypes.func,
 		location: PropTypes.string,
+		showToolbar: PropTypes.bool,
 
 		highlightTag: PropTypes.string
 	}
@@ -90,7 +91,12 @@ class NavigationSidebar extends Component {
 
 	toggleToolbar = () => {
 		this.props.dispatch({type: t.TOGGLE_TOOLBAR});
-		this.props.dispatch({type: t.RESET_TOOLBAR_POSITION});
+		if (this.props.showToolbar === false) {
+			this.props.dispatch({type: t.UPDATE_TOOLBAR_POSITION, toolbarPosition: {x: 0, y: 0}});
+			setTimeout(() => {
+				this.props.dispatch({type: t.UPDATE_TOOLBAR_POSITION, toolbarPosition: null});
+			}, 50);
+		}
 	}
 
 	navigateBack = () => {
@@ -166,6 +172,7 @@ class NavigationSidebar extends Component {
 
 export default connect(state => {
 	return({
-		readingChapterID: state.comics.readingChapterID
+		readingChapterID: state.comics.readingChapterID,
+		showToolbar: state.uiState.showToolbar
 	});
 })(NavigationSidebar);

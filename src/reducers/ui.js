@@ -51,6 +51,12 @@ export default function ui(state = initialState, action) {
 			toolbarPosition: {x: 0, y: 0}
 		};
 
+	case t.UPDATE_TOOLBAR_POSITION:
+		return {
+			...state,
+			toolbarPosition: action.toolbarPosition
+		};
+
 	default:
 		return state;
 	}
