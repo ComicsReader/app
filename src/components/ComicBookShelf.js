@@ -13,7 +13,8 @@ import LoadIndicator from 'components/LoadIndicator';
 const styles = {
 	padding: '20px 10px 0',
 	textAlign: 'center',
-	height: 'calc(100% - 20px)'
+	height: 'calc(100% - 20px)',
+	WebkitAppRegion: 'drag'
 };
 
 @Radium
