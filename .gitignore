@@ -11,6 +11,7 @@ extension_chrome.zip
 
 electron/js/*
 !electron/js/main.js
+!electron/js/menu.js
 electron/dist
 electron/Comics Reader-linux-ia32
 

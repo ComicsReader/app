@@ -1,7 +1,8 @@
 /* global process */
 const electron = require('electron');
 const windowStateKeeper = require('electron-window-state');
-const {app, session, BrowserWindow} = electron;
+const {app, Menu, session, BrowserWindow} = electron;
+const appMenu = require('./menu');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -51,6 +52,8 @@ function createWindow () {
 		// and load the index.html of the app.
 		mainWindow.loadURL(`file://${app.getAppPath()}/index.html`);
 	}
+
+	Menu.setApplicationMenu(appMenu);
 
 	// Open the DevTools.
 	// mainWindow.webContents.openDevTools();
