@@ -6,11 +6,11 @@
 
 ## Preview
 
-![](docs/images/reader.png)
+<img src="docs/images/reader.png?" alt="">
 
-![](docs/images/collection.png)
+<img src="docs/images/collection.png?" alt="">
 
-![](docs/images/search.png)
+<img src="docs/images/search.png?" alt="">
 
 ## Backend
 
