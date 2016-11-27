@@ -50,7 +50,8 @@ const styles = {
 		borderStyle: 'solid',
 		borderWidth: '0 1px 0 0',
 		borderColor: '#505050',
-		boxShadow: '1px 1px 30px rgba(31, 31, 31, 0.48)'
+		boxShadow: '1px 1px 30px rgba(31, 31, 31, 0.48)',
+		boxSizing: 'border-box'
 	},
 	navigationGroup: {
 		display: 'flex',
@@ -106,7 +107,7 @@ class NavigationSidebar extends Component {
 		const navigationStyle = process.platform === 'darwin' ? {
 			...styles.navigationSidebar,
 			paddingTop: '2em',
-			height: 'calc(100% - 2em)',
+			height: '100%',
 			width: 75
 		} : styles.navigationSidebar;
 
