@@ -14,6 +14,7 @@ import SearchBar from 'components/SearchBar';
 import NavigationSidebar from 'components/NavigationSidebar';
 import ComicBookShelf from 'components/ComicBookShelf';
 
+import * as t from 'constants/ActionTypes';
 import * as SearchActions from 'actions/SearchActions';
 import {toggleAppDrawer} from 'actions/UIActions';
 
@@ -42,15 +43,15 @@ class Explorer extends Component {
 		document.body.onscroll = null;
 	}
 
-	onSubmit = (value) => {
-		this.props.searchComics(value);
+	onSubmit = () => {
+		this.props.searchComics();
 	}
 
 	loadMore = () => {
 		const { searchKeyword, currentPage, isLoading, totalPage } = this.props;
 		if (document.body.scrollHeight - document.body.scrollTop < 1000 && !isLoading) {
 			if (totalPage && (currentPage + 1) <= totalPage || !totalPage) {
-				this.props.searchComics(searchKeyword, currentPage + 1);
+				this.props.searchComics(currentPage + 1);
 			}
 		}
 	}
@@ -64,8 +65,12 @@ class Explorer extends Component {
 		return searchKeyword ? `${searchKeyword} - ${currentPage}/${totalPage} | ComicsReader` : 'Explore | ComicsReader';
 	}
 
+	onInputChange = (event) => {
+		this.props.dispatch({type: t.UPDATE_SEARCH_KEYWORD, keyword: event.target.value});
+	}
+
 	render() {
-		const { comics, isLoading } = this.props;
+		const { comics, isLoading, searchKeyword } = this.props;
 
 		return(
 			<DocumentTitle title={this.getDocumentTitle()}>
@@ -73,7 +78,7 @@ class Explorer extends Component {
 					<NavigationSidebar highlightTag="search" />
 
 					<div style={{padding: '10px 0', position: 'fixed', width: '100%', backgroundColor: '#2a2a2a', zIndex: 1}}>
-						<SearchBar onSubmit={this.onSubmit} containerStyle={{display: 'block', margin: '10px auto 0'}}/>
+						<SearchBar onSubmit={this.onSubmit} containerStyle={{display: 'block', margin: '10px auto 0'}} value={searchKeyword} onChange={this.onInputChange}/>
 					</div>
 
 					<ComicBookShelf

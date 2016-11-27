@@ -50,6 +50,12 @@ export default function searchState(state = initialState, action) {
 			isLoading: false
 		};
 
+	case t.UPDATE_SEARCH_KEYWORD:
+		return {
+			...state,
+			searchKeyword: action.keyword
+		};
+
 	default:
 		return state;
 	}

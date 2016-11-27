@@ -43,24 +43,14 @@ function* watchSwitchChapter() {
 }
 
 function* searchComics(action) {
-	const {keyword: searchKeyword, page=1} = action;
+	const {page=1} = action;
 	yield put({type: t.SHOW_LOAD_INDICATOR});
 
 	try {
-		const { currentPage: previousPage, searchKeyword: previousKeyword } = yield select(getSearchState);
+		const { currentPage: previousPage, searchKeyword } = yield select(getSearchState);
 		const {comics, currentPage, totalPage} = yield DM5.search(searchKeyword, page);
 
-		if (previousPage == null || (previousPage == currentPage && currentPage == 1) || (previousKeyword != searchKeyword)) {
-			yield put({type: t.CLEAR_SEARCH_RESULT});
-			yield put({
-				type: t.REPLACE_SEARCH_RESULTS,
-				searchKeyword,
-				comics,
-				currentPage,
-				totalPage
-			});
-
-		} else if (currentPage > previousPage) {
+		if (currentPage > previousPage) {
 			yield put({
 				type: t.APPEND_SEARCH_RESULTS,
 				searchKeyword,
@@ -69,7 +59,14 @@ function* searchComics(action) {
 				totalPage
 			});
 		} else {
-			yield put({type: t.HIDE_LOAD_INDICATOR});
+			yield put({type: t.CLEAR_SEARCH_RESULT});
+			yield put({
+				type: t.REPLACE_SEARCH_RESULTS,
+				searchKeyword,
+				comics,
+				currentPage,
+				totalPage
+			});
 		}
 	} catch(e) {
 		yield put({type: t.HIDE_LOAD_INDICATOR});

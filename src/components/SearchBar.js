@@ -31,7 +31,9 @@ const style = {
 export default class SearhBar extends Component {
 	static propTypes = {
 		onSubmit: PropTypes.func,
-		containerStyle: PropTypes.object
+		containerStyle: PropTypes.object,
+		value: PropTypes.string,
+		onChange: PropTypes.func
 	}
 
 	handleKeyPress = e => {
@@ -50,7 +52,7 @@ export default class SearhBar extends Component {
 	render() {
 		return(
 			<div style={[style.container, this.props.containerStyle]}>
-				<input type="text" style={style.input} placeholder="搜尋漫畫..." onKeyPress={this.handleKeyPress} onChange={this.onChange}/>
+				<input type="text" style={style.input} placeholder="搜尋漫畫..." onKeyPress={this.handleKeyPress} onChange={this.props.onChange || this.onChange} value={this.props.value}/>
 			</div>
 		);
 	}
