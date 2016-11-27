@@ -21,6 +21,8 @@ function createWindow () {
 		height: mainWindowState.height,
 		x: mainWindowState.x,
 		y: mainWindowState.y,
+		minWidth: 410,
+		minHeight: 440,
 		icon: __dirname + '/Icon.ico',
 		darkTheme: true,
 		autoHideMenuBar: true,

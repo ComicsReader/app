@@ -17,6 +17,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Reader from 'containers/Reader';
 import Collection from 'containers/Collection';
 import Explorer from 'containers/Explorer';
+import Info from 'containers/Info';
 
 import { initializeApp } from 'utils';
 
@@ -43,6 +44,7 @@ const App = () => (
 			<Route path="/reader/:site/:chapter" component={Reader}/>
 			<Route path="/collection" component={Collection} />
 			<Route path="/explore" component={Explorer}/>
+			<Route path="/info" component={Info} />
 		</Router>
 	</MuiThemeProvider>
 );

@@ -136,7 +136,11 @@ class NavigationSidebar extends Component {
 						style={[styles.iconStyle, this.highlightStyle('collection')]}
 						onClick={this.navigateTo('/collection?tab=collection')}
 					/>
-					<Icon iconName="info" style={styles.iconStyle} />
+					<Icon
+						iconName="info"
+						style={[styles.iconStyle, this.highlightStyle('info')]}
+						onClick={this.navigateTo('/info')}
+					/>
 					<div style={styles.seperator} />
 					<Icon
 						iconName="keyboard_backspace"
