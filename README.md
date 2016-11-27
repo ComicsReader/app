@@ -4,7 +4,9 @@
 
 以 React/Redux/Electron 架構打造的漫畫閱讀器，可在各平臺（Windows/macOS/Linux/Chrome）使用。
 
-## Preview
+[點此下載/Download Here](https://github.com/ComicsReader/app/releases/latest)
+
+## Screenshots
 
 <img src="docs/images/reader.png?" alt="">
 
@@ -12,12 +14,13 @@
 
 <img src="docs/images/search.png?" alt="">
 
-## Backend
+## Build with web tools and technology
 
-* 漫畫源為[動漫屋](http://www.dm5.com)
-* 你知道的 [Electron](http://electron.atom.io/)
-
-其它文件陸續誕生中 😅
+* [React.js](https://github.com/facebook/react)
+* [Redux](https://github.com/reactjs/redux), [redux-saga](https://github.com/yelouafi/redux-saga), [redux-thunk](https://github.com/gaearon/redux-thunk)
+* [PouchDB](https://pouchdb.com/)
+* [Electron](http://electron.atom.io/)
+* [動漫屋 DM5 API wrapper](https://github.com/ComicsReader/comics-dm5)
 
 ## Development
 
@@ -27,10 +30,6 @@
 git clone https://github.com/ComicsReader/app
 cd app
 
-cp src/config.js.sample src/config.js
-```
-
-```bash
 npm install
 npm run build:dll
 npm run dev-server
@@ -40,6 +39,8 @@ cd electron
 npm install
 npm run start:dev
 ```
+
+要注意的是 `npm run build:dll` 在套件更新時（比如升級 npm 套件版本）需要重新跑一次。
 
 ## Build
 
@@ -54,9 +55,11 @@ npm install
 npm run dist
 ```
 
+進到 `electron/dist` 目錄即是建置完的成果。
+
 ## Credits
 
-fork 自 [zeroshine/ComicsScroller](https://github.com/zeroshine/ComicsScroller)，以此專案為基底打造。
+Fork 自 [zeroshine/ComicsScroller](https://github.com/zeroshine/ComicsScroller)，以此專案為基底打造。
 
 
 ## LICENSE
