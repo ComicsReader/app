@@ -30,7 +30,7 @@
 git clone https://github.com/ComicsReader/app
 cd app
 
-npm install
+npm install # or run: yarn
 npm run build:dll
 npm run dev-server
 
