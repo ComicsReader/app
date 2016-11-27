@@ -1,5 +1,6 @@
 ---
 ---
+@import 'main';
 
 body {
 	background-color: #fdfdfd;
@@ -11,6 +12,15 @@ section {
 
 .download-block {
 	text-align: center;
+}
+
+img {
+	max-width: 100%;
+}
+
+.inner .logo img {
+	width: 200px;
+	margin-bottom: 2em;
 }
 
 #head {

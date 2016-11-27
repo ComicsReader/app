@@ -2,61 +2,97 @@
 layout: default
 ---
 
-<section id="head" class="container-fluid">
-	<div class="logo">
-		<img src="./images/logo.png" alt="comics-reader-logo" class="m-x-auto d-block" />
-	</div>
-	<h1 class="title">Comics Reader</h1>
-	<div class="slogan">
-		使用網頁技術精心打造的漫畫閱讀器
-		<div class="download-block">
-			<a href="https://github.com/ComicsReader/reader/releases" target="_blank">
-				<button class="btn btn-success download-button">前往下載</button>
-			</a>
+<div id="page-wrapper">
+	<!-- Banner -->
+	<section id="banner">
+		<div class="inner">
+			<div class="logo">
+				<img src="./images/logo.png" alt="comics-reader-logo" class="m-x-auto d-block" />
+			</div>
+			<h2>Comics Reader</h2>
+			<p>使用網頁技術<del>精心</del>打造的漫畫閱讀器</p>
+			<ul class="actions">
+				<li><a href="https://github.com/ComicsReader/app/releases/latest" target="_blank" class="button special">立刻下載</a></li>
+			</ul>
 		</div>
-		<img src="./images/reader.png?" alt="reader-view">
-	</div>
-</section>
+		<a href="#one" class="more scrolly">瞭解更多</a>
+	</section>
 
-<section id="feature" class="container-fluid">
-	<div class="row feature-block">
-		<div class="row">
-			<div class="col-s-12 col-lg-4 feature-list">
-				<h2>特色</h2>
-				<ul>
-					<li>在 App 中搜尋、收藏漫畫</li>
-					<li>介面簡約，無廣告干擾，沉浸的閱讀體驗</li>
+	<!-- One -->
+	<section id="one" class="wrapper style1 special">
+		<div class="inner">
+			<header class="major">
+				<h2>良好的電腦閱讀體驗（希望啦）</h2>
+				<img src="./images/reader.png?" alt="reader-view">
+				<p>既然大家都有 iPad 了，你幹嘛還寫個電腦版？</p>
+				<p>因為我連 iPad 都懶的掏出來啊！就坐在電腦版前面不利用一下嘛？<br/>本軟體能讓你在免除開啟各式漫畫網站的麻煩，直接連貫看完一部部漫畫。<br /><del>好啦其實 DM5 網站改版之後的閱讀界面還是挺漂亮的</del></p>
+			</header>
+		</div>
+	</section>
+
+	<!-- Two -->
+	<section id="two" class="wrapper alt style2">
+		<section class="spotlight">
+			<div class="image"><img src="./images/collection.png?" alt="" /></div><div class="content">
+				<h2>所有藏書 盡收於此</h2>
+				<p>這實在念起來太好笑了 XDDD 總之就是所有漫畫軟體一定要有的功能之一辣</p>
+			</div>
+		</section>
+		<section class="spotlight">
+			<div class="image"><img src="./images/search.png?" alt="" /></div><div class="content">
+				<h2>沒有找不到的漫畫，只有 DM5 沒有的漫畫*</h2>
+				<p>簡而言之就是漫畫搜尋功能，由於是串接 DM5（一個<a href="https://github.com/ComicsReader/comics-dm5">第三方幫開 API</a> 的概念），所以他沒有的漫畫本軟體就找不到。未來會不會支援其它站點，應該會吧</p>
+			</div>
+		</section>
+		<section class="spotlight">
+			<div class="image"><img src="./images/reader.png?" alt="" /></div><div class="content">
+				<h2>其它功能</h2>
+				<p>容我再放一下首頁圖 😅，真的挺漂亮的（自己說）</p>
+				<p>以下是其它的特色以及其它有可能開發的功能，畫一塊大餅的意思。</p>
+				<p>
 					<li>跨平臺，支援 Windows、macOS、Linux</li>
 					<li>漫畫更新通知，不錯過任何新漫畫</li>
-					<li class="in-progress">漫畫備份<del>下載</del>功能</li>
-					<li class="in-progress">剪取工具，蒐集有趣素材</li>
-				</ul>
+					<li class="in-progress">漫畫備份<del>下載</del>功能（規劃中）</li>
+					<li class="in-progress">剪取工具，蒐集有趣素材圖（規劃中）</li>
+				</p>
 			</div>
-			<div class="col-s-12 col-lg-8 feature-image">
-				<img src="./images/collection.png?" alt="collection">
-			</div>
-		</div>
-		<div class="row">
-			<div class="download-block">
-				<a href="https://github.com/ComicsReader/reader/releases" target="_blank">
-					<button class="btn btn-success download-button">前往下載</button>
-				</a>
-			</div>
-		</div>
-	</div>
-</section>
+		</section>
+	</section>
 
-<section id="contribution" class="container">
-	<h2>為此專案貢獻</h2>
-	<p>首先感謝 zeroshine 大大的 <a href="https://github.com/zeroshine/ComicsScroller" target="_blank">ComicsScroller</a>，本專案一開始就是從 fork 出他的專案開始研究起的，後來為了練習 redux 架構以及嘗試 electron，慢慢的發展成現在的樣子。</p>
-	<p>身為一個開源的專案當然歡迎貢獻 :p，可以在本專案的 <a href="https://github.com/ComicsReader/reader/issues" target="_blank">GitHub Issues</a> 提出可以改進的之處，或是有趣的新功能建議。</p>
-	<div class="button-block">
-		<a href="https://github.com/ComicsReader/reader" target="_blank">
-			<button class="btn btn-secondary">前往 GitHub</button>
-		</a>
-	</div>
-</section>
+	<!-- Three -->
+	<section id="three" class="wrapper style3 special">
+		<div class="inner">
+			<header class="major">
+				<h2>Contribution</h2>
+				<p>首先感謝 zeroshine 大大的 <a href="https://github.com/zeroshine/ComicsScroller" target="_blank">ComicsScroller</a>，本專案一開始就是從 fork 出他的專案開始研究起的。<br/>後來為了練習 redux 架構以及嘗試 electron，慢慢的發展成現在的樣子。</p>
+				<p>身為一個開源的專案當然歡迎貢獻啦，可以在本專案的 <a href="https://github.com/ComicsReader/reader/issues" target="_blank">GitHub Issues</a> 提出可以改進的之處，或是有趣的新功能建議。<br>開發者就直接看 <a href="https://github.com/ComicsReader/app" target="_blank">GitHub 的 README</a> 辣 XDDD！</p>
+			</header>
+		</div>
+	</section>
 
-<footer>
-	© Copyright 2016 <a href="https://yukaii.tw">Yukai Huang</a>
-</footer>
+	<!-- CTA -->
+	<section id="cta" class="wrapper style4">
+		<div class="inner">
+			<header>
+				<h2>最後最後一定要來個 Call To Action 就對惹</h2>
+				<p>現在就來下載玩玩吧！其實你不下載也沒差啦，反正我現在就自己用得很爽惹科科</p>
+			</header>
+			<ul class="actions vertical">
+				<li><a href="https://github.com/ComicsReader/app/releases/latest" target="_blank" class="button fit special">立刻下載</a></li>
+				<li><a href="https://github.com/ComicsReader/app" target="_blank" class="button fit">Source Code</a></li>
+			</ul>
+		</div>
+	</section>
+
+	<!-- Footer -->
+	<footer id="footer">
+		<ul class="icons">
+			<li><a href="https://www.facebook.com/Comics-Reader-310355342664094/" target="_blank" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+			<li><a href="https://github.com/ComicsReader/app" target="_blank" class="icon fa-github"><span class="label">GitHub</span></a></li>
+		</ul>
+		<ul class="copyright">
+			<li>&copy; 2016 Yukai Huang</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+		</ul>
+	</footer>
+
+</div>

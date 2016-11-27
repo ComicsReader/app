@@ -3,12 +3,19 @@
 
 	{% include head.html %}
 
-	<body>
+	<body class="landing">
 		{% include ga.html %}
 		{% include github_corner.html %}
 		{{ content }}
 
 		<script async src="https://pepper.swat.io/embed.js?eyJwb3NpdGlvbiI6InJpZ2h0IiwiY29sb3IiOiIxMTExMTEiLCJjdXN0b21Db2xvciI6ZmFsc2UsImljb24iOiJidWJibGUiLCJwcm9ub3VuIjoibWUiLCJsYW5ndWFnZSI6ImNoIiwiYnJhbmRlZCI6dHJ1ZSwiaW50cm9UZXh0IjpudWxsLCJjaGFubmVscyI6W1siZ2l0aHViIiwiaHR0cHM6Ly9naXRodWIuY29tL0NvbWljc1JlYWRlci9yZWFkZXIiLCJzb2NpYWwiXSxbImZhY2Vib29rIiwiQ29taWNzLVJlYWRlci0zMTAzNTUzNDI2NjQwOTQiLCJzb2NpYWwiXSxbImVtYWlsIiwiY29taWNzcmVhZGVyQHl1a2FpaS50dyIsImNsYXNzaWMiXSxbIndlYnNpdGUiLCJodHRwOi8vY29taWNzcmVhZGVyLmdpdGh1Yi5pbyIsImNsYXNzaWMiXV19"></script>
+
+		<script defer src="js/jquery.scrollex.min.js"></script>
+		<script defer src="js/jquery.scrolly.min.js"></script>
+		<script defer src="js/skel.min.js"></script>
+		<script defer src="js/util.js"></script>
+		<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+		<script defer src="js/main.js"></script>
 	</body>
 
 </html>
