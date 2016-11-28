@@ -10,10 +10,10 @@
   "license": "MIT",
   "scripts": {
     "build:dev": "cross-env NODE_ENV=development webpack --config webpack.config.js --progress --colors --watch",
-    "build:prod": "cross-env NODE_ENV=production webpack --config webpack.config.js --progress --colors --watch",
+    "build:prod": "cross-env NODE_ENV=production webpack --config webpack.config.js --progress --colors",
     "build:dll": "webpack --config webpack.dll.js",
     "dev-server": "webpack-dev-server --content-base electron/ --inline --hot --colors",
-    "zip:chrome-ext": "zip extension_chrome.zip -r ./extension_chrome/ -x \"*/.*\""
+    "build:chrome": "npm run build:prod && zip extension_chrome.zip -r ./extension_chrome/ -x \"*/.*\""
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
