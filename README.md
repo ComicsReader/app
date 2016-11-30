@@ -32,12 +32,12 @@ cd app
 
 npm install # or run: yarn
 npm run build:dll
-npm run dev-server
+npm run build:dev
 
 # in a seperate tab
 cd electron
 npm install
-npm run start:dev
+npm run start
 ```
 
 要注意的是 `npm run build:dll` 在套件更新時（比如升級 npm 套件版本）需要重新跑一次。
