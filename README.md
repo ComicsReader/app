@@ -6,6 +6,8 @@
 
 [點此下載/Download Here](https://github.com/ComicsReader/app/releases/latest)
 
+或[下載 Chrome Extension 版本](https://chrome.google.com/webstore/detail/comics-reader/bklgednckimmhomhlbdmdhffoamaafib)
+
 ## Screenshots
 
 <img src="docs/images/reader.png?" alt="">
