@@ -1,3 +1,5 @@
+[![HackMD documents](http://localhost:3000/badge.svg)](http://localhost:3000/@yukai/ComicsReader-app)
+
 # Comics Reader
 
 <img src="http://i.imgur.com/tHWdF5a.png" width="200">
